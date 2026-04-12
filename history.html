@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Previous Issues - Smart CivicFix</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="history.css">
+</head>
+
+<body>
+
+  <div class="dashboard">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="brand">
+        <h2>Smart CivicFix</h2>
+      </div>
+      <div class="sidebar-links">
+        <a href="dashboard.html">📊 Dashboard</a>
+        <a href="complaint.html">📢 Report Issue</a>
+        <a href="track.html">📍 Track Issue</a>
+        <a href="history.html" class="active">📄 Previous Issues</a>
+        <a href="reward.html">🎁 Rewards</a>
+      </div>
+      <a href="index.html" class="logout">🚪 Logout</a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+
+      <div class="history-header">
+        <div>
+          <h2>📄 Previous Issues</h2>
+          <p>Review all your civic reports and their resolution status</p>
+        </div>
+        <div class="history-stats">
+          <span class="h-stat"><strong>5</strong> Total</span>
+          <span class="h-stat resolved"><strong>3</strong> Resolved</span>
+          <span class="h-stat progress"><strong>1</strong> In Progress</span>
+          <span class="h-stat pending"><strong>1</strong> Reported</span>
+        </div>
+      </div>
+
+      <!-- Filter bar -->
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="resolved">✅ Resolved</button>
+        <button class="filter-btn" data-filter="in-progress">⏳ In Progress</button>
+        <button class="filter-btn" data-filter="reported">📋 Reported</button>
+      </div>
+
+      <!-- Issue list -->
+      <div class="issue-list">
+
+        <div class="issue-row" data-status="resolved">
+          <div class="issue-row-left">
+            <span class="issue-badge resolved">✅</span>
+            <div class="issue-info">
+              <p class="issue-title">Pothole / Road Damage</p>
+              <p class="issue-location">📍 FC Road, Pune</p>
+            </div>
+          </div>
+          <div class="issue-row-mid">
+            <p class="issue-ref">CF-M5K2X</p>
+            <p class="issue-date">Apr 2, 2026</p>
+          </div>
+          <div class="issue-row-right">
+            <span class="status-pill resolved">Resolved</span>
+            <span class="pts-earned">+20 pts</span>
+          </div>
+        </div>
+
+        <div class="issue-row" data-status="resolved">
+          <div class="issue-row-left">
+            <span class="issue-badge resolved">✅</span>
+            <div class="issue-info">
+              <p class="issue-title">Garbage / Illegal Dumping</p>
+              <p class="issue-location">📍 Baner, Pune</p>
+            </div>
+          </div>
+          <div class="issue-row-mid">
+            <p class="issue-ref">CF-T3N9Q</p>
+            <p class="issue-date">Apr 5, 2026</p>
+          </div>
+          <div class="issue-row-right">
+            <span class="status-pill resolved">Resolved</span>
+            <span class="pts-earned">+20 pts</span>
+          </div>
+        </div>
+
+        <div class="issue-row" data-status="in-progress">
+          <div class="issue-row-left">
+            <span class="issue-badge progress">⏳</span>
+            <div class="issue-info">
+              <p class="issue-title">Streetlight Outage</p>
+              <p class="issue-location">📍 FC Road, Pune</p>
+            </div>
+          </div>
+          <div class="issue-row-mid">
+            <p class="issue-ref">CF-R8J1P</p>
+            <p class="issue-date">Apr 10, 2026</p>
+          </div>
+          <div class="issue-row-right">
+            <span class="status-pill progress">In Progress</span>
+            <a href="track.html" class="track-link">Track →</a>
+          </div>
+        </div>
+
+        <div class="issue-row" data-status="resolved">
+          <div class="issue-row-left">
+            <span class="issue-badge resolved">✅</span>
+            <div class="issue-info">
+              <p class="issue-title">Water Leakage / Flooding</p>
+              <p class="issue-location">📍 Kothrud, Pune</p>
+            </div>
+          </div>
+          <div class="issue-row-mid">
+            <p class="issue-ref">CF-A1B2C</p>
+            <p class="issue-date">Mar 28, 2026</p>
+          </div>
+          <div class="issue-row-right">
+            <span class="status-pill resolved">Resolved</span>
+            <span class="pts-earned">+20 pts</span>
+          </div>
+        </div>
+
+        <div class="issue-row" data-status="reported">
+          <div class="issue-row-left">
+            <span class="issue-badge reported">📋</span>
+            <div class="issue-info">
+              <p class="issue-title">Pothole / Road Damage</p>
+              <p class="issue-location">📍 Hadapsar, Pune</p>
+            </div>
+          </div>
+          <div class="issue-row-mid">
+            <p class="issue-ref">CF-Z9Y8X</p>
+            <p class="issue-date">Apr 11, 2026</p>
+          </div>
+          <div class="issue-row-right">
+            <span class="status-pill reported">Reported</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        document.querySelectorAll('.issue-row').forEach(row => {
+          row.style.display = (filter === 'all' || row.dataset.status === filter) ? 'flex' : 'none';
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
