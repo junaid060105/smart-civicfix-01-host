@@ -16,6 +16,20 @@ function signup(event) {
   window.location.href = "login.html";
 }
 
+// ── "Other" Issue Type Toggle ──────────────────────────────
+function toggleOtherField(select) {
+  const otherInput = document.getElementById("otherIssueInput");
+  if (select.value === "Other") {
+    otherInput.style.display = "block";
+    otherInput.required = true;
+    otherInput.focus();
+  } else {
+    otherInput.style.display = "none";
+    otherInput.required = false;
+    otherInput.value = "";
+  }
+}
+
 // ── Image Picker (used by complaint.html) ──────────────────
 let selectedImageFile = null;
 
@@ -111,7 +125,10 @@ function submitIssue(event) {
   const form = event.target;
 
   // Capture form values before hiding
-  const issueType = form.querySelector("select").value || "General Issue";
+  const selectVal = form.querySelector("select").value || "General Issue";
+  const issueType = selectVal === "Other"
+    ? (document.getElementById("otherIssueInput").value || "Other Issue")
+    : selectVal;
   const location = form.querySelector("input[type='text']").value || "Not specified";
   const today = new Date().toLocaleDateString("en-IN", { year: "numeric", month: "short", day: "numeric" });
 

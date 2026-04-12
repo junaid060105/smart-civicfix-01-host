@@ -26,13 +26,15 @@
 
         <div class="form-group">
           <label>Issue Type</label>
-          <select required>
+          <select required onchange="toggleOtherField(this)">
             <option value="">Select an appropriate category</option>
             <option>Pothole / Road Damage</option>
             <option>Garbage / Illegal Dumping</option>
             <option>Streetlight Outage</option>
             <option>Water Leakage / Flooding</option>
+            <option value="Other">Other</option>
           </select>
+          <input type="text" id="otherIssueInput" class="other-issue-input" placeholder="Please describe the issue type..." style="display:none">
         </div>
 
         <div class="form-group">
