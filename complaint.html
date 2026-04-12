@@ -47,15 +47,12 @@
 
         <div class="form-group">
           <label>Address / Location</label>
-          <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-            <input type="text" id="locationInput" placeholder="Enter nearest address or landmark..." required
-              style="flex-grow: 1; margin-bottom: 0;">
-            <button type="button" class="btn-secondary" onclick="getCurrentLocation()"
-              style="padding: 0 15px; white-space: nowrap;">📍 Use GPS</button>
+          <div class="location-picker-card" onclick="openMapModal()">
+            <span class="location-icon" style="color: #ec4899; font-size: 20px;">📍</span>
+            <span id="locationDisplayText" style="flex-grow: 1; color: var(--navy); font-weight: 600; margin-left: 5px;">Tap to select location on map</span>
+            <span class="chevron" style="color: var(--text-muted); font-size: 20px; font-family: monospace;">&gt;</span>
           </div>
-          <p class="picker-desc" style="margin-bottom: 8px;">Or tap on the map to pin the exact location:</p>
-          <div id="locationPickerMap"
-            style="height: 250px; border-radius: 8px; z-index: 1; border: 1px solid var(--gray-border);"></div>
+          <input type="hidden" id="locationInput" value="" required>
         </div>
 
         <div class="form-group">
@@ -128,6 +125,27 @@
       </form>
     </div>
 
+  </div>
+
+  <!-- Map Modal -->
+  <div class="camera-modal map-modal-overlay" id="mapModal">
+    <div class="camera-modal-content map-modal-content">
+      <div class="map-header">
+        <h3 style="margin:0; color:white; font-size:16px;">📍 Select Location</h3>
+        <button type="button" class="camera-close" onclick="closeMapModal()" style="background: rgba(255,255,255,0.2);">✕</button>
+      </div>
+      <div class="map-search-bar">
+        <input type="text" id="mapSearchInput" placeholder="Search for a place...">
+        <button type="button" id="mapSearchBtn" onclick="searchMapLocation()">🔍</button>
+      </div>
+      <div class="map-viewfinder">
+        <div id="locationPickerMap" style="width: 100%; height: 350px;"></div>
+      </div>
+      <div class="map-footer">
+        <span class="map-footer-text">Click on the map to drop a pin</span>
+        <button type="button" class="btn-primary confirm-loc-btn" onclick="confirmMapLocation()">Confirm Location</button>
+      </div>
+    </div>
   </div>
 
   <!-- Camera Modal -->

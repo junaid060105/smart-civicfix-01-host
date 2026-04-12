@@ -270,89 +270,111 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ── 4. Location Picker Map (Complaint Form) ──────────────────
-  const pickerMapEl = document.getElementById("locationPickerMap");
-  if (pickerMapEl && typeof L !== "undefined") {
-    // Default to a central view for India or auto-detect general area
-    const pickerMap = L.map("locationPickerMap").setView([20.5937, 78.9629], 4);
+  // ── 4. Location Picker Map (Complaint Form Modal) ──────────────────
+  let pickerMap = null;
+  let pickerMarker = null;
+
+  window.openMapModal = function () {
+    const modal = document.getElementById("mapModal");
+    if (!modal) return;
     
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
-      maxZoom: 19
-    }).addTo(pickerMap);
+    modal.classList.add("active");
 
-    let marker;
-    const locInput = document.getElementById("locationInput");
+    if (!pickerMap && typeof L !== "undefined") {
+      // Default to a central view
+      pickerMap = L.map("locationPickerMap").setView([18.5204, 73.8567], 12); // Center on Pune by default
+      
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+        maxZoom: 19
+      }).addTo(pickerMap);
 
-    // Force absolute resize calculation just in case map container renders small initially
-    setTimeout(() => { pickerMap.invalidateSize(); }, 500);
+      pickerMap.on("click", function (e) {
+        const lat = e.latlng.lat;
+        const lng = e.latlng.lng;
 
-    // Allow user to click to set location
-    pickerMap.on("click", function (e) {
-      const lat = e.latlng.lat;
-      const lng = e.latlng.lng;
+        if (pickerMarker) {
+          pickerMarker.setLatLng(e.latlng);
+        } else {
+          pickerMarker = L.marker(e.latlng).addTo(pickerMap);
+        }
 
-      if (marker) {
-        marker.setLatLng(e.latlng);
-      } else {
-        marker = L.marker(e.latlng).addTo(pickerMap);
-      }
+        const displayText = document.getElementById("locationDisplayText");
+        displayText.textContent = "Fetching address...";
 
-      locInput.value = "Fetching address...";
+        // Reverse geocoding using OpenStreetMap Nominatim
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+          .then(res => res.json())
+          .then(data => {
+            const addr = (data && data.display_name) ? data.display_name : `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+            pickerMap._tempAddress = addr;
+            displayText.textContent = "📍 " + addr.split(",")[0] + "...";
+          })
+          .catch(() => {
+            pickerMap._tempAddress = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+            displayText.textContent = "📍 Location selected";
+          });
+      });
+    }
 
-      // Reverse geocoding using OpenStreetMap Nominatim
-      fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data && data.display_name) {
-            locInput.value = data.display_name;
+    // Give modal display transition time before rendering map
+    setTimeout(() => { if(pickerMap) pickerMap.invalidateSize(); }, 300);
+  };
+
+  window.closeMapModal = function () {
+    const modal = document.getElementById("mapModal");
+    if(modal) modal.classList.remove("active");
+  };
+
+  window.confirmMapLocation = function () {
+    const hiddenInput = document.getElementById("locationInput");
+    const displayText = document.getElementById("locationDisplayText");
+
+    if (pickerMap && pickerMap._tempAddress) {
+      hiddenInput.value = pickerMap._tempAddress;
+      displayText.textContent = pickerMap._tempAddress.length > 35 ? pickerMap._tempAddress.substring(0, 35) + "..." : pickerMap._tempAddress;
+      displayText.style.color = "var(--navy)";
+      document.querySelector(".location-icon").style.color = "#ec4899"; // Reset color
+    } else if (!hiddenInput.value) {
+      alert("Please tap on the map to select a location first.");
+      return;
+    }
+
+    closeMapModal();
+  };
+
+  window.searchMapLocation = function() {
+    if(!pickerMap) return;
+    const q = document.getElementById("mapSearchInput").value;
+    if(!q) return;
+
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}`)
+      .then(res => res.json())
+      .then(data => {
+        if(data && data.length > 0) {
+          const lat = data[0].lat;
+          const lon = data[0].lon;
+          pickerMap.setView([lat, lon], 14);
+
+          if (pickerMarker) {
+            pickerMarker.setLatLng([lat, lon]);
           } else {
-            locInput.value = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+            pickerMarker = L.marker([lat, lon]).addTo(pickerMap);
           }
-        })
-        .catch(() => {
-          locInput.value = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
-        });
-    });
-
-    // Handle "Use GPS" button logic
-    window.getCurrentLocation = function () {
-      if (navigator.geolocation) {
-        locInput.value = "Fetching GPS location...";
-        navigator.geolocation.getCurrentPosition((position) => {
-          const lat = position.coords.latitude;
-          const lng = position.coords.longitude;
-
-          pickerMap.setView([lat, lng], 15);
-
-          if (marker) {
-            marker.setLatLng([lat, lng]);
-          } else {
-            marker = L.marker([lat, lng]).addTo(pickerMap);
-          }
-
-          locInput.value = "Fetching address...";
-
-          fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
-            .then(res => res.json())
-            .then(data => {
-              if (data && data.display_name) {
-                locInput.value = data.display_name;
-              } else {
-                locInput.value = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
-              }
-            })
-            .catch(() => {
-              locInput.value = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
-            });
-        }, () => {
-          alert("Unable to retrieve your location. Please check browser permissions.");
-          locInput.value = "";
-        });
-      } else {
-        alert("Geolocation is not supported by your browser.");
-      }
-    };
-  }
+          const addr = data[0].display_name;
+          pickerMap._tempAddress = addr;
+          
+          const displayText = document.getElementById("locationDisplayText");
+          displayText.textContent = "📍 " + addr.split(",")[0] + "...";
+        } else {
+          alert("Location not found. Try a different search term.");
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Search failed. Try tapping on the map.");
+      });
+  };
 
 });
+
