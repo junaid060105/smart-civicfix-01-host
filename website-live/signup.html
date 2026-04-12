@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up - Smart CivicFix</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="signup.css">
+</head>
+
+<body class="login-page">
+
+<div class="login-container">
+  <div class="gov-banner" style="background-color: var(--white);">
+    <div class="container">
+      <span class="flag-icon">🏛️</span> 
+      <span class="banner-text">An official platform of the municipal government</span>
+    </div>
+  </div>
+
+  <div class="login-content">
+
+    <!-- Sign-Up Form -->
+    <form class="login-box" id="signupForm" style="display: block;">
+      
+      <h2>Create Account 🚀</h2>
+      <p>Register to report issues and track progress.</p>
+
+      <div id="signupError" class="error-msg" style="display:none;"></div>
+
+      <input type="text" id="signupName" placeholder="Full Name" required>
+      <input type="email" id="signupEmail" placeholder="Email Address" required>
+      <input type="password" id="signupPassword" placeholder="Password (min 8 chars)" required minlength="8">
+
+      <button type="submit" class="btn-primary" id="signupBtn">Sign up</button>
+
+      <p class="extra-text">
+        Already have an account?
+        <a href="login.html">Sign in</a>
+      </p>
+
+    </form>
+
+    <!-- Verification Form (shown after sign-up) -->
+    <form class="login-box" id="verifyForm" style="display: none;">
+      
+      <h2>Verify Email ✉️</h2>
+      <p>We've sent a verification code to your email. Enter it below.</p>
+
+      <div id="verifyError" class="error-msg" style="display:none;"></div>
+
+      <input type="text" id="verifyCode" placeholder="Enter 6-digit code" required maxlength="6" pattern="[0-9]{6}">
+
+      <button type="submit" class="btn-primary" id="verifyBtn">Verify & Continue</button>
+
+    </form>
+
+  </div>
+</div>
+
+<script src="aws-config.js"></script>
+<script src="api.js"></script>
+<script>
+  let signupEmail = "";
+  let signupName = "";
+  let signupUserId = "";
+
+  // Sign-up form
+  document.getElementById("signupForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const errorEl = document.getElementById("signupError");
+    const btn = document.getElementById("signupBtn");
+    
+    errorEl.style.display = "none";
+    btn.disabled = true;
+    btn.textContent = "Creating account...";
+
+    const name = document.getElementById("signupName").value.trim();
+    const email = document.getElementById("signupEmail").value.trim();
+    const password = document.getElementById("signupPassword").value;
+
+    try {
+      const result = await Auth.signUp(name, email, password);
+      
+      signupEmail = email;
+      signupName = name;
+      signupUserId = result.UserSub;
+
+      // Show verification form
+      document.getElementById("signupForm").style.display = "none";
+      document.getElementById("verifyForm").style.display = "block";
+
+    } catch (err) {
+      errorEl.textContent = err.message;
+      errorEl.style.display = "block";
+      btn.disabled = false;
+      btn.textContent = "Sign up";
+    }
+  });
+
+  // Verification form
+  document.getElementById("verifyForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const errorEl = document.getElementById("verifyError");
+    const btn = document.getElementById("verifyBtn");
+    
+    errorEl.style.display = "none";
+    btn.disabled = true;
+    btn.textContent = "Verifying...";
+
+    const code = document.getElementById("verifyCode").value.trim();
+
+    try {
+      await Auth.confirmSignUp(signupEmail, code);
+
+      // Create user profile in DynamoDB
+      await API.createUser(signupUserId, signupName, signupEmail);
+
+      // Success — redirect to login
+      alert("Account verified successfully! Please sign in.");
+      window.location.href = "login.html";
+
+    } catch (err) {
+      errorEl.textContent = err.message;
+      errorEl.style.display = "block";
+      btn.disabled = false;
+      btn.textContent = "Verify & Continue";
+    }
+  });
+</script>
+</body>
+</html>

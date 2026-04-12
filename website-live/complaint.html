@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Report Issue - Smart CivicFix</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="complaint.css">
+</head>
+
+<body class="report-page">
+
+  <div class="report-container">
+
+    <div class="report-wrapper">
+      <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+
+      <form class="report-box" onsubmit="submitIssue(event)">
+
+        <h2>📢 Report a Civic Issue</h2>
+        <p class="subtitle">Submit detailed information to help municipal workers locate and respond to the problem.</p>
+
+        <div class="form-group">
+          <label>Issue Type</label>
+          <select required>
+            <option value="">Select an appropriate category</option>
+            <option>Pothole / Road Damage</option>
+            <option>Garbage / Illegal Dumping</option>
+            <option>Streetlight Outage</option>
+            <option>Water Leakage / Flooding</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Issue Description</label>
+          <textarea placeholder="Provide detailed information about the issue severity and exact location details..."
+            rows="4" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Address / Location</label>
+          <input type="text" placeholder="Enter nearest address or landmark..." required>
+        </div>
+
+        <div class="form-group">
+          <label>Photographic Evidence</label>
+          <input type="file" title="Upload an image">
+        </div>
+
+        <button type="submit" class="btn-primary" style="width: 100%; margin-top: 15px;">Submit Report</button>
+
+        <!-- Inline success panel (hidden by default) -->
+        <div id="submitSuccess" class="submit-success" style="display: none;">
+
+          <!-- Confirmation header -->
+          <div class="success-header">
+            <div class="success-icon">✅</div>
+            <h3>Complaint Registered Successfully!</h3>
+            <p>Our municipal team will review and respond within <strong>24–48 hours</strong>.</p>
+          </div>
+
+          <!-- Issue summary card -->
+          <div class="issue-card">
+            <div class="issue-card-top">
+              <div>
+                <p class="issue-card-label">Reference ID</p>
+                <p class="issue-card-value" id="refId"></p>
+              </div>
+              <span class="status-badge pending">📋 Reported</span>
+            </div>
+            <div class="issue-card-details">
+              <p><strong>Issue:</strong> <span id="summaryType">—</span></p>
+              <p><strong>Location:</strong> <span id="summaryLocation">—</span></p>
+              <p><strong>Submitted:</strong> <span id="summaryDate">—</span></p>
+            </div>
+          </div>
+
+          <!-- Single clear CTA -->
+          <a href="track.html" class="btn-primary"
+            style="display: block; text-align: center; text-decoration: none; padding: 12px 24px; width: 100%;">📍 Track
+            This Report</a>
+          <p style="text-align: center; margin-top: 14px; font-size: 14px; color: var(--text-muted);">
+            or <a href="complaint.html" style="color: var(--blue); font-weight: 600;">report another issue</a>
+          </p>
+
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+  <script src="aws-config.js"></script>
+  <script src="api.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // Require login to access this page
+    Auth.requireAuth();
+  </script>
+</body>
+
+</html>

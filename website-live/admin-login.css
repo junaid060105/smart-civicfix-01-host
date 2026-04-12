@@ -1,0 +1,116 @@
+/* ═══════════════════════════════════════════════════════════
+   Smart CivicFix — Admin Login Styles
+   ═══════════════════════════════════════════════════════════ */
+
+.admin-banner {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  padding: 8px 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 2px solid #f59e0b;
+}
+
+.admin-banner span {
+  color: #f59e0b;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.admin-login-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: #f8fafc;
+}
+
+.admin-login-box {
+  background: white;
+  border-radius: 12px;
+  padding: 40px 36px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  border-top: 3px solid #f59e0b;
+}
+
+.admin-login-box h2 {
+  font-size: 24px;
+  color: #0f172a;
+  margin: 0 0 6px;
+}
+
+.admin-login-box > p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0 0 24px;
+}
+
+.admin-login-box input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Public Sans', sans-serif;
+  margin-bottom: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.admin-login-box input:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+}
+
+.admin-login-box .btn-admin {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Public Sans', sans-serif;
+  transition: all 0.2s;
+}
+
+.admin-login-box .btn-admin:hover {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  transform: translateY(-1px);
+}
+
+.admin-login-box .btn-admin:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fef3c7;
+  color: #92400e;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.error-msg {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 14px;
+}

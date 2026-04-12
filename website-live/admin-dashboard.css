@@ -1,0 +1,356 @@
+/* ═══════════════════════════════════════════════════════════
+   Smart CivicFix — Admin Dashboard Styles
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Admin Sidebar ─────────────────────────────────────── */
+.admin-sidebar {
+  width: 240px;
+  background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+  color: white;
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.admin-sidebar .brand {
+  padding: 0 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 8px;
+}
+
+.admin-sidebar .brand h2 {
+  font-size: 18px;
+  margin: 0 0 4px;
+  color: white;
+}
+
+.admin-sidebar .brand .admin-label {
+  font-size: 11px;
+  color: #f59e0b;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.admin-sidebar .sidebar-links {
+  flex: 1;
+  padding: 8px 12px;
+}
+
+.admin-sidebar .sidebar-links a {
+  display: block;
+  padding: 10px 16px;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 14px;
+  border-radius: 8px;
+  margin-bottom: 2px;
+  transition: all 0.2s;
+}
+
+.admin-sidebar .sidebar-links a:hover {
+  color: white;
+  background: rgba(255,255,255,0.06);
+}
+
+.admin-sidebar .sidebar-links a.active {
+  color: white;
+  background: rgba(245, 158, 11, 0.15);
+  border-left: 3px solid #f59e0b;
+}
+
+.admin-sidebar .logout {
+  margin: auto 12px 0;
+  padding: 10px 16px;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 14px;
+  border-radius: 8px;
+  transition: all 0.2s;
+  display: block;
+}
+
+.admin-sidebar .logout:hover {
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.08);
+}
+
+/* ── Admin Main Area ───────────────────────────────────── */
+.admin-main {
+  margin-left: 240px;
+  padding: 28px 32px;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.admin-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.admin-topbar h2 {
+  font-size: 22px;
+  color: #0f172a;
+  margin: 0;
+}
+
+.admin-topbar p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 4px 0 0;
+}
+
+/* ── Stats Cards ───────────────────────────────────────── */
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.admin-stat-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  border-left: 4px solid #e2e8f0;
+}
+
+.admin-stat-card.blue   { border-left-color: #3b82f6; }
+.admin-stat-card.green  { border-left-color: #10b981; }
+.admin-stat-card.amber  { border-left-color: #f59e0b; }
+.admin-stat-card.red    { border-left-color: #ef4444; }
+.admin-stat-card.purple { border-left-color: #8b5cf6; }
+
+.admin-stat-card .stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0f172a;
+  display: block;
+}
+
+.admin-stat-card .stat-label {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 4px;
+  display: block;
+}
+
+/* ── Section Heading ───────────────────────────────────── */
+.admin-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.admin-section-header h3 {
+  font-size: 17px;
+  color: #0f172a;
+  margin: 0;
+}
+
+/* ── Filter Bar ────────────────────────────────────────── */
+.admin-filter-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.admin-filter-btn {
+  padding: 7px 16px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: 'Public Sans', sans-serif;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-filter-btn:hover {
+  border-color: #f59e0b;
+  color: #0f172a;
+}
+
+.admin-filter-btn.active {
+  background: #f59e0b;
+  color: white;
+  border-color: #f59e0b;
+}
+
+/* ── Data Table ────────────────────────────────────────── */
+.admin-table-wrap {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.admin-table th {
+  background: #f8fafc;
+  text-align: left;
+  padding: 12px 16px;
+  font-weight: 600;
+  color: #475569;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  vertical-align: middle;
+}
+
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-table tr:hover td {
+  background: #fefce8;
+}
+
+/* Status select dropdown */
+.status-select {
+  padding: 5px 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: 'Public Sans', sans-serif;
+  color: #334155;
+  cursor: pointer;
+  background: white;
+  outline: none;
+}
+
+.status-select:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.15);
+}
+
+.status-select option[value="reported"]    { color: #3b82f6; }
+.status-select option[value="in-progress"] { color: #f59e0b; }
+.status-select option[value="resolved"]    { color: #10b981; }
+
+/* Action buttons in table */
+.admin-action-btn {
+  padding: 5px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Public Sans', sans-serif;
+}
+
+.admin-action-btn.delete {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.admin-action-btn.delete:hover {
+  background: #dc2626;
+  color: white;
+}
+
+/* ── Users Table ───────────────────────────────────────── */
+.user-points {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #f0fdf4;
+  color: #16a34a;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ── Empty State ───────────────────────────────────────── */
+.admin-empty {
+  text-align: center;
+  padding: 50px 20px;
+  color: #94a3b8;
+}
+
+.admin-empty p:first-child {
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
+/* ── Tab Navigation ────────────────────────────────────── */
+.admin-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.admin-tab {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: 'Public Sans', sans-serif;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: all 0.2s;
+}
+
+.admin-tab:hover {
+  color: #0f172a;
+}
+
+.admin-tab.active {
+  color: #f59e0b;
+  border-bottom-color: #f59e0b;
+}
+
+.admin-tab-panel {
+  display: none;
+}
+
+.admin-tab-panel.active {
+  display: block;
+}
+
+/* ── Responsive ────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    width: 200px;
+  }
+  .admin-main {
+    margin-left: 200px;
+    padding: 20px 16px;
+  }
+  .admin-table {
+    font-size: 12px;
+  }
+  .admin-table th,
+  .admin-table td {
+    padding: 8px 10px;
+  }
+}

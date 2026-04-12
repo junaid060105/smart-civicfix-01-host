@@ -1,0 +1,165 @@
+.track-page {
+  background-color: var(--gray-light);
+  min-height: 100vh;
+}
+
+.track-container {
+  display: flex;
+  justify-content: center;
+  padding: 50px 20px;
+}
+
+.track-wrapper {
+  width: 100%;
+  max-width: 600px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: var(--blue);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+  color: var(--navy);
+}
+
+.track-box {
+  background: var(--white);
+  padding: 40px;
+  border-radius: 4px;
+  border-top: 5px solid var(--blue);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.track-box h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: var(--navy);
+  font-size: 24px;
+}
+
+.track-box .subtitle {
+  color: var(--text-muted);
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--gray-border);
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 4px;
+  border: 1px solid var(--gray-border);
+  font-family: inherit;
+  font-size: 15px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(0, 94, 162, 0.2);
+}
+
+/* Status Card */
+.status-card {
+  border: 1px solid var(--gray-border);
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 30px;
+  background-color: #f8fafc;
+}
+
+.status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.status-header h3 {
+  margin: 0;
+  color: var(--navy);
+}
+
+.status-card p {
+  margin: 5px 0;
+  color: var(--text-main);
+}
+
+.status-date {
+  font-size: 13px;
+  color: var(--text-muted) !important;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+}
+
+.status-badge.pending { background-color: #f59e0b; }
+.status-badge.in-progress { background-color: var(--blue); }
+.status-badge.resolved { background-color: #10b981; }
+
+/* Progress Steps */
+.progress {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--gray-border);
+}
+
+.progress::before {
+  content: '';
+  position: absolute;
+  top: 35px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background-color: var(--gray-border);
+  z-index: 1;
+}
+
+.step {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.step::before {
+  content: '';
+  display: block;
+  width: 14px;
+  height: 14px;
+  background-color: var(--white);
+  border: 3px solid var(--gray-border);
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  transition: all 0.3s;
+}
+
+.step.active {
+  color: var(--blue);
+}
+
+.step.active::before {
+  border-color: var(--blue);
+  background-color: var(--blue);
+}

@@ -30,6 +30,128 @@ function toggleOtherField(select) {
   }
 }
 
+// ── Location Map Picker (used by complaint.html) ───────────
+let locationMap = null;
+let locationMarker = null;
+let pickedLocation = { lat: null, lng: null, address: "" };
+
+function openLocationMap() {
+  const modal = document.getElementById("mapModal");
+  modal.classList.add("active");
+
+  // Initialize map after modal is visible
+  setTimeout(function () {
+    if (!locationMap) {
+      locationMap = L.map("locationMapView").setView([18.5204, 73.8567], 13);
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+        attribution: '&copy; OpenStreetMap &copy; CARTO',
+        maxZoom: 19
+      }).addTo(locationMap);
+
+      // Click to place marker
+      locationMap.on("click", function (e) {
+        placeMarker(e.latlng.lat, e.latlng.lng);
+        reverseGeocode(e.latlng.lat, e.latlng.lng);
+      });
+
+      // Try user's location
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (pos) {
+          locationMap.setView([pos.coords.latitude, pos.coords.longitude], 15);
+        }, function () {}, { timeout: 3000 });
+      }
+    } else {
+      locationMap.invalidateSize();
+    }
+  }, 200);
+}
+
+function placeMarker(lat, lng) {
+  pickedLocation.lat = lat;
+  pickedLocation.lng = lng;
+
+  if (locationMarker) {
+    locationMarker.setLatLng([lat, lng]);
+  } else {
+    locationMarker = L.marker([lat, lng]).addTo(locationMap);
+  }
+
+  document.getElementById("mapConfirmBtn").disabled = false;
+}
+
+function reverseGeocode(lat, lng) {
+  var hint = document.getElementById("mapHint");
+  hint.textContent = "Fetching address...";
+
+  fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat=" + lat + "&lon=" + lng + "&zoom=18")
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      if (data && data.display_name) {
+        pickedLocation.address = data.display_name;
+        hint.textContent = "📍 " + data.display_name;
+      } else {
+        pickedLocation.address = lat.toFixed(5) + ", " + lng.toFixed(5);
+        hint.textContent = "📍 " + pickedLocation.address;
+      }
+    })
+    .catch(function () {
+      pickedLocation.address = lat.toFixed(5) + ", " + lng.toFixed(5);
+      hint.textContent = "📍 " + pickedLocation.address;
+    });
+}
+
+function searchLocation() {
+  var query = document.getElementById("mapSearchInput").value.trim();
+  if (!query) return;
+
+  document.getElementById("mapHint").textContent = "Searching...";
+
+  fetch("https://nominatim.openstreetmap.org/search?format=json&q=" + encodeURIComponent(query) + "&limit=1")
+    .then(function (r) { return r.json(); })
+    .then(function (results) {
+      if (results && results.length > 0) {
+        var place = results[0];
+        var lat = parseFloat(place.lat);
+        var lng = parseFloat(place.lon);
+        locationMap.setView([lat, lng], 16);
+        placeMarker(lat, lng);
+        pickedLocation.address = place.display_name;
+        document.getElementById("mapHint").textContent = "📍 " + place.display_name;
+      } else {
+        document.getElementById("mapHint").textContent = "No results found. Try a different search.";
+      }
+    })
+    .catch(function () {
+      document.getElementById("mapHint").textContent = "Search failed. Please try again.";
+    });
+}
+
+function confirmLocation() {
+  if (!pickedLocation.lat) return;
+
+  // Set hidden inputs
+  document.getElementById("locationAddress").value = pickedLocation.address;
+  document.getElementById("locationLat").value = pickedLocation.lat;
+  document.getElementById("locationLng").value = pickedLocation.lng;
+
+  // Update the picker card
+  var label = document.getElementById("locationLabel");
+  var coords = document.getElementById("locationCoords");
+  var picker = document.getElementById("locationPicker");
+
+  // Shorten address for display
+  var parts = pickedLocation.address.split(",");
+  label.textContent = parts.slice(0, 3).join(",").trim();
+  coords.textContent = pickedLocation.lat.toFixed(5) + ", " + pickedLocation.lng.toFixed(5);
+  picker.classList.add("selected");
+
+  closeLocationMap();
+}
+
+function closeLocationMap() {
+  document.getElementById("mapModal").classList.remove("active");
+}
+
 // ── Image Picker (used by complaint.html) ──────────────────
 let selectedImageFile = null;
 
@@ -129,7 +251,7 @@ function submitIssue(event) {
   const issueType = selectVal === "Other"
     ? (document.getElementById("otherIssueInput").value || "Other Issue")
     : selectVal;
-  const location = form.querySelector("input[type='text']").value || "Not specified";
+  const location = document.getElementById("locationAddress").value || "Not specified";
   const today = new Date().toLocaleDateString("en-IN", { year: "numeric", month: "short", day: "numeric" });
 
   // Hide all form fields and the submit button
