@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Track Issue - Smart CivicFix</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="track.css">
+</head>
+
+<body class="track-page">
+
+  <div class="track-container">
+    <div class="track-wrapper">
+      <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+
+      <div class="track-box">
+
+        <h2>📍 Track Your Issue</h2>
+        <p class="subtitle">Check current resolution status</p>
+
+        <!-- Search -->
+        <div class="form-group">
+          <input type="text" placeholder="Enter Issue ID (e.g. #2345)" class="search-input">
+        </div>
+
+        <!-- Status Card -->
+        <div class="status-card">
+          <div class="status-header">
+            <h3>Issue: Pothole</h3>
+            <span class="status-badge pending">Pending Review</span>
+          </div>
+          <p><strong>Location:</strong> FC Road</p>
+          <p class="status-date">Submitted: Oct 24, 2026</p>
+        </div>
+
+        <!-- Progress Steps -->
+        <div class="progress">
+          <div class="step active">Reported</div>
+          <div class="step">In Progress</div>
+          <div class="step">Resolved</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
