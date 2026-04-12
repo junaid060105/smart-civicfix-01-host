@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Guidelines - Smart CivicFix</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="index.css">
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #0d2340, #1a3560);
+      margin: 0;
+      font-family: 'DM Sans', sans-serif;
+      color: #0f172a;
+    }
+
+    .guidelines-container {
+      max-width: 800px;
+      margin: 60px auto;
+      padding: 20px;
+    }
+
+    .guidelines-card {
+      background: white;
+      padding: 40px;
+      border-radius: 18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      animation: fadeUp 0.6s ease;
+    }
+
+    .guidelines-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .guidelines-header h2 {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 800;
+      color: #0d2340;
+    }
+
+    .badge {
+      background: #e0f2fe;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #0284c7;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    li {
+      background: #f8fafc;
+      margin-bottom: 12px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.2s;
+      border: 1px solid #e2e8f0;
+    }
+
+    li:hover {
+      transform: translateX(5px);
+      background: #e8f2ff;
+    }
+
+    .icon {
+      font-size: 18px;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 25px;
+      text-decoration: none;
+      background: linear-gradient(135deg, #1a6fc4, #1558a0);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="guidelines-container">
+  <div class="guidelines-card">
+
+    <div class="guidelines-header">
+      <span style="font-size:28px;">📘</span>
+      <h2>Reporting Guidelines</h2>
+      <span class="badge">Official</span>
+    </div>
+
+    <ul>
+      <li><span class="icon">✔</span> Report only real civic issues (potholes, garbage, streetlights)</li>
+      <li><span class="icon">📍</span> Provide accurate location details</li>
+      <li><span class="icon">📷</span> Upload clear images if possible</li>
+      <li><span class="icon">🔁</span> Avoid duplicate reports</li>
+      <li><span class="icon">⚠</span> Do not submit fake or misleading complaints</li>
+      <li><span class="icon">🤝</span> Respect community standards</li>
+    </ul>
+
+    <a href="index.html" class="back-btn">← Back to Home</a>
+
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
