@@ -37,8 +37,6 @@ body {
   font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, Helvetica, Arial, sans-serif;
   background-color: var(--white);
-  background-image: radial-gradient(circle, #d5d7da 1px, transparent 1px);
-  background-size: 22px 22px;
   color: var(--text-main);
   line-height: 1.6;
 }
@@ -51,13 +49,9 @@ video {
 
 /* ── LAYOUT UTILS ────────────────────────────────────────── */
 .container {
-  width: 100%;
   max-width: 1200px;
-  /* controls layout width */
   margin: 0 auto;
-  /* centers it */
-  padding: 0 20px;
-  /* spacing from edges */
+  padding: 0 clamp(16px, 4vw, 40px);
 }
 
 .section-padding {
@@ -150,7 +144,7 @@ video {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 12px;
 }
 

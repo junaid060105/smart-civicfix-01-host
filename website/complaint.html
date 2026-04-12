@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <link rel="stylesheet" href="index.css">
   <link rel="stylesheet" href="complaint.css">
 </head>
@@ -46,17 +45,7 @@
 
         <div class="form-group">
           <label>Address / Location</label>
-          <div class="location-picker" id="locationPicker" onclick="openLocationMap()">
-            <div class="location-picker-icon">📍</div>
-            <div class="location-picker-text">
-              <span class="location-picker-label" id="locationLabel">Tap to select location on map</span>
-              <span class="location-picker-coords" id="locationCoords"></span>
-            </div>
-            <span class="location-picker-arrow">›</span>
-          </div>
-          <input type="hidden" id="locationAddress" required>
-          <input type="hidden" id="locationLat">
-          <input type="hidden" id="locationLng">
+          <input type="text" placeholder="Enter nearest address or landmark..." required>
         </div>
 
         <div class="form-group">
@@ -148,26 +137,6 @@
     </div>
   </div>
 
-  <!-- Location Map Modal -->
-  <div class="map-modal" id="mapModal">
-    <div class="map-modal-content">
-      <div class="map-header">
-        <h3>📍 Select Location</h3>
-        <button type="button" class="map-close" onclick="closeLocationMap()">✕</button>
-      </div>
-      <div class="map-search-bar">
-        <input type="text" id="mapSearchInput" placeholder="Search for a place..." onkeydown="if(event.key==='Enter'){event.preventDefault();searchLocation()}">
-        <button type="button" onclick="searchLocation()">🔍</button>
-      </div>
-      <div id="locationMapView" class="map-view"></div>
-      <div class="map-footer">
-        <span class="map-hint" id="mapHint">Click on the map to drop a pin</span>
-        <button type="button" class="btn-primary map-confirm" id="mapConfirmBtn" onclick="confirmLocation()" disabled>Confirm Location</button>
-      </div>
-    </div>
-  </div>
-
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script src="script.js"></script>
 </body>
 
