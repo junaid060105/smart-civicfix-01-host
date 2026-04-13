@@ -133,6 +133,20 @@ function submitIssue(event) {
   const location = locInput ? locInput.value : (form.querySelector("input[type='text']").value || "Not specified");
   const today = new Date().toLocaleDateString("en-IN", { year: "numeric", month: "short", day: "numeric" });
 
+  // ── Persist report to localStorage ──────────────────────────
+  const report = {
+    refId: refId,
+    issueType: issueType,
+    location: location,
+    date: today,
+    status: "reported",          // reported | in-progress | resolved
+    timestamp: Date.now()
+  };
+
+  const existing = JSON.parse(localStorage.getItem("civicReports") || "[]");
+  existing.unshift(report);      // newest first
+  localStorage.setItem("civicReports", JSON.stringify(existing));
+
   // Hide all form fields and the submit button
   const fields = form.querySelectorAll(".form-group, button[type='submit'], .subtitle");
   fields.forEach(el => el.style.display = "none");

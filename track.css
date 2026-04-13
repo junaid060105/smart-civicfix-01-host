@@ -163,3 +163,16 @@
   border-color: var(--blue);
   background-color: var(--blue);
 }
+
+/* Multiple track items */
+.track-item {
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid var(--gray-border);
+}
+
+.track-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}

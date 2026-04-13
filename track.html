@@ -20,36 +20,109 @@
 
       <div class="track-box">
 
-        <h2>📍 Track Your Issue</h2>
-        <p class="subtitle">Check current resolution status</p>
+        <h2>📍 Track Your Issues</h2>
+        <p class="subtitle">Check current resolution status of all your reports</p>
 
         <!-- Search -->
         <div class="form-group">
-          <input type="text" placeholder="Enter Issue ID (e.g. #2345)" class="search-input">
+          <input type="text" id="trackSearch" placeholder="Search by Reference ID (e.g. CF-M5K2X)" class="search-input">
         </div>
 
-        <!-- Status Card -->
-        <div class="status-card">
-          <div class="status-header">
-            <h3>Issue: Pothole</h3>
-            <span class="status-badge pending">Pending Review</span>
+        <!-- Dynamic reports container -->
+        <div id="trackList">
+
+          <!-- Default hardcoded status card -->
+          <div class="track-item" data-ref="CF-R8J1P">
+            <div class="status-card">
+              <div class="status-header">
+                <h3>Streetlight Outage</h3>
+                <span class="status-badge pending">⏳ In Progress</span>
+              </div>
+              <p><strong>Location:</strong> FC Road, Pune</p>
+              <p><strong>Ref:</strong> CF-R8J1P</p>
+              <p class="status-date">Submitted: Apr 10, 2026</p>
+            </div>
+            <div class="progress">
+              <div class="step active">Reported</div>
+              <div class="step active">In Progress</div>
+              <div class="step">Resolved</div>
+            </div>
           </div>
-          <p><strong>Location:</strong> FC Road</p>
-          <p class="status-date">Submitted: Oct 24, 2026</p>
+
         </div>
 
-        <!-- Progress Steps -->
-        <div class="progress">
-          <div class="step active">Reported</div>
-          <div class="step">In Progress</div>
-          <div class="step">Resolved</div>
-        </div>
+        <!-- Empty state -->
+        <p id="emptyMsg" class="empty-msg" style="display:none; text-align:center; color:var(--text-muted); padding:20px 0;">
+          No matching reports found.
+        </p>
 
       </div>
     </div>
   </div>
 
   <script src="script.js"></script>
+  <script>
+    (function () {
+      const reports = JSON.parse(localStorage.getItem('civicReports') || '[]');
+      const trackList = document.getElementById('trackList');
+
+      // Render each user-submitted report
+      reports.forEach(r => {
+        const statusConfig = {
+          'reported':    { badge: '📋 Reported',    cls: 'pending',      steps: [true, false, false] },
+          'in-progress': { badge: '⏳ In Progress', cls: 'pending',      steps: [true, true, false] },
+          'resolved':    { badge: '✅ Resolved',    cls: 'resolved',     steps: [true, true, true] }
+        };
+        const s = statusConfig[r.status] || statusConfig['reported'];
+        const shortLoc = r.location.length > 50 ? r.location.substring(0, 50) + '…' : r.location;
+
+        const item = document.createElement('div');
+        item.className = 'track-item';
+        item.dataset.ref = r.refId;
+        item.innerHTML = `
+          <div class="status-card">
+            <div class="status-header">
+              <h3>${r.issueType}</h3>
+              <span class="status-badge ${s.cls}">${s.badge}</span>
+            </div>
+            <p><strong>Location:</strong> ${shortLoc}</p>
+            <p><strong>Ref:</strong> ${r.refId}</p>
+            <p class="status-date">Submitted: ${r.date}</p>
+          </div>
+          <div class="progress">
+            <div class="step ${s.steps[0] ? 'active' : ''}">Reported</div>
+            <div class="step ${s.steps[1] ? 'active' : ''}">In Progress</div>
+            <div class="step ${s.steps[2] ? 'active' : ''}">Resolved</div>
+          </div>
+        `;
+
+        // Insert at the top, before the hardcoded card
+        trackList.insertBefore(item, trackList.firstChild);
+      });
+
+      // ── Search / filter ──────────────────────────────────────
+      const searchInput = document.getElementById('trackSearch');
+      const emptyMsg = document.getElementById('emptyMsg');
+
+      searchInput.addEventListener('input', () => {
+        const query = searchInput.value.trim().toUpperCase();
+        const items = document.querySelectorAll('.track-item');
+        let visible = 0;
+
+        items.forEach(item => {
+          const ref = (item.dataset.ref || '').toUpperCase();
+          if (!query || ref.includes(query)) {
+            item.style.display = '';
+            visible++;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+
+        emptyMsg.style.display = visible === 0 ? 'block' : 'none';
+      });
+    })();
+  </script>
 </body>
 
 </html>

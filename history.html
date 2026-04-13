@@ -41,10 +41,10 @@
           <p>Review all your civic reports and their resolution status</p>
         </div>
         <div class="history-stats">
-          <span class="h-stat"><strong>5</strong> Total</span>
-          <span class="h-stat resolved"><strong>3</strong> Resolved</span>
-          <span class="h-stat progress"><strong>1</strong> In Progress</span>
-          <span class="h-stat pending"><strong>1</strong> Reported</span>
+          <span class="h-stat"><strong id="hStatTotal">5</strong> Total</span>
+          <span class="h-stat resolved"><strong id="hStatResolved">3</strong> Resolved</span>
+          <span class="h-stat progress"><strong id="hStatProgress">1</strong> In Progress</span>
+          <span class="h-stat pending"><strong id="hStatReported">1</strong> Reported</span>
         </div>
       </div>
 
@@ -58,6 +58,9 @@
 
       <!-- Issue list -->
       <div class="issue-list">
+
+        <!-- Dynamic user-submitted reports injected here -->
+        <div id="dynamicIssues"></div>
 
         <div class="issue-row" data-status="resolved">
           <div class="issue-row-left">
@@ -155,17 +158,69 @@
 
   <script src="script.js"></script>
   <script>
-    // Filter buttons
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.dataset.filter;
-        document.querySelectorAll('.issue-row').forEach(row => {
-          row.style.display = (filter === 'all' || row.dataset.status === filter) ? 'flex' : 'none';
+    (function () {
+      // ── Inject user-submitted reports ────────────────────────
+      const reports = JSON.parse(localStorage.getItem('civicReports') || '[]');
+      const container = document.getElementById('dynamicIssues');
+
+      // Counters — defaults from hardcoded rows
+      let total = 5, resolved = 3, progress = 1, reported = 1;
+
+      reports.forEach(r => {
+        const statusMap = {
+          'reported':    { badge: '📋', cls: 'reported',  pill: 'Reported' },
+          'in-progress': { badge: '⏳', cls: 'progress',  pill: 'In Progress' },
+          'resolved':    { badge: '✅', cls: 'resolved',  pill: 'Resolved' }
+        };
+        const s = statusMap[r.status] || statusMap['reported'];
+        const shortLoc = r.location.length > 40 ? r.location.substring(0, 40) + '…' : r.location;
+
+        const row = document.createElement('div');
+        row.className = 'issue-row';
+        row.dataset.status = r.status;
+        row.innerHTML = `
+          <div class="issue-row-left">
+            <span class="issue-badge ${s.cls}">${s.badge}</span>
+            <div class="issue-info">
+              <p class="issue-title">${r.issueType}</p>
+              <p class="issue-location">📍 ${shortLoc}</p>
+            </div>
+          </div>
+          <div class="issue-row-mid">
+            <p class="issue-ref">${r.refId}</p>
+            <p class="issue-date">${r.date}</p>
+          </div>
+          <div class="issue-row-right">
+            <span class="status-pill ${s.cls}">${s.pill}</span>
+            ${r.status === 'reported' ? '' : r.status === 'in-progress' ? '<a href="track.html" class="track-link">Track →</a>' : '<span class="pts-earned">+20 pts</span>'}
+          </div>
+        `;
+        container.appendChild(row);
+
+        total++;
+        if (r.status === 'resolved') resolved++;
+        else if (r.status === 'in-progress') progress++;
+        else reported++;
+      });
+
+      // Update header stats
+      document.getElementById('hStatTotal').textContent = total;
+      document.getElementById('hStatResolved').textContent = resolved;
+      document.getElementById('hStatProgress').textContent = progress;
+      document.getElementById('hStatReported').textContent = reported;
+
+      // ── Filter buttons ─────────────────────────────────────
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const filter = btn.dataset.filter;
+          document.querySelectorAll('.issue-row').forEach(row => {
+            row.style.display = (filter === 'all' || row.dataset.status === filter) ? 'flex' : 'none';
+          });
         });
       });
-    });
+    })();
   </script>
 </body>
 
