@@ -36,7 +36,7 @@
             <div class="status-card">
               <div class="status-header">
                 <h3>Streetlight Outage</h3>
-                <span class="status-badge pending">⏳ In Progress</span>
+                <span class="status-badge resolved">✅ Resolved</span>
               </div>
               <p><strong>Location:</strong> FC Road, Pune</p>
               <p><strong>Ref:</strong> CF-R8J1P</p>
@@ -45,14 +45,25 @@
             <div class="progress">
               <div class="step active">Reported</div>
               <div class="step active">In Progress</div>
-              <div class="step">Resolved</div>
+              <div class="step active">Resolved</div>
+            </div>
+            <div class="feedback-section">
+              <button class="btn-feedback" onclick="toggleFeedback(this)">⭐ Give Feedback</button>
+              <div class="feedback-form" style="display: none;">
+                <div class="stars">
+                  <span onclick="rateStar(this, 1)">★</span><span onclick="rateStar(this, 2)">★</span><span onclick="rateStar(this, 3)">★</span><span onclick="rateStar(this, 4)">★</span><span onclick="rateStar(this, 5)">★</span>
+                </div>
+                <textarea placeholder="Tell us about your experience..." rows="3"></textarea>
+                <button class="btn-primary" style="margin-top: 10px; width: 100%;" onclick="submitFeedback(this)">Submit Rating</button>
+              </div>
             </div>
           </div>
 
         </div>
 
         <!-- Empty state -->
-        <p id="emptyMsg" class="empty-msg" style="display:none; text-align:center; color:var(--text-muted); padding:20px 0;">
+        <p id="emptyMsg" class="empty-msg"
+          style="display:none; text-align:center; color:var(--text-muted); padding:20px 0;">
           No matching reports found.
         </p>
 
@@ -69,9 +80,9 @@
       // Render each user-submitted report
       reports.forEach(r => {
         const statusConfig = {
-          'reported':    { badge: '📋 Reported',    cls: 'pending',      steps: [true, false, false] },
-          'in-progress': { badge: '⏳ In Progress', cls: 'pending',      steps: [true, true, false] },
-          'resolved':    { badge: '✅ Resolved',    cls: 'resolved',     steps: [true, true, true] }
+          'reported': { badge: '📋 Reported', cls: 'pending', steps: [true, false, false] },
+          'in-progress': { badge: '⏳ In Progress', cls: 'pending', steps: [true, true, false] },
+          'resolved': { badge: '✅ Resolved', cls: 'resolved', steps: [true, true, true] }
         };
         const s = statusConfig[r.status] || statusConfig['reported'];
         const shortLoc = r.location.length > 50 ? r.location.substring(0, 50) + '…' : r.location;
@@ -94,11 +105,43 @@
             <div class="step ${s.steps[1] ? 'active' : ''}">In Progress</div>
             <div class="step ${s.steps[2] ? 'active' : ''}">Resolved</div>
           </div>
+          ${r.status === 'resolved' ? `
+            <div class="feedback-section">
+              <button class="btn-feedback" onclick="toggleFeedback(this)">⭐ Give Feedback</button>
+              <div class="feedback-form" style="display: none;">
+                <div class="stars">
+                  <span onclick="rateStar(this, 1)">★</span><span onclick="rateStar(this, 2)">★</span><span onclick="rateStar(this, 3)">★</span><span onclick="rateStar(this, 4)">★</span><span onclick="rateStar(this, 5)">★</span>
+                </div>
+                <textarea placeholder="Tell us about your experience..." rows="3"></textarea>
+                <button class="btn-primary" style="margin-top: 10px; width: 100%;" onclick="submitFeedback(this)">Submit Rating</button>
+              </div>
+            </div>
+          ` : ''}
         `;
 
         // Insert at the top, before the hardcoded card
         trackList.insertBefore(item, trackList.firstChild);
       });
+
+      // Global functions for feedback
+      window.toggleFeedback = function (btn) {
+        const form = btn.nextElementSibling;
+        form.style.display = 'block';
+        btn.style.display = 'none';
+      };
+
+      window.rateStar = function (starElement, rating) {
+        const stars = starElement.parentElement.children;
+        for (let i = 0; i < stars.length; i++) {
+          stars[i].style.color = i < rating ? '#f59e0b' : '#cbd5e1';
+          stars[i].style.transform = i < rating ? 'scale(1.15)' : 'scale(1)';
+        }
+      };
+
+      window.submitFeedback = function (btn) {
+        const section = btn.closest('.feedback-section');
+        section.innerHTML = '<p class="feedback-success">✅ Thank you! Your feedback helps us improve.</p>';
+      };
 
       // ── Search / filter ──────────────────────────────────────
       const searchInput = document.getElementById('trackSearch');

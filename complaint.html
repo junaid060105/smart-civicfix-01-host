@@ -23,7 +23,10 @@
       <form class="report-box" onsubmit="submitIssue(event)">
 
         <h2>📢 Report a Civic Issue</h2>
-        <p class="subtitle">Submit detailed information to help municipal workers locate and respond to the problem. <br><br>👉 <a href="guidelines.html" style="color: var(--blue); font-weight: 600; text-decoration: none;">View Reporting Guidelines</a></p>
+        <p class="subtitle">Submit detailed information to help municipal workers locate and respond to the problem.
+          <br><br>👉 <a href="guidelines.html" style="color: var(--blue); font-weight: 600; text-decoration: none;">View
+            Reporting Guidelines</a>
+        </p>
 
         <div class="form-group">
           <label>Issue Type</label>
@@ -49,7 +52,9 @@
           <label>Address / Location</label>
           <div class="location-picker-card" onclick="openMapModal()">
             <span class="location-icon" style="color: #ec4899; font-size: 20px;">📍</span>
-            <span id="locationDisplayText" style="flex-grow: 1; color: var(--navy); font-weight: 600; margin-left: 5px;">Tap to select location on map</span>
+            <span id="locationDisplayText"
+              style="flex-grow: 1; color: var(--navy); font-weight: 600; margin-left: 5px;">Tap to select location on
+              map</span>
             <span class="chevron" style="color: var(--text-muted); font-size: 20px; font-family: monospace;">&gt;</span>
           </div>
           <input type="hidden" id="locationInput" value="" required>
@@ -132,7 +137,8 @@
     <div class="camera-modal-content map-modal-content">
       <div class="map-header">
         <h3 style="margin:0; color:white; font-size:16px;">📍 Select Location</h3>
-        <button type="button" class="camera-close" onclick="closeMapModal()" style="background: rgba(255,255,255,0.2);">✕</button>
+        <button type="button" class="camera-close" onclick="closeMapModal()"
+          style="background: rgba(255,255,255,0.2);">✕</button>
       </div>
       <div class="map-search-bar">
         <input type="text" id="mapSearchInput" placeholder="Search for a place...">
@@ -143,7 +149,8 @@
       </div>
       <div class="map-footer">
         <span class="map-footer-text">Click on the map to drop a pin</span>
-        <button type="button" class="btn-primary confirm-loc-btn" onclick="confirmMapLocation()">Confirm Location</button>
+        <button type="button" class="btn-primary confirm-loc-btn" onclick="confirmMapLocation()">Confirm
+          Location</button>
       </div>
     </div>
   </div>
