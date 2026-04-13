@@ -277,13 +277,13 @@ document.addEventListener("DOMContentLoaded", () => {
   window.openMapModal = function () {
     const modal = document.getElementById("mapModal");
     if (!modal) return;
-    
+
     modal.classList.add("active");
 
     if (!pickerMap && typeof L !== "undefined") {
       // Default to a central view
       pickerMap = L.map("locationPickerMap").setView([18.5204, 73.8567], 12); // Center on Pune by default
-      
+
       L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
         maxZoom: 19
@@ -318,12 +318,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Give modal display transition time before rendering map
-    setTimeout(() => { if(pickerMap) pickerMap.invalidateSize(); }, 300);
+    setTimeout(() => { if (pickerMap) pickerMap.invalidateSize(); }, 300);
   };
 
   window.closeMapModal = function () {
     const modal = document.getElementById("mapModal");
-    if(modal) modal.classList.remove("active");
+    if (modal) modal.classList.remove("active");
   };
 
   window.confirmMapLocation = function () {
@@ -343,15 +343,15 @@ document.addEventListener("DOMContentLoaded", () => {
     closeMapModal();
   };
 
-  window.searchMapLocation = function() {
-    if(!pickerMap) return;
+  window.searchMapLocation = function () {
+    if (!pickerMap) return;
     const q = document.getElementById("mapSearchInput").value;
-    if(!q) return;
+    if (!q) return;
 
     fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}`)
       .then(res => res.json())
       .then(data => {
-        if(data && data.length > 0) {
+        if (data && data.length > 0) {
           const lat = data[0].lat;
           const lon = data[0].lon;
           pickerMap.setView([lat, lon], 14);
@@ -363,7 +363,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
           const addr = data[0].display_name;
           pickerMap._tempAddress = addr;
-          
+
           const displayText = document.getElementById("locationDisplayText");
           displayText.textContent = "📍 " + addr.split(",")[0] + "...";
         } else {
@@ -377,4 +377,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
 });
+
+
+
 

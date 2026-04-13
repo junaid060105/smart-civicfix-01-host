@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Dashboard - Smart CivicFix</title>
@@ -13,114 +14,117 @@
 
 <body>
 
-<div class="gov-banner" style="background-color: var(--white); border-bottom: 1px solid var(--gray-border);">
-  <div class="container" style="max-width: 100%; padding: 0 30px;">
-    <span class="flag-icon">🏛️</span> 
-    <span class="banner-text">An official platform of the municipal government</span>
-  </div>
-</div>
-
-<div class="dashboard">
-
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <div class="brand">
-      <h2>Smart CivicFix</h2>
+  <div class="gov-banner" style="background-color: var(--white); border-bottom: 1px solid var(--gray-border);">
+    <div class="container" style="max-width: 100%; padding: 0 30px;">
+      <span class="flag-icon">🏛️</span>
+      <span class="banner-text">An official platform of the municipal government</span>
     </div>
-
-    <div class="sidebar-links">
-      <a href="dashboard.html" class="active">📊 Dashboard</a>
-      <a href="complaint.html">📢 Report Issue</a>
-      <a href="guidelines.html">📘 Guidelines</a>
-      <a href="track.html">📍 Track Issue</a>
-      <a href="history.html">📄 Previous Issues</a>
-      <a href="reward.html">🎁 Rewards</a>
-    </div>
-
-    <a href="index.html" class="logout">🚪 Logout</a>
   </div>
 
-  <!-- MAIN CONTENT -->
-  <div class="main">
+  <div class="dashboard">
 
-    <div class="top-bar">
-      <div>
-        <h2>Welcome back, Citizen 👋</h2>
-        <p>Your current civic standing and actions</p>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="brand">
+        <h2>Smart CivicFix</h2>
       </div>
-      <div class="points-badge">
-        <span>Civic Points</span>
-        <strong>120</strong>
+
+      <div class="sidebar-links">
+        <a href="dashboard.html" class="active">📊 Dashboard</a>
+        <a href="complaint.html">📢 Report Issue</a>
+        <a href="track.html">📍 Track Issue</a>
+        <a href="history.html">📄 Previous Issues</a>
+        <a href="reward.html">🎁 Rewards</a>
       </div>
+
+      <a href="index.html" class="logout">🚪 Logout</a>
     </div>
 
-    <!-- Stats overview -->
-    <div class="stats-row">
-      <div class="stat-card">
-        <span class="stat-number" style="color: var(--blue);">3</span>
-        <span class="stat-label">Total Reported</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-number" style="color: #f59e0b;">1</span>
-        <span class="stat-label">In Progress</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-number" style="color: #10b981;">2</span>
-        <span class="stat-label">Resolved</span>
-      </div>
-    </div>
+    <!-- MAIN CONTENT -->
+    <div class="main">
 
-    <!-- Quick report CTA -->
-    <div class="quick-report-bar">
-      <div>
-        <h3 style="margin: 0 0 4px; font-size: 16px; color: var(--navy);">See something that needs fixing?</h3>
-        <p style="margin: 0; font-size: 14px; color: var(--text-muted);">Report civic issues in your area and earn points.</p>
-      </div>
-      <a href="complaint.html" class="btn-primary" style="text-decoration: none; white-space: nowrap; padding: 10px 22px;">📢 Report Issue</a>
-    </div>
-
-    <!-- Recent activity -->
-    <div class="recent-section">
-      <h3 class="section-heading">Recent Activity</h3>
-
-      <div class="activity-card">
-        <div class="activity-left">
-          <span class="activity-badge resolved">✅</span>
-          <div>
-            <p class="activity-title">Pothole Fixed — Kothrud, Pune</p>
-            <p class="activity-meta">Ref: CF-M5K2X · Resolved on Apr 8, 2026</p>
-          </div>
+      <div class="top-bar">
+        <div>
+          <h2>Welcome back, Citizen 👋</h2>
+          <p>Your current civic standing and actions</p>
         </div>
-        <span class="activity-points">+20 pts</span>
+        <div class="points-badge">
+          <span>Civic Points</span>
+          <strong>120</strong>
+        </div>
       </div>
 
-      <div class="activity-card">
-        <div class="activity-left">
-          <span class="activity-badge progress">⏳</span>
-          <div>
-            <p class="activity-title">Streetlight Outage — FC Road</p>
-            <p class="activity-meta">Ref: CF-R8J1P · In progress since Apr 10, 2026</p>
-          </div>
+      <!-- Stats overview -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <span class="stat-number" style="color: var(--blue);">3</span>
+          <span class="stat-label">Total Reported</span>
         </div>
-        <a href="track.html" style="font-size: 13px; color: var(--blue); font-weight: 600; text-decoration: none;">Track →</a>
+        <div class="stat-card">
+          <span class="stat-number" style="color: #f59e0b;">1</span>
+          <span class="stat-label">In Progress</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" style="color: #10b981;">2</span>
+          <span class="stat-label">Resolved</span>
+        </div>
       </div>
 
-      <div class="activity-card">
-        <div class="activity-left">
-          <span class="activity-badge resolved">✅</span>
-          <div>
-            <p class="activity-title">Garbage Dump Cleared — Baner</p>
-            <p class="activity-meta">Ref: CF-T3N9Q · Resolved on Apr 5, 2026</p>
-          </div>
+      <!-- Quick report CTA -->
+      <div class="quick-report-bar">
+        <div>
+          <h3 style="margin: 0 0 4px; font-size: 16px; color: var(--navy);">See something that needs fixing?</h3>
+          <p style="margin: 0; font-size: 14px; color: var(--text-muted);">Report civic issues in your area and earn
+            points.</p>
         </div>
-        <span class="activity-points">+20 pts</span>
+        <a href="complaint.html" class="btn-primary"
+          style="text-decoration: none; white-space: nowrap; padding: 10px 22px;">📢 Report Issue</a>
+      </div>
+
+      <!-- Recent activity -->
+      <div class="recent-section">
+        <h3 class="section-heading">Recent Activity</h3>
+
+        <div class="activity-card">
+          <div class="activity-left">
+            <span class="activity-badge resolved">✅</span>
+            <div>
+              <p class="activity-title">Pothole Fixed — Kothrud, Pune</p>
+              <p class="activity-meta">Ref: CF-M5K2X · Resolved on Apr 8, 2026</p>
+            </div>
+          </div>
+          <span class="activity-points">+20 pts</span>
+        </div>
+
+        <div class="activity-card">
+          <div class="activity-left">
+            <span class="activity-badge progress">⏳</span>
+            <div>
+              <p class="activity-title">Streetlight Outage — FC Road</p>
+              <p class="activity-meta">Ref: CF-R8J1P · In progress since Apr 10, 2026</p>
+            </div>
+          </div>
+          <a href="track.html"
+            style="font-size: 13px; color: var(--blue); font-weight: 600; text-decoration: none;">Track →</a>
+        </div>
+
+        <div class="activity-card">
+          <div class="activity-left">
+            <span class="activity-badge resolved">✅</span>
+            <div>
+              <p class="activity-title">Garbage Dump Cleared — Baner</p>
+              <p class="activity-meta">Ref: CF-T3N9Q · Resolved on Apr 5, 2026</p>
+            </div>
+          </div>
+          <span class="activity-points">+20 pts</span>
+        </div>
+
       </div>
 
     </div>
 
   </div>
-
-</div>
 
 </body>
+
 </html>

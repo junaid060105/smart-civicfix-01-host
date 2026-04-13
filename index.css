@@ -120,8 +120,11 @@ video {
 }
 
 .gov-banner .container {
+  max-width: 100%;
+  padding: 0 30px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
 }
 
@@ -141,6 +144,8 @@ video {
 }
 
 .nav-container {
+  max-width: 100%;
+  padding: 0 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -373,7 +378,7 @@ button {
 */
 .gallery-scroll-container {
   overflow: visible;
-  height: 180vh;
+  height: 100vh;
   /* scroll buffer */
 }
 
@@ -383,9 +388,9 @@ button {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-top: 40px;
   background-color: var(--gray-light);
-  /* The padding will just be natural */
   overflow: hidden;
 }
 
