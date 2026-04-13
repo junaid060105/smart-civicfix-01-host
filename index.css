@@ -386,7 +386,8 @@ button {
   flex-direction: column;
   justify-content: flex-start;
   padding: 60px 0 40px;
-  background-color: var(--gray-light);
+  background-color: var(--white);
+  border-top: 1px solid var(--gray-border);
   overflow: hidden;
 }
 
