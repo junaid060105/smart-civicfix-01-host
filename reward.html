@@ -92,7 +92,8 @@
 
   <script src="script.js"></script>
   <script>
-    let points = 120;
+    // Read persisted points from localStorage (default 120 for new users)
+    let points = parseInt(localStorage.getItem('civicPoints')) || 120;
     let pendingBtn = null;
 
     const modal = document.getElementById('confirmModal');
@@ -138,6 +139,8 @@
       const rewardKey = pendingBtn.dataset.reward;
 
       points -= cost;
+      // Persist updated points to localStorage
+      localStorage.setItem('civicPoints', points.toString());
       updateButtons();
 
       const code = 'CF-' + rewardKey.toUpperCase() + '-' + Math.random().toString(36).substring(2, 8).toUpperCase();

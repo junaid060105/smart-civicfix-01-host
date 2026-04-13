@@ -50,7 +50,7 @@
         </div>
         <div class="points-badge">
           <span>Civic Points</span>
-          <strong>120</strong>
+          <strong id="dashboardPoints">120</strong>
         </div>
       </div>
 
@@ -124,6 +124,19 @@
     </div>
 
   </div>
+
+  <script>
+    // Sync civic points from localStorage so redemptions are reflected here
+    (function () {
+      const stored = localStorage.getItem('civicPoints');
+      if (stored !== null) {
+        document.getElementById('dashboardPoints').textContent = stored;
+      } else {
+        // First visit — seed localStorage with default value
+        localStorage.setItem('civicPoints', '120');
+      }
+    })();
+  </script>
 
 </body>
 
