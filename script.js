@@ -12,8 +12,40 @@ function goDashboard() {
 
 function signup(event) {
   event.preventDefault();
-  alert("Account created successfully!");
-  window.location.href = "login.html";
+
+  const form = event.target;
+
+  // Hide all form children
+  Array.from(form.children).forEach(el => el.style.display = 'none');
+
+  // Create inline success panel
+  const success = document.createElement('div');
+  success.className = 'signup-success';
+  success.innerHTML = `
+    <div style="text-align:center; animation: fadeUp 0.5s ease;">
+      <div style="width:64px; height:64px; border-radius:50%; background:rgba(16,185,129,0.12); display:inline-flex; align-items:center; justify-content:center; margin-bottom:18px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </div>
+      <h2 style="margin:0 0 8px; font-size:22px; color:var(--navy,#0d2340);">Account Created!</h2>
+      <p style="margin:0 0 20px; color:var(--text-muted,#64748b); font-size:14px; line-height:1.5;">
+        Your citizen account has been registered successfully.<br>
+        Redirecting to sign in…
+      </p>
+      <div style="width:100%; height:4px; background:#e2e8f0; border-radius:99px; overflow:hidden;">
+        <div id="redirectBar" style="height:100%; width:0%; background:linear-gradient(90deg,#1a6fc4,#10b981); border-radius:99px; transition: width 2.5s ease;"></div>
+      </div>
+      <p style="margin-top:16px; font-size:13px; color:var(--text-muted,#64748b);">
+        or <a href="login.html" style="color:var(--blue,#1a6fc4); font-weight:600; text-decoration:none;">sign in now →</a>
+      </p>
+    </div>
+  `;
+  form.appendChild(success);
+
+  // Animate progress bar and redirect
+  requestAnimationFrame(() => {
+    document.getElementById('redirectBar').style.width = '100%';
+  });
+  setTimeout(() => { window.location.href = 'login.html'; }, 2600);
 }
 
 // ── "Other" Issue Type Toggle ──────────────────────────────
@@ -266,13 +298,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Placeholder "live" markers – replace with backend API data later
     const issues = [
-      { lat: 18.5204, lng: 73.8567, city: "Pune", issue: "Pothole Fixed", status: "✅ Resolved" },
-      { lat: 19.0760, lng: 72.8777, city: "Mumbai", issue: "Waste Cleared", status: "✅ Resolved" },
-      { lat: 28.7041, lng: 77.1025, city: "Delhi", issue: "Streetlight Fixed", status: "✅ Resolved" },
-      { lat: 12.9716, lng: 77.5946, city: "Bengaluru", issue: "Pipeline Repaired", status: "✅ Resolved" },
-      { lat: 22.5726, lng: 88.3639, city: "Kolkata", issue: "Drainage Cleared", status: "⏳ In Progress" },
-      { lat: 17.3850, lng: 78.4867, city: "Hyderabad", issue: "Road Pothole", status: "⏳ In Progress" },
-      { lat: 26.8467, lng: 80.9462, city: "Lucknow", issue: "Broken Streetlight", status: "📋 Reported" }
+      { lat: 18.5204, lng: 73.8567, city: "Pune", issue: "Pothole Fixed", status: "Resolved" },
+      { lat: 19.0760, lng: 72.8777, city: "Mumbai", issue: "Waste Cleared", status: "Resolved" },
+      { lat: 28.7041, lng: 77.1025, city: "Delhi", issue: "Streetlight Fixed", status: "Resolved" },
+      { lat: 12.9716, lng: 77.5946, city: "Bengaluru", issue: "Pipeline Repaired", status: "Resolved" },
+      { lat: 22.5726, lng: 88.3639, city: "Kolkata", issue: "Drainage Cleared", status: "In Progress" },
+      { lat: 17.3850, lng: 78.4867, city: "Hyderabad", issue: "Road Pothole", status: "In Progress" },
+      { lat: 26.8467, lng: 80.9462, city: "Lucknow", issue: "Broken Streetlight", status: "Reported" }
     ];
 
     issues.forEach(d => {
@@ -322,11 +354,11 @@ document.addEventListener("DOMContentLoaded", () => {
           .then(data => {
             const addr = (data && data.display_name) ? data.display_name : `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
             pickerMap._tempAddress = addr;
-            displayText.textContent = "📍 " + addr.split(",")[0] + "...";
+            displayText.textContent = addr.split(",")[0] + "...";
           })
           .catch(() => {
             pickerMap._tempAddress = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
-            displayText.textContent = "📍 Location selected";
+            displayText.textContent = "Location selected";
           });
       });
     }
@@ -379,7 +411,7 @@ document.addEventListener("DOMContentLoaded", () => {
           pickerMap._tempAddress = addr;
 
           const displayText = document.getElementById("locationDisplayText");
-          displayText.textContent = "📍 " + addr.split(",")[0] + "...";
+          displayText.textContent = addr.split(",")[0] + "...";
         } else {
           alert("Location not found. Try a different search term.");
         }

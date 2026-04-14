@@ -10,6 +10,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="index.css">
   <link rel="stylesheet" href="track.css">
+  <style>
+    .icon-inline { display: inline-flex; align-items: center; vertical-align: middle; }
+    .icon-inline svg { width: 1em; height: 1em; stroke-width: 1.8; }
+  </style>
 </head>
 
 <body class="track-page">
@@ -20,7 +24,7 @@
 
       <div class="track-box">
 
-        <h2>📍 Track Your Issues</h2>
+        <h2><span class="icon-inline" style="margin-right: 6px;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></span> Track Your Issues</h2>
         <p class="subtitle">Check current resolution status of all your reports</p>
 
         <!-- Search -->
@@ -36,7 +40,7 @@
             <div class="status-card">
               <div class="status-header">
                 <h3>Streetlight Outage</h3>
-                <span class="status-badge resolved">✅ Resolved</span>
+                <span class="status-badge resolved"><span class="icon-inline" style="margin-right: 4px;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> Resolved</span>
               </div>
               <p><strong>Location:</strong> FC Road, Pune</p>
               <p><strong>Ref:</strong> CF-R8J1P</p>
@@ -48,7 +52,7 @@
               <div class="step active">Resolved</div>
             </div>
             <div class="feedback-section">
-              <button class="btn-feedback" onclick="toggleFeedback(this)">⭐ Give Feedback</button>
+              <button class="btn-feedback" onclick="toggleFeedback(this)"><span class="icon-inline" style="margin-right: 4px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span> Give Feedback</button>
               <div class="feedback-form" style="display: none;">
                 <div class="stars">
                   <span onclick="rateStar(this, 1)">★</span><span onclick="rateStar(this, 2)">★</span><span onclick="rateStar(this, 3)">★</span><span onclick="rateStar(this, 4)">★</span><span onclick="rateStar(this, 5)">★</span>
@@ -80,9 +84,9 @@
       // Render each user-submitted report
       reports.forEach(r => {
         const statusConfig = {
-          'reported': { badge: '📋 Reported', cls: 'pending', steps: [true, false, false] },
-          'in-progress': { badge: '⏳ In Progress', cls: 'pending', steps: [true, true, false] },
-          'resolved': { badge: '✅ Resolved', cls: 'resolved', steps: [true, true, true] }
+          'reported': { badge: '<span class="icon-inline" style="margin-right:4px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span> Reported', cls: 'pending', steps: [true, false, false] },
+          'in-progress': { badge: '<span class="icon-inline" style="margin-right:4px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> In Progress', cls: 'pending', steps: [true, true, false] },
+          'resolved': { badge: '<span class="icon-inline" style="margin-right:4px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> Resolved', cls: 'resolved', steps: [true, true, true] }
         };
         const s = statusConfig[r.status] || statusConfig['reported'];
         const shortLoc = r.location.length > 50 ? r.location.substring(0, 50) + '…' : r.location;
@@ -107,7 +111,7 @@
           </div>
           ${r.status === 'resolved' ? `
             <div class="feedback-section">
-              <button class="btn-feedback" onclick="toggleFeedback(this)">⭐ Give Feedback</button>
+              <button class="btn-feedback" onclick="toggleFeedback(this)"><span class="icon-inline" style="margin-right:4px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span> Give Feedback</button>
               <div class="feedback-form" style="display: none;">
                 <div class="stars">
                   <span onclick="rateStar(this, 1)">★</span><span onclick="rateStar(this, 2)">★</span><span onclick="rateStar(this, 3)">★</span><span onclick="rateStar(this, 4)">★</span><span onclick="rateStar(this, 5)">★</span>
@@ -140,7 +144,7 @@
 
       window.submitFeedback = function (btn) {
         const section = btn.closest('.feedback-section');
-        section.innerHTML = '<p class="feedback-success">✅ Thank you! Your feedback helps us improve.</p>';
+        section.innerHTML = '<p class="feedback-success"><span class="icon-inline" style="margin-right:4px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> Thank you! Your feedback helps us improve.</p>';
       };
 
       // ── Search / filter ──────────────────────────────────────
