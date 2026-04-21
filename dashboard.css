@@ -232,61 +232,348 @@
   white-space: nowrap;
 }
 
-/* RESPONSIVE */
+/* ── MOBILE HEADER (hidden on desktop) ── */
+.mobile-header {
+  display: none;
+}
+
+/* ── BOTTOM TAB BAR (hidden on desktop) ── */
+.bottom-tabs {
+  display: none;
+}
+
+/* ── PROFILE BUTTON & DROPDOWN (hidden on desktop) ── */
+.mobile-profile-btn {
+  display: none;
+}
+.profile-dropdown {
+  display: none;
+}
+
+/* RESPONSIVE — TABLET */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 220px;
+    padding: 24px 16px;
+  }
+  .main {
+    padding: 30px 24px;
+  }
+}
+
+/* RESPONSIVE — MOBILE */
 @media (max-width: 768px) {
+
+  /* ── Mobile Top Header ── */
+  .mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 14px 16px;
+    background-color: var(--navy);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+  }
+
+  /* ── Profile Avatar Button ── */
+  .mobile-profile-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.12);
+    padding: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    overflow: hidden;
+  }
+
+  .mobile-profile-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(1); /* makes black icon white */
+    opacity: 0.9;
+  }
+
+  .mobile-profile-btn:active {
+    transform: scale(0.92);
+    border-color: rgba(255,255,255,0.5);
+  }
+
+  /* ── Profile Dropdown ── */
+  .profile-dropdown {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    background: #1e3a5f;
+    border-radius: 10px;
+    margin-top: 12px;
+    overflow: hidden;
+    animation: slideDown 0.25s ease;
+  }
+
+  .profile-dropdown.open {
+    display: flex;
+  }
+
+  .profile-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 16px;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.15s ease;
+  }
+
+  .profile-menu-item:hover,
+  .profile-menu-item:active {
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+  }
+
+  .profile-menu-item svg {
+    flex-shrink: 0;
+    color: #94a3b8;
+  }
+
+  .profile-menu-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    margin: 0;
+  }
+
+  .logout-item {
+    color: #f87171;
+  }
+
+  .logout-item svg {
+    color: #f87171;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .mobile-header h2 {
+    margin: 0;
+    color: var(--white);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+
+  .mobile-points-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 6px 14px;
+    border-radius: 20px;
+  }
+
+  .mobile-points-pill svg {
+    color: #10b981;
+  }
+
+  .mobile-points-pill strong {
+    color: #10b981;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── Hide desktop sidebar ── */
+  .sidebar {
+    display: none;
+  }
+
+  /* ── Bottom Tab Bar ── */
+  .bottom-tabs {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background: var(--white);
+    border-top: 1px solid var(--gray-border);
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
+    padding: 6px 0;
+    padding-bottom: max(6px, env(safe-area-inset-bottom));
+  }
+
+  .bottom-tabs .tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 6px 4px;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+  }
+
+  .bottom-tabs .tab svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 1.8;
+  }
+
+  .bottom-tabs .tab.active {
+    color: var(--blue);
+    position: relative;
+  }
+
+  .bottom-tabs .tab.active::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 3px;
+    background: var(--blue);
+    border-radius: 0 0 3px 3px;
+  }
+
+  .bottom-tabs .tab.active svg {
+    stroke: var(--blue);
+  }
+
+  /* ── Dashboard layout ── */
   .dashboard {
     flex-direction: column;
     height: auto;
+    min-height: 100vh;
   }
-  .sidebar {
-    width: 100%;
-    flex-direction: row;
-    padding: 12px 16px;
-    align-items: center;
-    gap: 12px;
-    overflow-x: auto;
-  }
-  .sidebar .brand h2 {
-    margin-bottom: 0;
-    font-size: 18px;
-    white-space: nowrap;
-  }
-  .sidebar-links {
-    display: flex;
-    gap: 4px;
-  }
-  .sidebar a {
-    white-space: nowrap;
-    padding: 8px 12px;
-    font-size: 13px;
-    margin: 0;
-  }
-  .sidebar .logout {
-    margin-top: 0;
-    border-top: none;
-    padding-top: 0;
-    margin-left: auto;
-  }
+
   .main {
-    padding: 24px 20px;
+    padding: 20px 16px;
+    padding-bottom: 90px; /* space for bottom tabs */
   }
-  .stats-row {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
+
+  /* ── Top Bar: hide desktop points badge ── */
   .top-bar {
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
   }
+
+  .top-bar h2 {
+    font-size: 20px;
+  }
+
+  .points-badge {
+    display: none; /* shown in mobile header instead */
+  }
+
+  /* ── Stats ── */
+  .stats-row {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .stat-card {
+    padding: 14px 10px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .stat-number {
+    font-size: 24px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+  }
+
+  /* ── Quick Report ── */
   .quick-report-bar {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+    gap: 12px;
+    padding: 16px;
+    margin-bottom: 20px;
   }
+
+  .quick-report-bar .btn-primary {
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* ── Activity Cards ── */
+  .activity-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 16px;
+  }
+
   .activity-left {
     min-width: 0;
+    width: 100%;
   }
+
   .activity-title {
     font-size: 13px;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .activity-meta {
+    font-size: 11px;
+  }
+}
+
+/* RESPONSIVE — SMALL MOBILE */
+@media (max-width: 480px) {
+  .mobile-header h2 {
+    font-size: 16px;
+  }
+  .mobile-points-pill {
+    padding: 5px 12px;
+  }
+  .mobile-points-pill strong {
+    font-size: 14px;
+  }
+  .stats-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .stat-card:last-child {
+    grid-column: 1 / -1;
+  }
+  .stat-number {
+    font-size: 22px;
+  }
+  .main {
+    padding: 14px 12px;
+    padding-bottom: 84px;
+  }
+  .top-bar h2 {
+    font-size: 18px;
+  }
+  .bottom-tabs .tab {
+    font-size: 9px;
+  }
+  .bottom-tabs .tab svg {
+    width: 18px;
+    height: 18px;
   }
 }

@@ -69,13 +69,14 @@
   font-size: 20px;
 }
 
-.points-badge {
+.rewards-box .points-badge {
   background-color: #10b981;
   color: white;
   padding: 8px 16px;
   border-radius: 4px;
   font-weight: 700;
   font-size: 18px;
+  display: inline-block;
 }
 
 .rewards-grid {
@@ -230,4 +231,81 @@
 .confirm-no:hover {
   background: var(--gray-light);
   color: var(--navy);
+}
+
+/* ── RESPONSIVE — MOBILE ──────────────────────────────── */
+@media (max-width: 768px) {
+  .back-link {
+    display: none;
+  }
+  .rewards-container {
+    padding: 16px 12px;
+    padding-bottom: 120px;
+  }
+  .rewards-box {
+    padding: 24px 18px;
+  }
+  .rewards-box h2 {
+    font-size: 20px;
+  }
+  .points-header {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    padding: 16px;
+  }
+  .points-header h3 {
+    font-size: 16px;
+  }
+  .points-badge {
+    font-size: 16px;
+    padding: 6px 14px;
+  }
+  .reward-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+  .reward-icon {
+    margin-right: 0;
+  }
+  .reward-info {
+    margin-bottom: 8px;
+  }
+  .reward-info h4 {
+    font-size: 16px;
+  }
+  .redeem-btn {
+    width: 100%;
+  }
+  .confirm-box {
+    padding: 24px 20px;
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 480px) {
+  .rewards-container {
+    padding: 16px 8px;
+  }
+  .rewards-box {
+    padding: 20px 14px;
+  }
+  .rewards-box h2 {
+    font-size: 18px;
+  }
+  .reward-icon {
+    padding: 10px;
+    font-size: 26px;
+  }
+  .points-badge {
+    font-size: 16px;
+    padding: 6px 14px;
+  }
+  .confirm-actions {
+    flex-direction: column;
+  }
+  .confirm-actions button {
+    width: 100%;
+  }
 }

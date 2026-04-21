@@ -23,6 +23,15 @@
 
   <div class="dashboard">
 
+    <!-- MOBILE TOP HEADER -->
+    <div class="mobile-header">
+      <h2>Smart CivicFix</h2>
+      <a href="dashboard.html" style="color:#94a3b8;text-decoration:none;font-size:13px;font-weight:600;display:flex;align-items:center;gap:4px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Dashboard
+      </a>
+    </div>
+
     <!-- SIDEBAR -->
     <div class="sidebar">
       <div class="brand">
@@ -34,9 +43,35 @@
         <a href="track.html"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></span> Track Issue</a>
         <a href="history.html" class="active"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span> Previous Issues</a>
         <a href="reward.html"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></span> Rewards</a>
+        <a href="settings.html"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Settings</a>
+        <a href="guidelines.html"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span> Help</a>
       </div>
       <a href="index.html" class="logout"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span> Logout</a>
     </div>
+
+    <!-- BOTTOM TAB BAR -->
+    <nav class="bottom-tabs">
+      <a href="dashboard.html" class="tab">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <span>Home</span>
+      </a>
+      <a href="complaint.html" class="tab">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        <span>Report</span>
+      </a>
+      <a href="track.html" class="tab">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Track</span>
+      </a>
+      <a href="history.html" class="tab active">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span>History</span>
+      </a>
+      <a href="reward.html" class="tab">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/></svg>
+        <span>Rewards</span>
+      </a>
+    </nav>
 
     <!-- MAIN CONTENT -->
     <div class="main">
@@ -47,10 +82,10 @@
           <p>Review all your civic reports and their resolution status</p>
         </div>
         <div class="history-stats">
-          <span class="h-stat"><strong id="hStatTotal">5</strong> Total</span>
-          <span class="h-stat resolved"><strong id="hStatResolved">3</strong> Resolved</span>
-          <span class="h-stat progress"><strong id="hStatProgress">1</strong> In Progress</span>
-          <span class="h-stat pending"><strong id="hStatReported">1</strong> Reported</span>
+          <span class="h-stat"><strong id="hStatTotal">0</strong> Total</span>
+          <span class="h-stat resolved"><strong id="hStatResolved">0</strong> Resolved</span>
+          <span class="h-stat progress"><strong id="hStatProgress">0</strong> In Progress</span>
+          <span class="h-stat pending"><strong id="hStatReported">0</strong> Reported</span>
         </div>
       </div>
 
@@ -68,93 +103,11 @@
         <!-- Dynamic user-submitted reports injected here -->
         <div id="dynamicIssues"></div>
 
-        <div class="issue-row" data-status="resolved">
-          <div class="issue-row-left">
-            <span class="issue-badge resolved"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span></span>
-            <div class="issue-info">
-              <p class="issue-title">Pothole / Road Damage</p>
-              <p class="issue-location"><span class="icon-inline" style="margin-right: 2px;"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></span> FC Road, Pune</p>
-            </div>
-          </div>
-          <div class="issue-row-mid">
-            <p class="issue-ref">CF-M5K2X</p>
-            <p class="issue-date">Apr 2, 2026</p>
-          </div>
-          <div class="issue-row-right">
-            <span class="status-pill resolved">Resolved</span>
-            <span class="pts-earned">+20 pts</span>
-          </div>
-        </div>
-
-        <div class="issue-row" data-status="resolved">
-          <div class="issue-row-left">
-            <span class="issue-badge resolved"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span></span>
-            <div class="issue-info">
-              <p class="issue-title">Garbage / Illegal Dumping</p>
-              <p class="issue-location"><span class="icon-inline" style="margin-right: 2px;"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></span> Baner, Pune</p>
-            </div>
-          </div>
-          <div class="issue-row-mid">
-            <p class="issue-ref">CF-T3N9Q</p>
-            <p class="issue-date">Apr 5, 2026</p>
-          </div>
-          <div class="issue-row-right">
-            <span class="status-pill resolved">Resolved</span>
-            <span class="pts-earned">+20 pts</span>
-          </div>
-        </div>
-
-        <div class="issue-row" data-status="in-progress">
-          <div class="issue-row-left">
-            <span class="issue-badge progress"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span></span>
-            <div class="issue-info">
-              <p class="issue-title">Streetlight Outage</p>
-              <p class="issue-location"><span class="icon-inline" style="margin-right: 2px;"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></span> FC Road, Pune</p>
-            </div>
-          </div>
-          <div class="issue-row-mid">
-            <p class="issue-ref">CF-R8J1P</p>
-            <p class="issue-date">Apr 10, 2026</p>
-          </div>
-          <div class="issue-row-right">
-            <span class="status-pill progress">In Progress</span>
-            <a href="track.html" class="track-link">Track →</a>
-          </div>
-        </div>
-
-        <div class="issue-row" data-status="resolved">
-          <div class="issue-row-left">
-            <span class="issue-badge resolved"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span></span>
-            <div class="issue-info">
-              <p class="issue-title">Water Leakage / Flooding</p>
-              <p class="issue-location"><span class="icon-inline" style="margin-right: 2px;"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></span> Kothrud, Pune</p>
-            </div>
-          </div>
-          <div class="issue-row-mid">
-            <p class="issue-ref">CF-A1B2C</p>
-            <p class="issue-date">Mar 28, 2026</p>
-          </div>
-          <div class="issue-row-right">
-            <span class="status-pill resolved">Resolved</span>
-            <span class="pts-earned">+20 pts</span>
-          </div>
-        </div>
-
-        <div class="issue-row" data-status="reported">
-          <div class="issue-row-left">
-            <span class="issue-badge reported"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span></span>
-            <div class="issue-info">
-              <p class="issue-title">Pothole / Road Damage</p>
-              <p class="issue-location"><span class="icon-inline" style="margin-right: 2px;"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></span> Hadapsar, Pune</p>
-            </div>
-          </div>
-          <div class="issue-row-mid">
-            <p class="issue-ref">CF-Z9Y8X</p>
-            <p class="issue-date">Apr 11, 2026</p>
-          </div>
-          <div class="issue-row-right">
-            <span class="status-pill reported">Reported</span>
-          </div>
+        <!-- Empty state -->
+        <div id="emptyHistory" style="text-align:center;padding:40px 0;color:var(--text-muted);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <p style="margin:12px 0 4px;font-size:15px;font-weight:600;color:var(--navy);">No reports yet</p>
+          <p style="font-size:13px;">Your submitted issues will appear here</p>
         </div>
 
       </div>
@@ -168,9 +121,10 @@
       // ── Inject user-submitted reports ────────────────────────
       const reports = JSON.parse(localStorage.getItem('civicReports') || '[]');
       const container = document.getElementById('dynamicIssues');
+      const emptyState = document.getElementById('emptyHistory');
 
-      // Counters — defaults from hardcoded rows
-      let total = 5, resolved = 3, progress = 1, reported = 1;
+      // Counters — start at 0 (no hardcoded rows)
+      let total = 0, resolved = 0, progress = 0, reported = 0;
 
       reports.forEach(r => {
         const statusMap = {
@@ -208,6 +162,9 @@
         else if (r.status === 'in-progress') progress++;
         else reported++;
       });
+
+      // Hide/show empty state
+      if (emptyState) emptyState.style.display = reports.length > 0 ? 'none' : 'block';
 
       // Update header stats
       document.getElementById('hStatTotal').textContent = total;

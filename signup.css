@@ -168,3 +168,53 @@
 .extra-text a:hover {
   text-decoration: underline;
 }
+
+/* ── RESPONSIVE — MOBILE ──────────────────────────────── */
+@media (max-width: 768px) {
+  .login-content {
+    padding: 16px;
+  }
+  .login-box {
+    padding: 28px 22px;
+    max-width: 100%;
+  }
+  .login-box h2 {
+    font-size: 20px;
+  }
+  .login-box p {
+    font-size: 14px;
+  }
+  .login-box input {
+    padding: 14px 15px;
+    font-size: 16px;
+  }
+  .gov-banner .container {
+    padding: 0 16px;
+    font-size: 11px;
+  }
+  .floating-orb.orb-1 {
+    width: 200px;
+    height: 200px;
+  }
+  .floating-orb.orb-2 {
+    width: 150px;
+    height: 150px;
+  }
+  .floating-orb.orb-3 {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-box {
+    padding: 24px 16px;
+    border-radius: 4px;
+  }
+  .login-box h2 {
+    font-size: 18px;
+  }
+  .extra-text {
+    font-size: 13px;
+  }
+}

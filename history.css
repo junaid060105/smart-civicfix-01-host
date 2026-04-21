@@ -213,10 +213,17 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+  .back-link {
+    display: none;
+  }
+  .main {
+    padding-bottom: 120px;
+  }
   .issue-row {
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+    gap: 10px;
+    padding: 14px 16px;
   }
   .issue-row-mid {
     text-align: left;
@@ -229,5 +236,48 @@
   }
   .history-header {
     flex-direction: column;
+  }
+  .history-header h2 {
+    font-size: 22px;
+  }
+  .filter-btn {
+    padding: 7px 14px;
+    font-size: 12px;
+  }
+  .issue-title {
+    white-space: normal;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .issue-row {
+    padding: 12px;
+  }
+  .issue-badge {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+  .issue-title {
+    font-size: 12px;
+  }
+  .issue-ref {
+    font-size: 12px;
+  }
+  .status-pill {
+    font-size: 10px;
+    padding: 3px 10px;
+  }
+  .h-stat {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+  .filter-btn {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+  .history-header h2 {
+    font-size: 20px;
   }
 }

@@ -10,6 +10,32 @@ function goDashboard() {
   window.location.href = "dashboard.html";
 }
 
+// ── Social login (Google / Apple) ──────────────────────
+function socialLogin(provider) {
+  const btn = event.currentTarget;
+  const originalText = btn.innerHTML;
+
+  // Show loading state
+  btn.disabled = true;
+  btn.innerHTML = `
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite">
+      <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+    </svg>
+    Connecting to ${provider === 'google' ? 'Google' : 'Apple'}...
+  `;
+
+  // Simulate OAuth redirect delay
+  setTimeout(() => {
+    localStorage.setItem('civicUser', JSON.stringify({
+      name: provider === 'google' ? 'Google User' : 'Apple User',
+      email: provider === 'google' ? 'user@gmail.com' : 'user@icloud.com',
+      provider: provider,
+      loginTime: Date.now()
+    }));
+    window.location.href = 'dashboard.html';
+  }, 1500);
+}
+
 function signup(event) {
   event.preventDefault();
 
@@ -151,6 +177,17 @@ function removeImage() {
 function submitIssue(event) {
   event.preventDefault();
 
+  // ── 3-issue limit ────────────────────────────────────
+  const existingReports = JSON.parse(localStorage.getItem("civicReports") || "[]");
+  if (existingReports.length >= 3) {
+    const errBox = document.getElementById("errorLimitMsg");
+    if (errBox) {
+      errBox.style.display = "block";
+      errBox.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    return;
+  }
+
   // Generate a random reference ID
   const refId = "CF-" + Date.now().toString(36).toUpperCase() + Math.floor(Math.random() * 1000);
 
@@ -165,19 +202,31 @@ function submitIssue(event) {
   const location = locInput ? locInput.value : (form.querySelector("input[type='text']").value || "Not specified");
   const today = new Date().toLocaleDateString("en-IN", { year: "numeric", month: "short", day: "numeric" });
 
-  // ── Persist report to localStorage ──────────────────────────
-  const report = {
-    refId: refId,
-    issueType: issueType,
-    location: location,
-    date: today,
-    status: "reported",          // reported | in-progress | resolved
-    timestamp: Date.now()
-  };
+  // ── Convert image to base64 for storage ─────────────────────
+  function saveReport(imageBase64) {
+    const report = {
+      refId: refId,
+      issueType: issueType,
+      location: location,
+      date: today,
+      status: "reported",
+      timestamp: Date.now(),
+      image: imageBase64 || null
+    };
 
-  const existing = JSON.parse(localStorage.getItem("civicReports") || "[]");
-  existing.unshift(report);      // newest first
-  localStorage.setItem("civicReports", JSON.stringify(existing));
+    const existing = JSON.parse(localStorage.getItem("civicReports") || "[]");
+    existing.unshift(report);
+    localStorage.setItem("civicReports", JSON.stringify(existing));
+
+    // ── Award +20 civic points ─────────────────────────
+    let currentPts = parseInt(localStorage.getItem("civicPoints")) || 0;
+    currentPts += 20;
+    localStorage.setItem("civicPoints", String(currentPts));
+
+    showSuccess();
+  }
+
+  function showSuccess() {
 
   // Hide all form fields and the submit button
   const fields = form.querySelectorAll(".form-group, button[type='submit'], .subtitle");
@@ -195,12 +244,96 @@ function submitIssue(event) {
 
   // Show success panel
   document.getElementById("submitSuccess").style.display = "block";
+
+  // ── Confetti burst ──────────────────────────────────
+  const canvas = document.getElementById("confettiCanvas");
+  if (canvas) {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const ctx = canvas.getContext("2d");
+    const colors = ["#10b981","#3b82f6","#f59e0b","#ef4444","#8b5cf6","#ec4899"];
+    const particles = [];
+    for (let i = 0; i < 120; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: -10 - Math.random() * 100,
+        w: 6 + Math.random() * 6,
+        h: 4 + Math.random() * 4,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        vx: (Math.random() - 0.5) * 4,
+        vy: 2 + Math.random() * 4,
+        rot: Math.random() * 360,
+        rotV: (Math.random() - 0.5) * 10
+      });
+    }
+    let frames = 0;
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rot * Math.PI) / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.1;
+        p.rot += p.rotV;
+      });
+      frames++;
+      if (frames < 120) requestAnimationFrame(drawConfetti);
+      else { ctx.clearRect(0, 0, canvas.width, canvas.height); canvas.remove(); }
+    }
+    drawConfetti();
+  }
+  } // end showSuccess
+
+  // ── Read image and save report ────────────────────────────
+  if (selectedImageFile) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const img = new Image();
+      img.onload = function () {
+        const c = document.createElement("canvas");
+        const maxW = 400;
+        const scale = maxW / img.width;
+        c.width = maxW;
+        c.height = img.height * scale;
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        saveReport(c.toDataURL("image/jpeg", 0.6));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(selectedImageFile);
+  } else {
+    saveReport(null);
+  }
 }
 
 // ----------------------------------------------------
 // FRONTEND DYNAMIC INTERACTIONS (INDEX PAGE ONLY)
 // ----------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
+
+  // ── 0. Hamburger Menu Toggle ─────────────────────
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const navButtons = document.getElementById('navButtons');
+  if (hamburgerBtn && navButtons) {
+    hamburgerBtn.addEventListener('click', () => {
+      navButtons.classList.toggle('open');
+    });
+  }
+
+  // ── 0b. Gallery clone visibility ─────────────────
+  // Hide duplicate cards on desktop, show on mobile for infinite scroll
+  function updateGalleryClones() {
+    const clones = document.querySelectorAll('.gallery-clone');
+    const isMobile = window.innerWidth <= 768;
+    clones.forEach(c => c.style.display = isMobile ? '' : 'none');
+  }
+  updateGalleryClones();
+  window.addEventListener('resize', updateGalleryClones);
 
   // ── 1. Animated Counters ─────────────────────────
   // Runs once when the .hero-counters block enters the viewport
@@ -234,7 +367,7 @@ document.addEventListener("DOMContentLoaded", () => {
     counters.forEach(c => observer.observe(c));
   }
 
-  // ── 2. Scroll-linked Image Row ────────────────────────
+  // ── 2. Scroll-linked Image Row (DESKTOP ONLY) ────────────────────────
   const galRow = document.getElementById("galRow");
   const galSection = document.querySelector(".gallery-scroll-container");
   let maxShift = 0;
@@ -242,17 +375,29 @@ document.addEventListener("DOMContentLoaded", () => {
   let targetShift = 0;
   let rafId = null;
 
+  function isMobileView() {
+    return window.innerWidth <= 768;
+  }
+
   function calcMax() {
-    if (galRow && galSection) {
+    if (galRow && galSection && !isMobileView()) {
       maxShift = Math.max(0, galRow.scrollWidth - window.innerWidth);
     }
   }
 
   calcMax();
-  window.addEventListener("resize", calcMax);
+  window.addEventListener("resize", () => {
+    calcMax();
+    // Reset transform on mobile
+    if (isMobileView() && galRow) {
+      galRow.style.transform = '';
+      currentShift = 0;
+      targetShift = 0;
+    }
+  });
 
   window.addEventListener("scroll", () => {
-    if (!galRow || !galSection) return;
+    if (!galRow || !galSection || isMobileView()) return;
 
     const rect = galSection.getBoundingClientRect();
     const sectionHeight = galSection.offsetHeight;
@@ -268,6 +413,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function animate() {
+    if (isMobileView()) {
+      rafId = null;
+      return;
+    }
     // lerp — 0.08 = smooth & satisfying, increase for snappier
     currentShift += (targetShift - currentShift) * 0.08;
 
@@ -347,6 +496,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const displayText = document.getElementById("locationDisplayText");
         displayText.textContent = "Fetching address...";
+        const searchInput = document.getElementById("mapSearchInput");
 
         // Reverse geocoding using OpenStreetMap Nominatim
         fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
@@ -355,10 +505,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const addr = (data && data.display_name) ? data.display_name : `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
             pickerMap._tempAddress = addr;
             displayText.textContent = addr.split(",")[0] + "...";
+            if (searchInput) searchInput.value = addr;
           })
           .catch(() => {
-            pickerMap._tempAddress = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+            const fallback = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+            pickerMap._tempAddress = fallback;
             displayText.textContent = "Location selected";
+            if (searchInput) searchInput.value = fallback;
           });
       });
     }
