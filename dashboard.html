@@ -17,6 +17,11 @@
     .sidebar-links a .icon-inline, .logout .icon-inline { flex-shrink: 0; }
     .activity-badge .icon-inline svg { width: 18px; height: 18px; }
   </style>
+  <script>
+    if (localStorage.getItem('civicTheme') === 'dark') {
+      document.documentElement.classList.add('dark-mode');
+    }
+  </script>
 </head>
 
 <body>
@@ -34,6 +39,9 @@
     <div class="mobile-header">
       <h2>Smart CivicFix</h2>
       <div style="display:flex;align-items:center;gap:10px;">
+        <div class="theme-toggle-wrapper" style="position: static; transform: scale(0.8);">
+          <button class="theme-toggle" aria-label="Toggle Dark Mode" onclick="toggleDarkMode()"></button>
+        </div>
         <div class="mobile-points-pill">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           <strong id="mobilePoints">0</strong>
@@ -111,9 +119,14 @@
           <h2 id="dashGreeting">Welcome back, Citizen!</h2>
           <p>Your current civic standing and actions</p>
         </div>
-        <div class="points-badge">
-          <span>Civic Points</span>
-          <strong id="dashboardPoints">0</strong>
+        <div style="display: flex; gap: 20px; align-items: center;">
+          <div class="theme-toggle-wrapper" style="position: static;">
+            <button class="theme-toggle" aria-label="Toggle Dark Mode" onclick="toggleDarkMode()"></button>
+          </div>
+          <div class="points-badge">
+            <span>Civic Points</span>
+            <strong id="dashboardPoints">0</strong>
+          </div>
         </div>
       </div>
 
@@ -256,6 +269,7 @@
       if (greetEl) greetEl.textContent = `${greeting}, Citizen! ${emoji}`;
     })();
   </script>
+  <script src="script.js"></script>
 
 </body>
 

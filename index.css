@@ -17,6 +17,142 @@
   --white: #ffffff;
 }
 
+:root.dark-mode {
+  --navy: #0f172a; /* Keep as dark background color */
+  --blue: #3b82f6;
+  --white: #1e293b; /* Darker white for cards */
+  --gray-light: #020617;
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --gray-border: #334155;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Global Dark Mode Text Overrides */
+:root.dark-mode h1, 
+:root.dark-mode h2, 
+:root.dark-mode h3, 
+:root.dark-mode h4, 
+:root.dark-mode h5, 
+:root.dark-mode h6,
+:root.dark-mode .top-bar h2,
+:root.dark-mode .section-heading,
+:root.dark-mode .track-box h2,
+:root.dark-mode .rewards-box h2,
+:root.dark-mode .settings-box h2,
+:root.dark-mode .report-box h2,
+:root.dark-mode label,
+:root.dark-mode strong,
+:root.dark-mode .issue-title,
+:root.dark-mode .issue-ref {
+  color: #f8fafc !important;
+}
+
+:root.dark-mode .subtitle,
+:root.dark-mode p {
+  color: #94a3b8 !important;
+}
+
+/* Global Dark Mode Overrides */
+:root.dark-mode input:not([type="checkbox"]), 
+:root.dark-mode select, 
+:root.dark-mode textarea {
+  background-color: #1e293b !important;
+  color: #f1f5f9 !important;
+  border-color: #334155 !important;
+}
+
+:root.dark-mode input::placeholder {
+  color: #64748b !important;
+}
+
+:root.dark-mode .card, 
+:root.dark-mode .track-box, 
+:root.dark-mode .rewards-box,
+:root.dark-mode .settings-box,
+:root.dark-mode .report-box {
+  background-color: #0f172a !important;
+  border-color: #334155 !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+}
+
+:root.dark-mode .status-card, 
+:root.dark-mode .reward-card,
+:root.dark-mode .complaint-item {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+:root.dark-mode .points-header,
+:root.dark-mode .points-badge {
+  background-color: #1e293b !important;
+  color: #f1f5f9 !important;
+  border-color: #334155 !important;
+}
+
+:root.dark-mode .gov-banner {
+  background: #020617;
+  color: #cbd5e1;
+}
+:root.dark-mode .gov-banner img {
+  filter: brightness(0) invert(1);
+}
+:root.dark-mode .nav-logo {
+  filter: brightness(0) invert(1);
+}
+
+/* ── SMOOTH THEME TRANSITIONS ── */
+body, .sidebar, .main, div[class*="-card"], .quick-report-bar, .login-box, .bottom-tabs, .mobile-header, .top-bar, .legal-header, .legal-content {
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* ── iOS STYLE THEME TOGGLE ── */
+.theme-toggle-wrapper {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+}
+.theme-toggle {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 60px;
+  height: 32px;
+  background: #e2e8f0;
+  border-radius: 32px;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+  border: 2px solid transparent;
+  transition: background 0.4s ease;
+  margin: 0;
+}
+.theme-toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Sun Icon */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%23f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+:root.dark-mode .theme-toggle {
+  background: #3b82f6;
+}
+:root.dark-mode .theme-toggle::after {
+  transform: translateX(28px);
+  /* Moon Icon */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%231e293b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>');
+}
+
 /* ── RESET ───────────────────────────────────────────────── */
 *,
 *::before,

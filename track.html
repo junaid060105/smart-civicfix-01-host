@@ -15,6 +15,11 @@
     .icon-inline { display: inline-flex; align-items: center; vertical-align: middle; }
     .icon-inline svg { width: 1em; height: 1em; stroke-width: 1.8; }
   </style>
+  <script>
+    if (localStorage.getItem('civicTheme') === 'dark') {
+      document.documentElement.classList.add('dark-mode');
+    }
+  </script>
 </head>
 
 <body class="track-page">

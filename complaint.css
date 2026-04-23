@@ -734,3 +734,36 @@
     height: 220px !important;
   }
 }
+
+/* ── DARK MODE OVERRIDES ── */
+:root.dark-mode .report-box {
+  background-color: #0f172a;
+  border-color: #334155;
+}
+:root.dark-mode .form-control,
+:root.dark-mode input,
+:root.dark-mode select,
+:root.dark-mode textarea {
+  background-color: #1e293b !important;
+  color: #f1f5f9 !important;
+  border-color: #334155 !important;
+}
+:root.dark-mode .location-btn {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #94a3b8 !important;
+}
+:root.dark-mode .picker-card {
+  background-color: #1e293b;
+  border-color: #334155;
+}
+:root.dark-mode .modal-content {
+  background-color: #0f172a;
+  color: #f1f5f9;
+}
+:root.dark-mode .map-header {
+  border-bottom-color: #334155;
+}
+:root.dark-mode .map-footer {
+  border-top-color: #334155;
+}

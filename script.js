@@ -1,3 +1,22 @@
+// ── Global Dark Mode ──────────────────────────────────────
+function initTheme() {
+  const path = window.location.pathname;
+  if (path.endsWith('index.html') || path === '/' || path.endsWith('/website/')) {
+    document.documentElement.classList.remove('dark-mode');
+    return;
+  }
+  const theme = localStorage.getItem('civicTheme') || 'light';
+  if (theme === 'dark') {
+    document.documentElement.classList.add('dark-mode');
+  }
+}
+initTheme();
+
+function toggleDarkMode() {
+  const isDark = document.documentElement.classList.toggle('dark-mode');
+  localStorage.setItem('civicTheme', isDark ? 'dark' : 'light');
+}
+
 function goLogin() {
   window.location.href = "login.html";
 }
@@ -254,10 +273,8 @@ function submitIssue(event) {
     existing.unshift(report);
     localStorage.setItem("civicReports", JSON.stringify(existing));
 
-    // ── Award +20 civic points ─────────────────────────
-    let currentPts = parseInt(localStorage.getItem("civicPoints")) || 0;
-    currentPts += 20;
-    localStorage.setItem("civicPoints", String(currentPts));
+    // Points are now awarded only upon resolution (via admin or status change)
+    // Removed the automatic +20 points here.
 
     showSuccess();
   }

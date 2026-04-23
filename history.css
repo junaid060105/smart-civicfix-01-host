@@ -281,3 +281,25 @@
     font-size: 20px;
   }
 }
+
+/* ── DARK MODE OVERRIDES ── */
+:root.dark-mode .h-stat {
+  background-color: #1e293b;
+  border-color: #334155;
+  color: #f1f5f9;
+}
+:root.dark-mode .filter-btn {
+  background-color: #1e293b;
+  border-color: #334155;
+}
+:root.dark-mode .issue-row {
+  background-color: #1e293b;
+  border-color: #334155;
+}
+:root.dark-mode .issue-badge.resolved { background: #064e3b; color: #34d399; }
+:root.dark-mode .issue-badge.progress { background: #78350f; color: #fbbf24; }
+:root.dark-mode .issue-badge.reported { background: #1e3a8a; color: #60a5fa; }
+
+:root.dark-mode .status-pill.resolved { background: #064e3b; color: #34d399; }
+:root.dark-mode .status-pill.progress { background: #78350f; color: #fbbf24; }
+:root.dark-mode .status-pill.reported { background: #1e3a8a; color: #60a5fa; }

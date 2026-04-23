@@ -350,3 +350,32 @@
     padding: 5px 10px;
   }
 }
+
+/* ── DARK MODE OVERRIDES ── */
+:root.dark-mode .status-card {
+  background-color: #1e293b;
+  border-color: #334155;
+}
+:root.dark-mode .track-item {
+  border-color: #334155;
+}
+:root.dark-mode .progress::before {
+  background-color: #334155;
+}
+:root.dark-mode .step::before {
+  background-color: #0f172a;
+  border-color: #334155;
+}
+:root.dark-mode .feedback-section {
+  border-color: #334155;
+}
+:root.dark-mode .feedback-form textarea {
+  background-color: #0f172a;
+  color: #f1f5f9;
+  border-color: #334155;
+}
+:root.dark-mode .search-input {
+  background-color: #1e293b;
+  color: #f1f5f9;
+  border-color: #334155;
+}

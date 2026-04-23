@@ -68,7 +68,47 @@
       font-size: 14px;
     }
 
-    /* ── Section ── */
+    /* ── DARK MODE OVERRIDES ── */
+    :root.dark-mode .field-group input {
+      background: #1e293b;
+      color: #f1f5f9;
+      border-color: #334155;
+    }
+    :root.dark-mode .field-group input:focus {
+      background: #0f172a;
+    }
+    :root.dark-mode .field-group input[disabled] {
+      background: #0f172a;
+      opacity: 0.6;
+    }
+    :root.dark-mode .toggle-row {
+      border-color: #334155;
+    }
+    :root.dark-mode .toggle-label strong {
+      color: #f1f5f9;
+    }
+    :root.dark-mode .settings-box,
+    :root.dark-mode .delete-modal {
+      background: #0f172a;
+      border: 1px solid #334155;
+    }
+    :root.dark-mode .delete-modal h3 {
+      color: #f8fafc;
+    }
+    :root.dark-mode .delete-modal p {
+      color: #94a3b8;
+    }
+    :root.dark-mode .delete-input {
+      background: #1e293b;
+      color: #f1f5f9;
+      border-color: #334155;
+    }
+    :root.dark-mode .btn-cancel {
+      background: #1e293b;
+      color: #f1f5f9;
+    }
+
+    /* ── RESPONSIVE ── */
     .settings-section {
       padding: 24px 28px;
       border-bottom: 1px solid var(--gray-border);
@@ -434,6 +474,11 @@
       }
     }
   </style>
+  <script>
+    if (localStorage.getItem('civicTheme') === 'dark') {
+      document.documentElement.classList.add('dark-mode');
+    }
+  </script>
 </head>
 
 <body class="settings-page">
@@ -561,7 +606,7 @@
         Delete Account
       </h3>
       <p>This action cannot be undone. All your reported issues, accumulated points, and personal data will be permanently removed.</p>
-      <p style="color:var(--navy); font-weight:600; margin-bottom:8px;">Please type <strong>DELETE</strong> to confirm.</p>
+      <p style="font-weight:600; margin-bottom:8px;">Please type <strong>DELETE</strong> to confirm.</p>
       <input type="text" class="delete-input" id="deleteConfirmInput" placeholder="Type DELETE here..." oninput="checkDeleteInput()">
       <div class="delete-actions">
         <button class="btn-cancel" onclick="hideDeleteModal()">Cancel</button>
