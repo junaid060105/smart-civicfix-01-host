@@ -359,7 +359,8 @@
     // ── Update remaining issues counter ──────────────
     (function() {
       const reports = JSON.parse(localStorage.getItem('civicReports') || '[]');
-      const remaining = Math.max(0, 3 - reports.length);
+      const activeCount = reports.filter(r => r.status !== 'resolved').length;
+      const remaining = Math.max(0, 3 - activeCount);
       const el = document.getElementById('remainingCount');
       const wrap = document.getElementById('issuesRemaining');
       const errorBox = document.getElementById('errorLimitMsg');

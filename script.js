@@ -11,7 +11,7 @@ function goDashboard() {
 }
 
 // ── Social login (Google / Apple) ──────────────────────
-function socialLogin(provider) {
+function socialLogin(provider, event) {
   const btn = event.currentTarget;
   const originalText = btn.innerHTML;
 
@@ -177,9 +177,10 @@ function removeImage() {
 function submitIssue(event) {
   event.preventDefault();
 
-  // ── 3-issue limit ────────────────────────────────────
+  // ── 3-issue limit (only count active / non-resolved reports) ────────────────────────────────────
   const existingReports = JSON.parse(localStorage.getItem("civicReports") || "[]");
-  if (existingReports.length >= 3) {
+  const activeReports = existingReports.filter(r => r.status !== 'resolved');
+  if (activeReports.length >= 3) {
     const errBox = document.getElementById("errorLimitMsg");
     if (errBox) {
       errBox.style.display = "block";

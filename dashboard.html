@@ -151,8 +151,8 @@
         <!-- Dynamic reports will be injected here -->
         <div id="dynamicActivity"></div>
 
-        <!-- Empty state -->
-        <div id="emptyActivity" style="text-align:center;padding:30px 0;color:var(--text-muted);">
+        <!-- Empty state (hidden by JS when reports exist) -->
+        <div id="emptyActivity" style="display:none;text-align:center;padding:30px 0;color:var(--text-muted);">
           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
           <p style="margin:10px 0 0;font-size:14px;">No reports yet. Submit your first issue!</p>
         </div>
@@ -181,13 +181,12 @@
       }
 
 
-      // ── Points sync (auto-correct from report count) ───────────
+      // ── Points display (read stored value; do NOT overwrite reward deductions) ──
       const reports = JSON.parse(localStorage.getItem('civicReports') || '[]');
-      const correctPoints = reports.length * 20;
-      localStorage.setItem('civicPoints', String(correctPoints));
-      document.getElementById('dashboardPoints').textContent = correctPoints;
+      const storedPoints = parseInt(localStorage.getItem('civicPoints')) || 0;
+      document.getElementById('dashboardPoints').textContent = storedPoints;
       const mobileP = document.getElementById('mobilePoints');
-      if (mobileP) mobileP.textContent = correctPoints;
+      if (mobileP) mobileP.textContent = storedPoints;
 
       // ── Load user-submitted reports ──────────────────────────
 
@@ -227,6 +226,10 @@
         if (r.status === 'in-progress') progressBase++;
         else if (r.status === 'resolved') resolvedBase++;
       });
+
+      // Show empty state only when there are no reports
+      const emptyEl = document.getElementById('emptyActivity');
+      if (emptyEl) emptyEl.style.display = reports.length > 0 ? 'none' : 'block';
 
       // Update stat numbers with count-up animation
       function animateCount(el, target) {
