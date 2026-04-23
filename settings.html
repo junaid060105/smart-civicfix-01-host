@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Account Settings - Smart CivicFix</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="dashboard.css">
+  <style>
+    .icon-inline { display: inline-flex; align-items: center; vertical-align: middle; }
+    .icon-inline svg { width: 1em; height: 1em; stroke-width: 1.8; }
+
+    .settings-page {
+      background: linear-gradient(135deg, #0d2340, #1a3560);
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .settings-container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: clamp(20px, 4vw, 40px) clamp(12px, 3vw, 20px);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: #e2e8f0; }
+
+    .settings-card {
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      overflow: hidden;
+      /* removed animation from here to use staggered instead */
+    }
+
+    .settings-header {
+      padding: 28px 28px 20px;
+      border-bottom: 1px solid var(--gray-border);
+    }
+
+    .settings-header h2 {
+      margin: 0 0 4px;
+      font-size: clamp(20px, 4vw, 24px);
+      font-weight: 800;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .settings-header p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    /* ── DARK MODE OVERRIDES ── */
+    :root.dark-mode .field-group input {
+      background: #1e293b;
+      color: #f1f5f9;
+      border-color: #334155;
+    }
+    :root.dark-mode .field-group input:focus {
+      background: #0f172a;
+    }
+    :root.dark-mode .field-group input[disabled] {
+      background: #0f172a;
+      opacity: 0.6;
+    }
+    :root.dark-mode .toggle-row {
+      border-color: #334155;
+    }
+    :root.dark-mode .toggle-label strong {
+      color: #f1f5f9;
+    }
+    :root.dark-mode .settings-box,
+    :root.dark-mode .delete-modal {
+      background: #0f172a;
+      border: 1px solid #334155;
+    }
+    :root.dark-mode .delete-modal h3 {
+      color: #f8fafc;
+    }
+    :root.dark-mode .delete-modal p {
+      color: #94a3b8;
+    }
+    :root.dark-mode .delete-input {
+      background: #1e293b;
+      color: #f1f5f9;
+      border-color: #334155;
+    }
+    :root.dark-mode .btn-cancel {
+      background: #1e293b;
+      color: #f1f5f9;
+    }
+
+    /* ── RESPONSIVE ── */
+    .settings-section {
+      padding: 24px 28px;
+      border-bottom: 1px solid var(--gray-border);
+    }
+
+    .settings-section:last-child {
+      border-bottom: none;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin: 0 0 16px;
+    }
+
+    /* ── Avatar Row ── */
+    .avatar-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .avatar-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 3px solid var(--blue);
+      padding: 6px;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .avatar-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0.7;
+    }
+
+    .avatar-info h3 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .avatar-info p {
+      margin: 2px 0 0;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ── Form Fields ── */
+    .field-group {
+      margin-bottom: 16px;
+    }
+
+    .field-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .field-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .field-group input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--gray-border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 15px;
+      color: var(--text-main);
+      background: #f8fafc;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+
+    .field-group input:focus {
+      outline: none;
+      border-color: var(--blue);
+      background: var(--white);
+    }
+
+    .field-group input[disabled] {
+      background: #f1f5f9;
+      color: var(--text-muted);
+      cursor: not-allowed;
+    }
+
+    /* ── Toggle Row ── */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .toggle-row:last-child {
+      border-bottom: none;
+    }
+
+    .toggle-label {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .toggle-label strong {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .toggle-label span {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background: #cbd5e1;
+      border-radius: 24px;
+      transition: 0.3s;
+    }
+
+    .toggle-slider::before {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      left: 3px;
+      bottom: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    .toggle-switch input:checked + .toggle-slider {
+      background: var(--blue);
+    }
+
+    .toggle-switch input:checked + .toggle-slider::before {
+      transform: translateX(20px);
+    }
+
+    /* ── Buttons ── */
+    .btn-save {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #1a6fc4, #1558a0);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 20px;
+    }
+
+    .btn-save:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+
+    .btn-save:active {
+      transform: translateY(0);
+    }
+
+    /* ── Danger Zone ── */
+    .danger-zone {
+      background: #fef2f2;
+    }
+
+    .danger-zone .section-title {
+      color: #dc2626;
+    }
+
+    .btn-danger {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background: transparent;
+      color: #dc2626;
+      border: 1.5px solid #fca5a5;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-danger:hover {
+      background: #fee2e2;
+    }
+
+    .save-toast {
+      display: none;
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0f172a;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 1000;
+      animation: toastFadeUp 0.3s ease;
+    }
+
+    @keyframes toastFadeUp {
+      from { opacity: 0; transform: translate(-50%, 10px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+
+    @keyframes cardFadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .stagger-1 { animation: cardFadeUp 0.5s ease 0.1s both; }
+    .stagger-2 { animation: cardFadeUp 0.5s ease 0.2s both; }
+    .stagger-3 { animation: cardFadeUp 0.5s ease 0.3s both; }
+    .stagger-4 { animation: cardFadeUp 0.5s ease 0.4s both; }
+    .stagger-5 { animation: cardFadeUp 0.5s ease 0.5s both; }
+    .stagger-6 { animation: cardFadeUp 0.5s ease 0.6s both; }
+
+    /* ── Delete Confirmation Modal ── */
+    .delete-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .delete-modal {
+      background: white;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      animation: cardFadeUp 0.3s ease;
+    }
+    .delete-modal h3 {
+      margin: 0 0 12px;
+      color: #dc2626;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .delete-modal p {
+      margin: 0 0 20px;
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .delete-input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--gray-border);
+      border-radius: 8px;
+      font-size: 15px;
+      margin-bottom: 20px;
+      font-family: inherit;
+    }
+    .delete-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .btn-cancel {
+      flex: 1;
+      padding: 12px;
+      background: var(--gray-light);
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      color: var(--navy);
+      cursor: pointer;
+    }
+    .btn-confirm-delete {
+      flex: 1;
+      padding: 12px;
+      background: #dc2626;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      color: white;
+      cursor: not-allowed;
+      opacity: 0.5;
+      transition: all 0.2s;
+    }
+    .btn-confirm-delete.active {
+      cursor: pointer;
+      opacity: 1;
+    }
+    .btn-confirm-delete.active:hover {
+      background: #b91c1c;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      .back-link {
+        display: none;
+      }
+      .settings-container {
+        padding: 16px 10px;
+        padding-bottom: 120px;
+      }
+      .settings-header,
+      .settings-section {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .avatar-circle {
+        width: 48px;
+        height: 48px;
+        padding: 5px;
+      }
+      .avatar-info h3 {
+        font-size: 15px;
+      }
+    }
+  </style>
+  <script>
+    if (localStorage.getItem('civicTheme') === 'dark') {
+      document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+</head>
+
+<body class="settings-page">
+
+  <!-- MOBILE TOP HEADER -->
+  <div class="mobile-header">
+    <h2>Smart CivicFix</h2>
+    <a href="dashboard.html" style="color:#94a3b8;text-decoration:none;font-size:13px;font-weight:600;display:flex;align-items:center;gap:4px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Dashboard
+    </a>
+  </div>
+
+  <!-- BOTTOM TAB BAR -->
+  <nav class="bottom-tabs">
+    <a href="dashboard.html" class="tab"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>Home</span></a>
+    <a href="complaint.html" class="tab"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span>Report</span></a>
+    <a href="track.html" class="tab"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Track</span></a>
+    <a href="history.html" class="tab"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>History</span></a>
+    <a href="reward.html" class="tab"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/></svg><span>Rewards</span></a>
+  </nav>
+
+  <div class="settings-container">
+
+    <a href="dashboard.html" class="back-link stagger-1">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Dashboard
+    </a>
+
+    <div class="settings-card">
+
+      <!-- Header -->
+      <div class="settings-header stagger-2">
+        <h2>
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Account Settings
+        </h2>
+        <p>Manage your profile and preferences</p>
+      </div>
+
+      <!-- Profile Section -->
+      <div class="settings-section stagger-3">
+        <p class="section-title">Profile</p>
+        <div class="avatar-row">
+          <div class="avatar-circle">
+            <img src="assets/user.png" alt="User avatar">
+          </div>
+          <div class="avatar-info">
+            <h3 id="avatarName">Citizen User</h3>
+            <p>Member since Apr 2026</p>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Full Name</label>
+          <input type="text" id="settingsName" value="Citizen User">
+        </div>
+        <div class="field-group">
+          <label>Email Address</label>
+          <input type="email" id="settingsEmail" value="citizen@example.com">
+        </div>
+        <div class="field-group">
+          <label>Phone Number</label>
+          <input type="tel" id="settingsPhone" placeholder="+91 XXXXX XXXXX">
+        </div>
+      </div>
+
+      <!-- Notifications -->
+      <div class="settings-section stagger-4">
+        <p class="section-title">Notifications</p>
+        <div class="toggle-row">
+          <div class="toggle-label">
+            <strong>Status Updates</strong>
+            <span>Get notified when your issue status changes</span>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggleStatus" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-label">
+            <strong>Reward Alerts</strong>
+            <span>Notifications for new rewards and points earned</span>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggleRewards" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-label">
+            <strong>Community Updates</strong>
+            <span>Nearby issue reports and resolutions</span>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggleCommunity">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Save -->
+      <div class="settings-section stagger-5">
+        <button class="btn-save" onclick="saveSettings()">Save Changes</button>
+      </div>
+
+      <!-- Danger Zone -->
+      <div class="settings-section danger-zone stagger-6">
+        <p class="section-title">Danger Zone</p>
+        <button class="btn-danger" onclick="showDeleteModal()">Delete My Account</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="save-toast" id="saveToast">✓ Settings saved successfully</div>
+
+
+  <!-- Delete Modal -->
+  <div class="delete-modal-overlay" id="deleteModal" onclick="if(event.target===this) hideDeleteModal()">
+    <div class="delete-modal">
+      <h3>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Delete Account
+      </h3>
+      <p>This action cannot be undone. All your reported issues, accumulated points, and personal data will be permanently removed.</p>
+      <p style="font-weight:600; margin-bottom:8px;">Please type <strong>DELETE</strong> to confirm.</p>
+      <input type="text" class="delete-input" id="deleteConfirmInput" placeholder="Type DELETE here..." oninput="checkDeleteInput()">
+      <div class="delete-actions">
+        <button class="btn-cancel" onclick="hideDeleteModal()">Cancel</button>
+        <button class="btn-confirm-delete" id="confirmDeleteBtn" onclick="executeDelete()">Delete Account</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // ── Load saved settings on page load ──
+    (function () {
+      const saved = JSON.parse(localStorage.getItem('civicSettings') || '{}');
+
+      // Profile fields
+      if (saved.name) {
+        document.getElementById('settingsName').value = saved.name;
+        document.getElementById('avatarName').textContent = saved.name;
+      }
+      if (saved.email) document.getElementById('settingsEmail').value = saved.email;
+      if (saved.phone) document.getElementById('settingsPhone').value = saved.phone;
+
+      // Notifications
+      if (saved.notifStatus !== undefined) document.getElementById('toggleStatus').checked = saved.notifStatus;
+      if (saved.notifRewards !== undefined) document.getElementById('toggleRewards').checked = saved.notifRewards;
+      if (saved.notifCommunity !== undefined) document.getElementById('toggleCommunity').checked = saved.notifCommunity;
+    })();
+
+    function saveSettings() {
+      const nameVal = document.getElementById('settingsName').value;
+      const settings = {
+        name: nameVal,
+        email: document.getElementById('settingsEmail').value,
+        phone: document.getElementById('settingsPhone').value,
+        notifStatus: document.getElementById('toggleStatus').checked,
+        notifRewards: document.getElementById('toggleRewards').checked,
+        notifCommunity: document.getElementById('toggleCommunity').checked
+      };
+
+      localStorage.setItem('civicSettings', JSON.stringify(settings));
+
+      // Live update the avatar name heading
+      document.getElementById('avatarName').textContent = nameVal;
+
+      // Show toast
+      const toast = document.getElementById('saveToast');
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 2500);
+    }
+
+    // ── Delete Account Logic ──
+    function showDeleteModal() {
+      document.getElementById('deleteModal').style.display = 'flex';
+      document.getElementById('deleteConfirmInput').value = '';
+      checkDeleteInput();
+      document.body.style.overflow = 'hidden';
+    }
+
+    function hideDeleteModal() {
+      document.getElementById('deleteModal').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    function checkDeleteInput() {
+      const input = document.getElementById('deleteConfirmInput').value;
+      const btn = document.getElementById('confirmDeleteBtn');
+      if (input === 'DELETE') {
+        btn.classList.add('active');
+        btn.disabled = false;
+      } else {
+        btn.classList.remove('active');
+        btn.disabled = true;
+      }
+    }
+
+    function executeDelete() {
+      // Clear all civic local storage data
+      localStorage.removeItem('civicSettings');
+      localStorage.removeItem('civicReports');
+      localStorage.removeItem('civicPoints');
+      localStorage.removeItem('civicUser');
+
+      // Redirect to home
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+
+</html>

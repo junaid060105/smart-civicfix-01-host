@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Rewards - Smart CivicFix</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="reward.css">
+  <style>
+    .icon-inline {
+      display: inline-flex;
+      align-items: center;
+      vertical-align: middle;
+    }
+
+    .icon-inline svg {
+      width: 1em;
+      height: 1em;
+      stroke-width: 1.8;
+    }
+  </style>
+</head>
+
+<body class="rewards-page">
+
+  <!-- MOBILE TOP HEADER -->
+  <div class="mobile-header">
+    <h2>Smart CivicFix</h2>
+    <a href="dashboard.html"
+      style="color:#94a3b8;text-decoration:none;font-size:13px;font-weight:600;display:flex;align-items:center;gap:4px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+      Dashboard
+    </a>
+  </div>
+
+  <!-- BOTTOM TAB BAR -->
+  <nav class="bottom-tabs">
+    <a href="dashboard.html" class="tab"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <rect x="3" y="3" width="7" height="7" rx="1" />
+        <rect x="14" y="3" width="7" height="7" rx="1" />
+        <rect x="3" y="14" width="7" height="7" rx="1" />
+        <rect x="14" y="14" width="7" height="7" rx="1" />
+      </svg><span>Home</span></a>
+    <a href="complaint.html" class="tab"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 2L11 13" />
+        <path d="M22 2l-7 20-4-9-9-4 20-7z" />
+      </svg><span>Report</span></a>
+    <a href="track.html" class="tab"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" />
+        <circle cx="12" cy="10" r="3" />
+      </svg><span>Track</span></a>
+    <a href="history.html" class="tab"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+      </svg><span>History</span></a>
+    <a href="reward.html" class="tab active"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M20 12v10H4V12" />
+        <path d="M2 7h20v5H2z" />
+        <path d="M12 22V7" />
+      </svg><span>Rewards</span></a>
+  </nav>
+
+  <div class="rewards-container">
+    <div class="rewards-wrapper">
+
+      <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+
+      <div class="rewards-box">
+        <h2><span class="icon-inline" style="margin-right: 6px;"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+              height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M20 12v10H4V12" />
+              <path d="M2 7h20v5H2z" />
+              <path d="M12 22V7" />
+              <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" />
+              <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" />
+            </svg></span> Civic Rewards</h2>
+        <p class="subtitle">Redeem your civic points for exclusive local benefits</p>
+
+        <div class="points-header">
+          <h3>Available Points</h3>
+          <div class="points-badge" id="pointsBadge">0 pts</div>
+        </div>
+
+        <div class="rewards-grid">
+
+          <div class="reward-card" id="reward-coffee">
+            <div class="reward-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 8h1a4 4 0 1 1 0 8h-1" />
+                <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z" />
+                <line x1="6" y1="2" x2="6" y2="4" />
+                <line x1="10" y1="2" x2="10" y2="4" />
+                <line x1="14" y1="2" x2="14" y2="4" />
+              </svg></div>
+            <div class="reward-info">
+              <h4>Free Local Coffee</h4>
+              <p>Redeemable at participating municipal cafes.</p>
+            </div>
+            <button class="btn-primary redeem-btn" data-cost="50" data-reward="coffee">Redeem (50 pts)</button>
+            <div class="coupon-reveal" style="display:none;">
+              <p class="coupon-label"><span class="icon-inline" style="margin-right: 4px;"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                      d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                  </svg></span> Your coupon code</p>
+              <p class="coupon-code" id="code-coffee"></p>
+              <p class="coupon-note">Show this code at any participating cafe</p>
+            </div>
+          </div>
+
+          <div class="reward-card" id="reward-movie">
+            <div class="reward-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <path d="M2 10h20" />
+                <path d="M7 4v16" />
+              </svg></div>
+            <div class="reward-info">
+              <h4>Movie Ticket Discount</h4>
+              <p>50% off at the community theater.</p>
+            </div>
+            <button class="btn-primary redeem-btn" data-cost="100" data-reward="movie">Redeem (100 pts)</button>
+            <div class="coupon-reveal" style="display:none;">
+              <p class="coupon-label"><span class="icon-inline" style="margin-right: 4px;"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                      d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                  </svg></span> Your coupon code</p>
+              <p class="coupon-code" id="code-movie"></p>
+              <p class="coupon-note">Show this code at the theater box office</p>
+            </div>
+          </div>
+
+          <div class="reward-card" id="reward-transit">
+            <div class="reward-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 6v6" />
+                <path d="M15 6v6" />
+                <path d="M2 12h19.6" />
+                <path
+                  d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3" />
+                <circle cx="7" cy="18" r="2" />
+                <path d="M9 18h5" />
+                <circle cx="16" cy="18" r="2" />
+              </svg></div>
+            <div class="reward-info">
+              <h4>Day Transit Pass</h4>
+              <p>Unlimited rides on the city bus network.</p>
+            </div>
+            <button class="btn-primary redeem-btn" data-cost="200" data-reward="transit">Redeem (200 pts)</button>
+            <div class="coupon-reveal" style="display:none;">
+              <p class="coupon-label"><span class="icon-inline" style="margin-right: 4px;"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                      d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                  </svg></span> Your coupon code</p>
+              <p class="coupon-code" id="code-transit"></p>
+              <p class="coupon-note">Show this code to the bus conductor</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation modal -->
+  <div id="confirmModal" class="confirm-overlay" style="display:none;">
+    <div class="confirm-box">
+      <p class="confirm-title">Redeem Reward?</p>
+      <p class="confirm-msg" id="confirmMsg"></p>
+      <div class="confirm-actions">
+        <button class="btn-primary" id="confirmYes">Yes, Redeem</button>
+        <button class="btn-secondary confirm-no" id="confirmNo">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // Read persisted points from localStorage (default 0 for new users)
+    let points = parseInt(localStorage.getItem('civicPoints')) || 0;
+    let pendingBtn = null;
+
+    const modal = document.getElementById('confirmModal');
+    const confirmMsg = document.getElementById('confirmMsg');
+    const confirmYes = document.getElementById('confirmYes');
+    const confirmNo = document.getElementById('confirmNo');
+
+    function updateButtons() {
+      const badge = document.getElementById('pointsBadge');
+      badge.textContent = points + ' pts';
+
+      document.querySelectorAll('.redeem-btn').forEach(btn => {
+        const cost = parseInt(btn.dataset.cost);
+        if (cost > points) {
+          btn.disabled = true;
+          btn.classList.remove('btn-primary');
+          btn.classList.add('btn-secondary');
+          btn.style.opacity = '0.5';
+          btn.style.borderColor = 'var(--gray-border)';
+          btn.style.color = 'var(--text-muted)';
+        }
+      });
+    }
+
+    // Click redeem → show confirmation
+    document.querySelectorAll('.redeem-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cost = parseInt(btn.dataset.cost);
+        if (cost > points) return;
+
+        pendingBtn = btn;
+        const name = btn.closest('.reward-card').querySelector('h4').textContent;
+        confirmMsg.textContent = `Spend ${cost} points to redeem "${name}"?`;
+        modal.style.display = 'flex';
+      });
+    });
+
+    // Confirm YES
+    confirmYes.addEventListener('click', () => {
+      if (!pendingBtn) return;
+
+      const cost = parseInt(pendingBtn.dataset.cost);
+      const rewardKey = pendingBtn.dataset.reward;
+
+      points -= cost;
+      // Persist updated points to localStorage
+      localStorage.setItem('civicPoints', points.toString());
+      updateButtons();
+
+      const code = 'CF-' + rewardKey.toUpperCase() + '-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+      document.getElementById('code-' + rewardKey).textContent = code;
+
+      pendingBtn.style.display = 'none';
+      pendingBtn.nextElementSibling.style.display = 'block';
+
+      pendingBtn = null;
+      modal.style.display = 'none';
+    });
+
+    // Confirm NO
+    confirmNo.addEventListener('click', () => {
+      pendingBtn = null;
+      modal.style.display = 'none';
+    });
+
+    // Close on overlay click
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        pendingBtn = null;
+        modal.style.display = 'none';
+      }
+    });
+
+    updateButtons();
+  </script>
+</body>
+
+</html>

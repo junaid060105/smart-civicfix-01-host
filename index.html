@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Smart CivicFix - Official Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="index.css">
+  <style>
+    .icon-inline { display: inline-flex; align-items: center; vertical-align: middle; }
+    .icon-inline svg { width: 1em; height: 1em; stroke-width: 1.8; }
+  </style>
+</head>
+
+<body>
+
+  <div class="gov-banner">
+    <div class="container">
+      <span class="flag-icon icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/><line x1="2" y1="22" x2="22" y2="22"/><rect x="2" y="18" width="20" height="4"/><rect x="2" y="7" width="20" height="4"/></svg></span>
+      <span class="banner-text">An official platform of the municipal government</span>
+    </div>
+  </div>
+
+  <header class="navbar">
+    <div class="container nav-container">
+      <div class="brand">
+        <h2>Smart CivicFix</h2>
+
+      </div>
+      <div class="nav-buttons">
+        <button class="btn-ghost" onclick="goLogin()">Sign in</button>
+        <button class="btn-primary" onclick="goSignup()">Create account</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1>Civic Issue Reporting System</h1>
+          <p class="lead">Report non-emergency municipal issues, track progress, and contribute to the improvement of
+            your local community.</p>
+
+          <div class="hero-buttons">
+            <button class="btn-primary btn-large" onclick="goLogin()">Start a report</button>
+            <button class="btn-secondary btn-large" onclick="window.location.href='guidelines-public.html'">View
+              guidelines</button>
+          </div>
+
+          <div class="hero-counters">
+            <div class="counter-item">
+              <span class="counter-number" data-target="14245">0</span>
+              <span class="counter-label">Issues Reported</span>
+            </div>
+            <div class="counter-divider"></div>
+            <div class="counter-item">
+              <span class="counter-number" data-target="9874">0</span>
+              <span class="counter-label">Issues Resolved</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="info-section">
+      <div class="container">
+        <h2>How Smart CivicFix Works</h2>
+        <div class="info-grid">
+          <div class="card">
+            <h3>Report an Issue</h3>
+            <p>Submit photos and details of issues like potholes, broken streetlights, or illegal dumping.</p>
+          </div>
+          <div class="card">
+            <h3>Track Progress</h3>
+            <p>Receive updates as municipal workers review and resolve your reported issues.</p>
+          </div>
+          <div class="card">
+            <h3>Community Dashboard</h3>
+            <p>View public statistics on issue resolution times and active maintenance projects.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery-scroll-container">
+      <div class="community-gallery">
+        <div class="container">
+          <div class="section-title text-center" style="margin-bottom: 10px;">
+            <h2>Recent Community Improvements</h2>
+            <p>Live uploads from citizens making a difference</p>
+          </div>
+          <div class="gallery-grid collapsed" id="galleryGrid">
+            <div class="gallery-card">
+              <img src="assets/c1.png" alt="Fixed road">
+              <div class="gallery-caption">Pothole Fixed — Kothrud</div>
+            </div>
+            <div class="gallery-card">
+              <img src="assets/c2.png" alt="Clean park">
+              <div class="gallery-caption">Waste Cleaned — FC Road</div>
+            </div>
+            <div class="gallery-card">
+              <img src="assets/c1.png" alt="Streetlight">
+              <div class="gallery-caption">Streetlight Repaired — Shivajinagar</div>
+            </div>
+            <div class="gallery-card">
+              <img src="assets/c2.png" alt="Drainage">
+              <div class="gallery-caption">Drainage Cleared — Baner</div>
+            </div>
+            <div class="gallery-card">
+              <img src="assets/c1.png" alt="Pipeline">
+              <div class="gallery-caption">Pipeline Fixed — Aundh</div>
+            </div>
+            <div class="gallery-card">
+              <img src="assets/c2.png" alt="Park">
+              <div class="gallery-caption">Park Restored — Viman Nagar</div>
+            </div>
+            <div class="gallery-card">
+              <img src="assets/c1.png" alt="Road">
+              <div class="gallery-caption">Road Patched — Hadapsar</div>
+            </div>
+            <div class="gallery-card">
+              <img src="assets/c2.png" alt="Footpath">
+              <div class="gallery-caption">Footpath Fixed — Koregaon Park</div>
+            </div>
+          </div>
+          <div style="text-align:center; margin-top:24px;">
+            <button class="btn-view-all" id="viewAllBtn" onclick="toggleGallery()">
+              View All
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" id="viewAllChevron" style="transition:transform 0.3s"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    </section>
+
+    <section class="impact-map section-padding bg-navy text-white">
+      <div class="container map-layout">
+        <div class="map-text">
+          <h2 style="color: white; font-size: 36px; margin-top: 0;">Making India Better <span class="icon-inline" style="margin-left: 6px;"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/><path d="M12 3v18"/><path d="M3 12h18"/><path d="M12 3a15.3 15.3 0 0 1 4 9 15.3 15.3 0 0 1-4 9"/><path d="M12 3a15.3 15.3 0 0 0-4 9 15.3 15.3 0 0 0 4 9"/></svg></span></h2>
+          <p class="lead" style="color: #cbd5e1; font-size: 18px; margin-bottom: 30px;">Smart CivicFix is actively
+            resolving civic infrastructure issues across the country.</p>
+          <ul class="impact-stats">
+            <li><strong>42</strong> Associated Municipalities</li>
+            <li><strong>₹12Cr+</strong> Infrastructure Savings</li>
+            <li><strong>24hr</strong> Avg. Response Time</li>
+          </ul>
+        </div>
+        <div id="indiaMap">
+          <!-- Leaflet attaches here -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <h2>Smart CivicFix</h2>
+          <p>Built for responsive municipalities.</p>
+        </div>
+        <div class="footer-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="accessibility.html">Accessibility Statement</a>
+          <a href="terms.html">Terms of Service</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Smart CivicFix Platform</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
