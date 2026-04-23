@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Smart CivicFix</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Public Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0a1628 0%, #122a4e 50%, #0d1f3c 100%);
+      min-height: 100vh;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at top, rgba(255,255,255,0.18), transparent 35%),
+                  linear-gradient(180deg, rgba(255,255,255,0.06), transparent 60%);
+      opacity: 0.55;
+    }
+
+    .login-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+      z-index: 1;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .login-header .logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(45deg, #005ea2, #0071bc);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+    }
+
+    .login-header .logo i {
+      font-size: 32px;
+      color: white;
+    }
+
+    .login-header h1 {
+      color: #2c3e50;
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .login-header p {
+      color: #7f8c8d;
+      font-size: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 15px 20px 15px 50px;
+      border: 2px solid #ecf0f1;
+      border-radius: 12px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+      background: white;
+    }
+
+    .form-group input::placeholder {
+      color: #bdc3c7;
+    }
+
+    .form-group i {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #7f8c8d;
+      font-size: 18px;
+      transition: color 0.3s ease;
+    }
+
+    .form-group input:focus + i,
+    .form-group i.icon-focus {
+      color: #3498db;
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .remember-me input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #3498db;
+    }
+
+    .remember-me label {
+      font-size: 14px;
+      color: #7f8c8d;
+      cursor: pointer;
+    }
+
+    .forgot-password {
+      font-size: 14px;
+      color: #3498db;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .forgot-password:hover {
+      color: #2980b9;
+      text-decoration: underline;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(45deg, #005ea2, #0071bc);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+    }
+
+    .login-btn:active {
+      transform: translateY(0);
+    }
+
+    .login-btn i {
+      margin-right: 8px;
+    }
+
+    .divider {
+      text-align: center;
+      margin: 25px 0;
+      position: relative;
+      color: #7f8c8d;
+      font-size: 14px;
+    }
+
+    .divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #ecf0f1;
+    }
+
+    .divider span {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 0 15px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .social-login {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .social-btn {
+      flex: 1;
+      padding: 12px;
+      border: 2px solid #ecf0f1;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #7f8c8d;
+      font-size: 14px;
+    }
+
+    .social-btn:hover {
+      border-color: #3498db;
+      color: #3498db;
+      transform: translateY(-1px);
+    }
+
+    .register-link {
+      text-align: center;
+      color: #7f8c8d;
+      font-size: 14px;
+    }
+
+    .register-link a {
+      color: #3498db;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .register-link a:hover {
+      text-decoration: underline;
+    }
+
+    .error-message {
+      background: #e74c3c;
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .success-message {
+      background: #27ae60;
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        margin: 20px;
+        padding: 30px 25px;
+      }
+
+      .login-header h1 {
+        font-size: 24px;
+      }
+
+      .social-login {
+        flex-direction: column;
+      }
+    }
+
+    /* Floating animation for background elements */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .floating-shapes {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .shape {
+      position: absolute;
+      opacity: 0.1;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .shape:nth-child(1) {
+      top: 10%;
+      left: 10%;
+      width: 60px;
+      height: 60px;
+      background: #3498db;
+      border-radius: 50%;
+      animation-delay: 0s;
+    }
+
+    .shape:nth-child(2) {
+      top: 20%;
+      right: 15%;
+      width: 40px;
+      height: 40px;
+      background: #e74c3c;
+      border-radius: 20px;
+      animation-delay: 2s;
+    }
+
+    .shape:nth-child(3) {
+      bottom: 20%;
+      left: 20%;
+      width: 80px;
+      height: 80px;
+      background: #27ae60;
+      border-radius: 40px;
+      animation-delay: 4s;
+    }
+
+    .shape:nth-child(4) {
+      bottom: 10%;
+      right: 10%;
+      width: 50px;
+      height: 50px;
+      background: #f39c12;
+      border-radius: 25px;
+      animation-delay: 1s;
+    }
+  </style>
+</head>
+<body>
+  <div class="floating-shapes">
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+  </div>
+
+  <div class="login-container">
+    <div class="login-header">
+      <div class="logo">
+        <i class="fas fa-shield-alt"></i>
+      </div>
+      <h1>CivicFix Admin</h1>
+      <p>Access your admin dashboard</p>
+    </div>
+
+    <div id="error-message" class="error-message">
+      <i class="fas fa-exclamation-triangle"></i>
+      Invalid username or password. Please try again.
+    </div>
+
+    <div id="success-message" class="success-message">
+      <i class="fas fa-check-circle"></i>
+      Login successful! Redirecting...
+    </div>
+
+    <form id="login-form">
+      <div class="form-group">
+        <input type="text" id="username" placeholder="Username or Email" required>
+        <i class="fas fa-user"></i>
+      </div>
+
+      <div class="form-group">
+        <input type="password" id="password" placeholder="Password" required>
+        <i class="fas fa-lock"></i>
+      </div>
+
+      <div class="form-options">
+        <div class="remember-me">
+          <input type="checkbox" id="remember">
+          <label for="remember">Remember me</label>
+        </div>
+        <a href="#" class="forgot-password">Forgot Password?</a>
+      </div>
+
+      <button type="submit" class="login-btn">
+        <i class="fas fa-sign-in-alt"></i>
+        Sign In
+      </button>
+    </form>
+
+    <div class="divider">
+      <span>or continue with</span>
+    </div>
+
+    <div class="social-login">
+      <a href="#" class="social-btn">
+        <i class="fab fa-google"></i>
+        Google
+      </a>
+      <a href="#" class="social-btn">
+        <i class="fab fa-microsoft"></i>
+        Microsoft
+      </a>
+    </div>
+
+    <div class="register-link">
+      Don't have an account? <a href="#">Contact Administrator</a>
+    </div>
+  </div>
+
+  <script src="admin-auth.js"></script>
+</body>
+</html></content>
+<parameter name="filePath">c:\Users\soham\Desktop\admin\login.html
