@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Dashboard - Smart CivicFix</title>
@@ -9,117 +10,250 @@
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="index.css">
   <link rel="stylesheet" href="dashboard.css">
+  <style>
+    .icon-inline { display: inline-flex; align-items: center; vertical-align: middle; }
+    .icon-inline svg { width: 1em; height: 1em; stroke-width: 1.8; }
+    .sidebar-links a, .logout { display: flex; align-items: center; gap: 10px; }
+    .sidebar-links a .icon-inline, .logout .icon-inline { flex-shrink: 0; }
+    .activity-badge .icon-inline svg { width: 18px; height: 18px; }
+  </style>
 </head>
 
 <body>
 
-<div class="gov-banner" style="background-color: var(--white); border-bottom: 1px solid var(--gray-border);">
-  <div class="container" style="max-width: 100%; padding: 0 30px;">
-    <span class="flag-icon">🏛️</span> 
-    <span class="banner-text">An official platform of the municipal government</span>
+  <div class="gov-banner" style="background-color: var(--white); border-bottom: 1px solid var(--gray-border);">
+    <div class="container" style="max-width: 100%; padding: 0 30px;">
+      <span class="flag-icon icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/><rect x="2" y="18" width="20" height="4"/><rect x="2" y="7" width="20" height="4"/></svg></span>
+      <span class="banner-text">An official platform of the municipal government</span>
+    </div>
   </div>
-</div>
 
-<div class="dashboard">
+  <div class="dashboard">
 
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <div class="brand">
+    <!-- MOBILE TOP HEADER (hidden on desktop) -->
+    <div class="mobile-header">
       <h2>Smart CivicFix</h2>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="mobile-points-pill">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <strong id="mobilePoints">0</strong>
+        </div>
+        <button class="mobile-profile-btn" id="profileBtn" aria-label="Profile menu">
+          <img src="assets/user.png" alt="User" width="20" height="20">
+        </button>
+      </div>
+      <!-- Profile Dropdown Menu -->
+      <div class="profile-dropdown" id="profileDropdown">
+        <a href="settings.html" class="profile-menu-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Account Settings
+        </a>
+        <a href="guidelines.html" class="profile-menu-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          Get Help
+        </a>
+        <div class="profile-menu-divider"></div>
+        <a href="index.html" class="profile-menu-item logout-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Logout
+        </a>
+      </div>
     </div>
 
-    <div class="sidebar-links">
-      <a href="dashboard.html" class="active">📊 Dashboard</a>
-      <a href="complaint.html">📢 Report Issue</a>
-      <a href="track.html">📍 Track Issue</a>
-      <a href="history.html">📄 Previous Issues</a>
-      <a href="reward.html">🎁 Rewards</a>
+    <!-- SIDEBAR (desktop only on mobile) -->
+    <div class="sidebar">
+      <div class="brand">
+        <h2>Smart CivicFix</h2>
+      </div>
+
+      <div class="sidebar-links">
+        <a href="dashboard.html" class="active"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span> Dashboard</a>
+        <a href="complaint.html"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/><path d="M7.86 2a10 10 0 0 1 4.14-.88"/></svg></span> Report Issue</a>
+        <a href="track.html"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></span> Track Issue</a>
+        <a href="history.html"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></span> Previous Issues</a>
+        <a href="reward.html"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></span> Rewards</a>
+        <a href="settings.html"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span> Settings</a>
+        <a href="guidelines.html"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span> Help</a>
+      </div>
+
+      <a href="index.html" class="logout"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span> Logout</a>
     </div>
 
-    <a href="index.html" class="logout">🚪 Logout</a>
+    <!-- MOBILE BOTTOM TAB BAR (hidden on desktop) -->
+    <nav class="bottom-tabs">
+      <a href="dashboard.html" class="tab active">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <span>Home</span>
+      </a>
+      <a href="complaint.html" class="tab">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        <span>Report</span>
+      </a>
+      <a href="track.html" class="tab">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Track</span>
+      </a>
+      <a href="history.html" class="tab">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span>History</span>
+      </a>
+      <a href="reward.html" class="tab">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/></svg>
+        <span>Rewards</span>
+      </a>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+
+      <div class="top-bar">
+        <div>
+          <h2 id="dashGreeting">Welcome back, Citizen!</h2>
+          <p>Your current civic standing and actions</p>
+        </div>
+        <div class="points-badge">
+          <span>Civic Points</span>
+          <strong id="dashboardPoints">0</strong>
+        </div>
+      </div>
+
+      <!-- Stats overview -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <span class="stat-number" id="statTotal" style="color: var(--blue);">0</span>
+          <span class="stat-label">Total Reported</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="statProgress" style="color: #f59e0b;">0</span>
+          <span class="stat-label">In Progress</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="statResolved" style="color: #10b981;">0</span>
+          <span class="stat-label">Resolved</span>
+        </div>
+      </div>
+
+      <!-- Quick report CTA -->
+      <div class="quick-report-bar">
+        <div>
+          <h3 style="margin: 0 0 4px; font-size: 16px; color: var(--navy);">See something that needs fixing?</h3>
+          <p style="margin: 0; font-size: 14px; color: var(--text-muted);">Report civic issues in your area and earn
+            points.</p>
+        </div>
+        <a href="complaint.html" class="btn-primary"
+          style="text-decoration: none; white-space: nowrap; padding: 10px 22px; display: inline-flex; align-items: center; gap: 6px;"><span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg></span> Report Issue</a>
+      </div>
+
+      <!-- Recent activity -->
+      <div class="recent-section">
+        <h3 class="section-heading">Recent Activity</h3>
+
+        <!-- Dynamic reports will be injected here -->
+        <div id="dynamicActivity"></div>
+
+        <!-- Empty state -->
+        <div id="emptyActivity" style="text-align:center;padding:30px 0;color:var(--text-muted);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <p style="margin:10px 0 0;font-size:14px;">No reports yet. Submit your first issue!</p>
+        </div>
+
+      </div>
+
+    </div>
+
   </div>
 
-  <!-- MAIN CONTENT -->
-  <div class="main">
+  <script>
+    (function () {
+      // ── Profile dropdown toggle ─────────────────────────────
+      const profileBtn = document.getElementById('profileBtn');
+      const profileDropdown = document.getElementById('profileDropdown');
+      if (profileBtn && profileDropdown) {
+        profileBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          profileDropdown.classList.toggle('open');
+        });
+        document.addEventListener('click', (e) => {
+          if (!profileDropdown.contains(e.target) && e.target !== profileBtn) {
+            profileDropdown.classList.remove('open');
+          }
+        });
+      }
 
-    <div class="top-bar">
-      <div>
-        <h2>Welcome back, Citizen 👋</h2>
-        <p>Your current civic standing and actions</p>
-      </div>
-      <div class="points-badge">
-        <span>Civic Points</span>
-        <strong>120</strong>
-      </div>
-    </div>
 
-    <!-- Stats overview -->
-    <div class="stats-row">
-      <div class="stat-card">
-        <span class="stat-number" style="color: var(--blue);">3</span>
-        <span class="stat-label">Total Reported</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-number" style="color: #f59e0b;">1</span>
-        <span class="stat-label">In Progress</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-number" style="color: #10b981;">2</span>
-        <span class="stat-label">Resolved</span>
-      </div>
-    </div>
+      // ── Points sync (auto-correct from report count) ───────────
+      const reports = JSON.parse(localStorage.getItem('civicReports') || '[]');
+      const correctPoints = reports.length * 20;
+      localStorage.setItem('civicPoints', String(correctPoints));
+      document.getElementById('dashboardPoints').textContent = correctPoints;
+      const mobileP = document.getElementById('mobilePoints');
+      if (mobileP) mobileP.textContent = correctPoints;
 
-    <!-- Quick report CTA -->
-    <div class="quick-report-bar">
-      <div>
-        <h3 style="margin: 0 0 4px; font-size: 16px; color: var(--navy);">See something that needs fixing?</h3>
-        <p style="margin: 0; font-size: 14px; color: var(--text-muted);">Report civic issues in your area and earn points.</p>
-      </div>
-      <a href="complaint.html" class="btn-primary" style="text-decoration: none; white-space: nowrap; padding: 10px 22px;">📢 Report Issue</a>
-    </div>
+      // ── Load user-submitted reports ──────────────────────────
 
-    <!-- Recent activity -->
-    <div class="recent-section">
-      <h3 class="section-heading">Recent Activity</h3>
+      // Default (hardcoded) counters
+      let totalBase = 0, progressBase = 0, resolvedBase = 0;
 
-      <div class="activity-card">
-        <div class="activity-left">
-          <span class="activity-badge resolved">✅</span>
-          <div>
-            <p class="activity-title">Pothole Fixed — Kothrud, Pune</p>
-            <p class="activity-meta">Ref: CF-M5K2X · Resolved on Apr 8, 2026</p>
+      // Render dynamic activity cards
+      const container = document.getElementById('dynamicActivity');
+
+      reports.forEach(r => {
+        const statusMap = {
+          'reported': { badge: '<span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>', cls: 'reported', label: 'Reported on' },
+          'in-progress': { badge: '<span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>', cls: 'progress', label: 'In progress since' },
+          'resolved': { badge: '<span class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>', cls: 'resolved', label: 'Resolved on' }
+        };
+        const s = statusMap[r.status] || statusMap['reported'];
+
+        // Shorten location for display
+        const shortLoc = r.location.length > 30 ? r.location.substring(0, 30) + '…' : r.location;
+
+        const card = document.createElement('div');
+        card.className = 'activity-card';
+        card.innerHTML = `
+          <div class="activity-left">
+            <span class="activity-badge ${s.cls}">${s.badge}</span>
+            <div>
+              <p class="activity-title">${r.issueType} — ${shortLoc}</p>
+              <p class="activity-meta">Ref: ${r.refId} · ${s.label} ${r.date}</p>
+            </div>
           </div>
-        </div>
-        <span class="activity-points">+20 pts</span>
-      </div>
+          <a href="track.html" style="font-size: 13px; color: var(--blue); font-weight: 600; text-decoration: none;">Track →</a>
+        `;
+        container.appendChild(card);
 
-      <div class="activity-card">
-        <div class="activity-left">
-          <span class="activity-badge progress">⏳</span>
-          <div>
-            <p class="activity-title">Streetlight Outage — FC Road</p>
-            <p class="activity-meta">Ref: CF-R8J1P · In progress since Apr 10, 2026</p>
-          </div>
-        </div>
-        <a href="track.html" style="font-size: 13px; color: var(--blue); font-weight: 600; text-decoration: none;">Track →</a>
-      </div>
+        // Update counters
+        totalBase++;
+        if (r.status === 'in-progress') progressBase++;
+        else if (r.status === 'resolved') resolvedBase++;
+      });
 
-      <div class="activity-card">
-        <div class="activity-left">
-          <span class="activity-badge resolved">✅</span>
-          <div>
-            <p class="activity-title">Garbage Dump Cleared — Baner</p>
-            <p class="activity-meta">Ref: CF-T3N9Q · Resolved on Apr 5, 2026</p>
-          </div>
-        </div>
-        <span class="activity-points">+20 pts</span>
-      </div>
+      // Update stat numbers with count-up animation
+      function animateCount(el, target) {
+        let current = 0;
+        const duration = 800;
+        const step = Math.max(1, Math.floor(duration / (target || 1)));
+        const timer = setInterval(() => {
+          current++;
+          el.textContent = current;
+          if (current >= target) { el.textContent = target; clearInterval(timer); }
+        }, step);
+      }
+      animateCount(document.getElementById('statTotal'), totalBase);
+      animateCount(document.getElementById('statProgress'), progressBase);
+      animateCount(document.getElementById('statResolved'), resolvedBase);
 
-    </div>
-
-  </div>
-
-</div>
+      // ── Time-based greeting ─────────────────────────────────
+      const hour = new Date().getHours();
+      let greeting = 'Good Evening';
+      let emoji = '🌙';
+      if (hour >= 5 && hour < 12) { greeting = 'Good Morning'; emoji = '☀️'; }
+      else if (hour >= 12 && hour < 17) { greeting = 'Good Afternoon'; emoji = '🌤️'; }
+      const greetEl = document.getElementById('dashGreeting');
+      if (greetEl) greetEl.textContent = `${greeting}, Citizen! ${emoji}`;
+    })();
+  </script>
 
 </body>
+
 </html>

@@ -10,10 +10,68 @@ function goDashboard() {
   window.location.href = "dashboard.html";
 }
 
+// ── Social login (Google / Apple) ──────────────────────
+function socialLogin(provider) {
+  const btn = event.currentTarget;
+  const originalText = btn.innerHTML;
+
+  // Show loading state
+  btn.disabled = true;
+  btn.innerHTML = `
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite">
+      <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+    </svg>
+    Connecting to ${provider === 'google' ? 'Google' : 'Apple'}...
+  `;
+
+  // Simulate OAuth redirect delay
+  setTimeout(() => {
+    localStorage.setItem('civicUser', JSON.stringify({
+      name: provider === 'google' ? 'Google User' : 'Apple User',
+      email: provider === 'google' ? 'user@gmail.com' : 'user@icloud.com',
+      provider: provider,
+      loginTime: Date.now()
+    }));
+    window.location.href = 'dashboard.html';
+  }, 1500);
+}
+
 function signup(event) {
   event.preventDefault();
-  alert("Account created successfully!");
-  window.location.href = "login.html";
+
+  const form = event.target;
+
+  // Hide all form children
+  Array.from(form.children).forEach(el => el.style.display = 'none');
+
+  // Create inline success panel
+  const success = document.createElement('div');
+  success.className = 'signup-success';
+  success.innerHTML = `
+    <div style="text-align:center; animation: fadeUp 0.5s ease;">
+      <div style="width:64px; height:64px; border-radius:50%; background:rgba(16,185,129,0.12); display:inline-flex; align-items:center; justify-content:center; margin-bottom:18px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </div>
+      <h2 style="margin:0 0 8px; font-size:22px; color:var(--navy,#0d2340);">Account Created!</h2>
+      <p style="margin:0 0 20px; color:var(--text-muted,#64748b); font-size:14px; line-height:1.5;">
+        Your citizen account has been registered successfully.<br>
+        Redirecting to sign in…
+      </p>
+      <div style="width:100%; height:4px; background:#e2e8f0; border-radius:99px; overflow:hidden;">
+        <div id="redirectBar" style="height:100%; width:0%; background:linear-gradient(90deg,#1a6fc4,#10b981); border-radius:99px; transition: width 2.5s ease;"></div>
+      </div>
+      <p style="margin-top:16px; font-size:13px; color:var(--text-muted,#64748b);">
+        or <a href="login.html" style="color:var(--blue,#1a6fc4); font-weight:600; text-decoration:none;">sign in now →</a>
+      </p>
+    </div>
+  `;
+  form.appendChild(success);
+
+  // Animate progress bar and redirect
+  requestAnimationFrame(() => {
+    document.getElementById('redirectBar').style.width = '100%';
+  });
+  setTimeout(() => { window.location.href = 'login.html'; }, 2600);
 }
 
 // ── "Other" Issue Type Toggle ──────────────────────────────
@@ -119,6 +177,17 @@ function removeImage() {
 function submitIssue(event) {
   event.preventDefault();
 
+  // ── 3-issue limit ────────────────────────────────────
+  const existingReports = JSON.parse(localStorage.getItem("civicReports") || "[]");
+  if (existingReports.length >= 3) {
+    const errBox = document.getElementById("errorLimitMsg");
+    if (errBox) {
+      errBox.style.display = "block";
+      errBox.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    return;
+  }
+
   // Generate a random reference ID
   const refId = "CF-" + Date.now().toString(36).toUpperCase() + Math.floor(Math.random() * 1000);
 
@@ -129,8 +198,35 @@ function submitIssue(event) {
   const issueType = selectVal === "Other"
     ? (document.getElementById("otherIssueInput").value || "Other Issue")
     : selectVal;
-  const location = form.querySelector("input[type='text']").value || "Not specified";
+  const locInput = document.getElementById("locationInput");
+  const location = locInput ? locInput.value : (form.querySelector("input[type='text']").value || "Not specified");
   const today = new Date().toLocaleDateString("en-IN", { year: "numeric", month: "short", day: "numeric" });
+
+  // ── Convert image to base64 for storage ─────────────────────
+  function saveReport(imageBase64) {
+    const report = {
+      refId: refId,
+      issueType: issueType,
+      location: location,
+      date: today,
+      status: "reported",
+      timestamp: Date.now(),
+      image: imageBase64 || null
+    };
+
+    const existing = JSON.parse(localStorage.getItem("civicReports") || "[]");
+    existing.unshift(report);
+    localStorage.setItem("civicReports", JSON.stringify(existing));
+
+    // ── Award +20 civic points ─────────────────────────
+    let currentPts = parseInt(localStorage.getItem("civicPoints")) || 0;
+    currentPts += 20;
+    localStorage.setItem("civicPoints", String(currentPts));
+
+    showSuccess();
+  }
+
+  function showSuccess() {
 
   // Hide all form fields and the submit button
   const fields = form.querySelectorAll(".form-group, button[type='submit'], .subtitle");
@@ -148,12 +244,96 @@ function submitIssue(event) {
 
   // Show success panel
   document.getElementById("submitSuccess").style.display = "block";
+
+  // ── Confetti burst ──────────────────────────────────
+  const canvas = document.getElementById("confettiCanvas");
+  if (canvas) {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const ctx = canvas.getContext("2d");
+    const colors = ["#10b981","#3b82f6","#f59e0b","#ef4444","#8b5cf6","#ec4899"];
+    const particles = [];
+    for (let i = 0; i < 120; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: -10 - Math.random() * 100,
+        w: 6 + Math.random() * 6,
+        h: 4 + Math.random() * 4,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        vx: (Math.random() - 0.5) * 4,
+        vy: 2 + Math.random() * 4,
+        rot: Math.random() * 360,
+        rotV: (Math.random() - 0.5) * 10
+      });
+    }
+    let frames = 0;
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rot * Math.PI) / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.1;
+        p.rot += p.rotV;
+      });
+      frames++;
+      if (frames < 120) requestAnimationFrame(drawConfetti);
+      else { ctx.clearRect(0, 0, canvas.width, canvas.height); canvas.remove(); }
+    }
+    drawConfetti();
+  }
+  } // end showSuccess
+
+  // ── Read image and save report ────────────────────────────
+  if (selectedImageFile) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const img = new Image();
+      img.onload = function () {
+        const c = document.createElement("canvas");
+        const maxW = 400;
+        const scale = maxW / img.width;
+        c.width = maxW;
+        c.height = img.height * scale;
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        saveReport(c.toDataURL("image/jpeg", 0.6));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(selectedImageFile);
+  } else {
+    saveReport(null);
+  }
 }
 
 // ----------------------------------------------------
 // FRONTEND DYNAMIC INTERACTIONS (INDEX PAGE ONLY)
 // ----------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
+
+  // ── 0. Hamburger Menu Toggle ─────────────────────
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const navButtons = document.getElementById('navButtons');
+  if (hamburgerBtn && navButtons) {
+    hamburgerBtn.addEventListener('click', () => {
+      navButtons.classList.toggle('open');
+    });
+  }
+
+  // ── 0b. Gallery clone visibility ─────────────────
+  // Hide duplicate cards on desktop, show on mobile for infinite scroll
+  function updateGalleryClones() {
+    const clones = document.querySelectorAll('.gallery-clone');
+    const isMobile = window.innerWidth <= 768;
+    clones.forEach(c => c.style.display = isMobile ? '' : 'none');
+  }
+  updateGalleryClones();
+  window.addEventListener('resize', updateGalleryClones);
 
   // ── 1. Animated Counters ─────────────────────────
   // Runs once when the .hero-counters block enters the viewport
@@ -187,7 +367,7 @@ document.addEventListener("DOMContentLoaded", () => {
     counters.forEach(c => observer.observe(c));
   }
 
-  // ── 2. Scroll-linked Image Row ────────────────────────
+  // ── 2. Scroll-linked Image Row (DESKTOP ONLY) ────────────────────────
   const galRow = document.getElementById("galRow");
   const galSection = document.querySelector(".gallery-scroll-container");
   let maxShift = 0;
@@ -195,17 +375,29 @@ document.addEventListener("DOMContentLoaded", () => {
   let targetShift = 0;
   let rafId = null;
 
+  function isMobileView() {
+    return window.innerWidth <= 768;
+  }
+
   function calcMax() {
-    if (galRow && galSection) {
+    if (galRow && galSection && !isMobileView()) {
       maxShift = Math.max(0, galRow.scrollWidth - window.innerWidth);
     }
   }
 
   calcMax();
-  window.addEventListener("resize", calcMax);
+  window.addEventListener("resize", () => {
+    calcMax();
+    // Reset transform on mobile
+    if (isMobileView() && galRow) {
+      galRow.style.transform = '';
+      currentShift = 0;
+      targetShift = 0;
+    }
+  });
 
   window.addEventListener("scroll", () => {
-    if (!galRow || !galSection) return;
+    if (!galRow || !galSection || isMobileView()) return;
 
     const rect = galSection.getBoundingClientRect();
     const sectionHeight = galSection.offsetHeight;
@@ -221,6 +413,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function animate() {
+    if (isMobileView()) {
+      rafId = null;
+      return;
+    }
     // lerp — 0.08 = smooth & satisfying, increase for snappier
     currentShift += (targetShift - currentShift) * 0.08;
 
@@ -251,13 +447,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Placeholder "live" markers – replace with backend API data later
     const issues = [
-      { lat: 18.5204, lng: 73.8567, city: "Pune", issue: "Pothole Fixed", status: "✅ Resolved" },
-      { lat: 19.0760, lng: 72.8777, city: "Mumbai", issue: "Waste Cleared", status: "✅ Resolved" },
-      { lat: 28.7041, lng: 77.1025, city: "Delhi", issue: "Streetlight Fixed", status: "✅ Resolved" },
-      { lat: 12.9716, lng: 77.5946, city: "Bengaluru", issue: "Pipeline Repaired", status: "✅ Resolved" },
-      { lat: 22.5726, lng: 88.3639, city: "Kolkata", issue: "Drainage Cleared", status: "⏳ In Progress" },
-      { lat: 17.3850, lng: 78.4867, city: "Hyderabad", issue: "Road Pothole", status: "⏳ In Progress" },
-      { lat: 26.8467, lng: 80.9462, city: "Lucknow", issue: "Broken Streetlight", status: "📋 Reported" }
+      { lat: 18.5204, lng: 73.8567, city: "Pune", issue: "Pothole Fixed", status: "Resolved" },
+      { lat: 19.0760, lng: 72.8777, city: "Mumbai", issue: "Waste Cleared", status: "Resolved" },
+      { lat: 28.7041, lng: 77.1025, city: "Delhi", issue: "Streetlight Fixed", status: "Resolved" },
+      { lat: 12.9716, lng: 77.5946, city: "Bengaluru", issue: "Pipeline Repaired", status: "Resolved" },
+      { lat: 22.5726, lng: 88.3639, city: "Kolkata", issue: "Drainage Cleared", status: "In Progress" },
+      { lat: 17.3850, lng: 78.4867, city: "Hyderabad", issue: "Road Pothole", status: "In Progress" },
+      { lat: 26.8467, lng: 80.9462, city: "Lucknow", issue: "Broken Streetlight", status: "Reported" }
     ];
 
     issues.forEach(d => {
@@ -269,4 +465,118 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // ── 4. Location Picker Map (Complaint Form Modal) ──────────────────
+  let pickerMap = null;
+  let pickerMarker = null;
+
+  window.openMapModal = function () {
+    const modal = document.getElementById("mapModal");
+    if (!modal) return;
+
+    modal.classList.add("active");
+
+    if (!pickerMap && typeof L !== "undefined") {
+      // Default to a central view
+      pickerMap = L.map("locationPickerMap").setView([18.5204, 73.8567], 12); // Center on Pune by default
+
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+        maxZoom: 19
+      }).addTo(pickerMap);
+
+      pickerMap.on("click", function (e) {
+        const lat = e.latlng.lat;
+        const lng = e.latlng.lng;
+
+        if (pickerMarker) {
+          pickerMarker.setLatLng(e.latlng);
+        } else {
+          pickerMarker = L.marker(e.latlng).addTo(pickerMap);
+        }
+
+        const displayText = document.getElementById("locationDisplayText");
+        displayText.textContent = "Fetching address...";
+        const searchInput = document.getElementById("mapSearchInput");
+
+        // Reverse geocoding using OpenStreetMap Nominatim
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+          .then(res => res.json())
+          .then(data => {
+            const addr = (data && data.display_name) ? data.display_name : `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+            pickerMap._tempAddress = addr;
+            displayText.textContent = addr.split(",")[0] + "...";
+            if (searchInput) searchInput.value = addr;
+          })
+          .catch(() => {
+            const fallback = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+            pickerMap._tempAddress = fallback;
+            displayText.textContent = "Location selected";
+            if (searchInput) searchInput.value = fallback;
+          });
+      });
+    }
+
+    // Give modal display transition time before rendering map
+    setTimeout(() => { if (pickerMap) pickerMap.invalidateSize(); }, 300);
+  };
+
+  window.closeMapModal = function () {
+    const modal = document.getElementById("mapModal");
+    if (modal) modal.classList.remove("active");
+  };
+
+  window.confirmMapLocation = function () {
+    const hiddenInput = document.getElementById("locationInput");
+    const displayText = document.getElementById("locationDisplayText");
+
+    if (pickerMap && pickerMap._tempAddress) {
+      hiddenInput.value = pickerMap._tempAddress;
+      displayText.textContent = pickerMap._tempAddress.length > 35 ? pickerMap._tempAddress.substring(0, 35) + "..." : pickerMap._tempAddress;
+      displayText.style.color = "var(--navy)";
+      document.querySelector(".location-icon").style.color = "#ec4899"; // Reset color
+    } else if (!hiddenInput.value) {
+      alert("Please tap on the map to select a location first.");
+      return;
+    }
+
+    closeMapModal();
+  };
+
+  window.searchMapLocation = function () {
+    if (!pickerMap) return;
+    const q = document.getElementById("mapSearchInput").value;
+    if (!q) return;
+
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.length > 0) {
+          const lat = data[0].lat;
+          const lon = data[0].lon;
+          pickerMap.setView([lat, lon], 14);
+
+          if (pickerMarker) {
+            pickerMarker.setLatLng([lat, lon]);
+          } else {
+            pickerMarker = L.marker([lat, lon]).addTo(pickerMap);
+          }
+          const addr = data[0].display_name;
+          pickerMap._tempAddress = addr;
+
+          const displayText = document.getElementById("locationDisplayText");
+          displayText.textContent = addr.split(",")[0] + "...";
+        } else {
+          alert("Location not found. Try a different search term.");
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Search failed. Try tapping on the map.");
+      });
+  };
+
 });
+
+
+
+

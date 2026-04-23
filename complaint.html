@@ -8,11 +8,71 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="dashboard.css">
   <link rel="stylesheet" href="complaint.css">
+  <style>
+    .icon-inline {
+      display: inline-flex;
+      align-items: center;
+      vertical-align: middle;
+    }
+
+    .icon-inline svg {
+      width: 1em;
+      height: 1em;
+      stroke-width: 1.8;
+    }
+  </style>
 </head>
 
 <body class="report-page">
+
+  <!-- MOBILE TOP HEADER -->
+  <div class="mobile-header">
+    <h2>Smart CivicFix</h2>
+    <a href="dashboard.html"
+      style="color:#94a3b8;text-decoration:none;font-size:13px;font-weight:600;display:flex;align-items:center;gap:4px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+      Dashboard
+    </a>
+  </div>
+
+  <!-- BOTTOM TAB BAR -->
+  <nav class="bottom-tabs">
+    <a href="dashboard.html" class="tab"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <rect x="3" y="3" width="7" height="7" rx="1" />
+        <rect x="14" y="3" width="7" height="7" rx="1" />
+        <rect x="3" y="14" width="7" height="7" rx="1" />
+        <rect x="14" y="14" width="7" height="7" rx="1" />
+      </svg><span>Home</span></a>
+    <a href="complaint.html" class="tab active"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 2L11 13" />
+        <path d="M22 2l-7 20-4-9-9-4 20-7z" />
+      </svg><span>Report</span></a>
+    <a href="track.html" class="tab"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" />
+        <circle cx="12" cy="10" r="3" />
+      </svg><span>Track</span></a>
+    <a href="history.html" class="tab"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+      </svg><span>History</span></a>
+    <a href="reward.html" class="tab"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M20 12v10H4V12" />
+        <path d="M2 7h20v5H2z" />
+        <path d="M12 22V7" />
+      </svg><span>Rewards</span></a>
+  </nav>
 
   <div class="report-container">
 
@@ -21,8 +81,34 @@
 
       <form class="report-box" onsubmit="submitIssue(event)">
 
-        <h2>📢 Report a Civic Issue</h2>
-        <p class="subtitle">Submit detailed information to help municipal workers locate and respond to the problem.</p>
+        <h2><span class="icon-inline" style="margin-right: 6px;"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+              height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M22 2L11 13" />
+              <path d="M22 2l-7 20-4-9-9-4 20-7z" />
+            </svg></span> Report a Civic Issue</h2>
+        <p class="subtitle">Submit detailed information to help municipal workers locate and respond to the problem.
+          <br><br><span class="icon-inline" style="margin-right: 2px;"><svg xmlns="http://www.w3.org/2000/svg"
+              width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6" />
+            </svg></span> <a href="guidelines.html"
+            style="color: var(--blue); font-weight: 600; text-decoration: none;">View
+            Reporting Guidelines</a>
+        </p>
+
+        <!-- Issues remaining counter -->
+        <div id="issuesRemaining" style="display:inline-flex;align-items:center;gap:6px;background:#f0f9ff;border:1px solid #bae6fd;color:#0369a1;padding:8px 16px 8px 12px;border-radius:8px;font-size:13px;font-weight:600;margin-bottom:20px;">
+          <button onclick="showInfoModal()" title="Why is there a 3-report limit?" type="button" style="background:none;border:none;padding:2px;cursor:pointer;color:inherit;display:inline-flex;align-items:center;border-radius:50%;transition:background 0.15s;" onmouseover="this.style.background='rgba(3,105,161,0.12)'" onmouseout="this.style.background='none'">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </button>
+          <span id="remainingCount">3</span> of 3 reports remaining
+        </div>
+
+        <div id="errorLimitMsg" style="display:none; background:#fef2f2; border:1px solid #fca5a5; color:#dc2626; padding:12px; border-radius:8px; font-size:14px; font-weight:500; margin-bottom:20px; text-align:center;">
+          <span class="icon-inline" style="margin-right:4px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+          You've reached the maximum of 3 reports. Please wait for existing issues to be resolved.
+        </div>
 
         <div class="form-group">
           <label>Issue Type</label>
@@ -34,7 +120,8 @@
             <option>Water Leakage / Flooding</option>
             <option value="Other">Other</option>
           </select>
-          <input type="text" id="otherIssueInput" class="other-issue-input" placeholder="Please describe the issue type..." style="display:none">
+          <input type="text" id="otherIssueInput" class="other-issue-input"
+            placeholder="Please describe the issue type..." style="display:none">
         </div>
 
         <div class="form-group">
@@ -45,7 +132,20 @@
 
         <div class="form-group">
           <label>Address / Location</label>
-          <input type="text" placeholder="Enter nearest address or landmark..." required>
+          <div class="location-picker-card" onclick="openMapModal()">
+            <span class="location-icon icon-inline" style="color: #ec4899; font-size: 20px;"><svg
+                xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg></span>
+            <span id="locationDisplayText"
+              style="flex-grow: 1; color: var(--navy); font-weight: 600; margin-left: 5px;">Tap to select location on
+              map</span>
+            <span class="chevron" style="color: var(--text-muted); font-size: 20px; font-family: monospace;">&gt;</span>
+          </div>
+          <input type="text" id="locationInput" value="" required readonly
+            style="opacity:0; position:absolute; pointer-events:none;">
         </div>
 
         <div class="form-group">
@@ -53,24 +153,42 @@
           <div class="image-picker">
             <div class="picker-options">
               <button type="button" class="picker-card" id="btnGallery" onclick="openGallery()">
-                <span class="picker-icon">🖼️</span>
+                <span class="picker-icon icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" />
+                  </svg></span>
                 <span class="picker-label">Gallery</span>
                 <span class="picker-desc">Choose from files</span>
               </button>
               <button type="button" class="picker-card" id="btnCamera" onclick="openCamera()">
-                <span class="picker-icon">📷</span>
+                <span class="picker-icon icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                    <circle cx="12" cy="13" r="4" />
+                  </svg></span>
                 <span class="picker-label">Camera</span>
                 <span class="picker-desc">Take a photo</span>
               </button>
             </div>
             <!-- Hidden file inputs -->
-            <input type="file" id="fileGallery" accept="image/*" style="display:none" onchange="handleImageSelected(event)">
-            <input type="file" id="fileCamera" accept="image/*" capture="environment" style="display:none" onchange="handleImageSelected(event)">
+            <input type="file" id="fileGallery" accept="image/*" style="display:none"
+              onchange="handleImageSelected(event)">
+            <input type="file" id="fileCamera" accept="image/*" capture="environment" style="display:none"
+              onchange="handleImageSelected(event)">
             <!-- Live preview -->
             <div class="image-preview" id="imagePreview" style="display:none">
               <img id="previewImg" src="" alt="Preview">
               <button type="button" class="preview-remove" onclick="removeImage()" title="Remove image">✕</button>
-              <span class="preview-badge">📎 Image attached</span>
+              <span class="preview-badge"><span class="icon-inline" style="margin-right: 4px;"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                      d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+                  </svg></span> Image attached</span>
             </div>
           </div>
         </div>
@@ -80,11 +198,20 @@
         <!-- Inline success panel (hidden by default) -->
         <div id="submitSuccess" class="submit-success" style="display: none;">
 
-          <!-- Confirmation header -->
+          <!-- Confetti canvas (absolute overlay) -->
+          <canvas id="confettiCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;"></canvas>
+
+          <!-- Animated check icon -->
           <div class="success-header">
-            <div class="success-icon">✅</div>
-            <h3>Complaint Registered Successfully!</h3>
+            <div class="success-icon animated-check">
+              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" class="check-circle"/>
+                <polyline points="8 12 11 15 17 9" class="check-mark"/>
+              </svg>
+            </div>
+            <h3>Complaint Registered Successfully! 🎉</h3>
             <p>Our municipal team will review and respond within <strong>24–48 hours</strong>.</p>
+            <div class="points-earned-badge">+20 Civic Points Earned ⭐</div>
           </div>
 
           <!-- Issue summary card -->
@@ -94,7 +221,14 @@
                 <p class="issue-card-label">Reference ID</p>
                 <p class="issue-card-value" id="refId"></p>
               </div>
-              <span class="status-badge pending">📋 Reported</span>
+              <span class="status-badge pending"><span class="icon-inline" style="margin-right: 4px;"><svg
+                    xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                  </svg></span> Reported</span>
             </div>
             <div class="issue-card-details">
               <p><strong>Issue:</strong> <span id="summaryType">—</span></p>
@@ -103,9 +237,15 @@
             </div>
           </div>
 
-          <!-- Single clear CTA -->
+          <!-- CTAs -->
           <a href="track.html" class="btn-primary"
-            style="display: block; text-align: center; text-decoration: none; padding: 12px 24px; width: 100%;">📍 Track
+            style="display: block; text-align: center; text-decoration: none; padding: 12px 24px; width: 100%;"><span
+              class="icon-inline" style="margin-right: 4px;"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg></span> Track
             This Report</a>
           <p style="text-align: center; margin-top: 14px; font-size: 14px; color: var(--text-muted);">
             or <a href="complaint.html" style="color: var(--blue); font-weight: 600;">report another issue</a>
@@ -118,11 +258,74 @@
 
   </div>
 
+  <!-- Map Modal -->
+  <div class="camera-modal map-modal-overlay" id="mapModal">
+    <div class="camera-modal-content map-modal-content">
+      <div class="map-header">
+        <h3 style="margin:0; color:white; font-size:16px;"><span class="icon-inline" style="margin-right: 4px;"><svg
+              xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg></span> Select Location</h3>
+        <button type="button" class="camera-close" onclick="closeMapModal()"
+          style="background: rgba(255,255,255,0.2);">✕</button>
+      </div>
+      <div class="map-search-bar">
+        <input type="text" id="mapSearchInput" placeholder="Search for a place...">
+        <button type="button" id="mapSearchBtn" onclick="searchMapLocation()"><span class="icon-inline"><svg
+              xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg></span></button>
+      </div>
+      <div class="map-viewfinder">
+        <div id="locationPickerMap" style="width: 100%; height: 350px;"></div>
+      </div>
+      <div class="map-footer">
+        <span class="map-footer-text">Click on the map to drop a pin</span>
+        <button type="button" class="btn-primary confirm-loc-btn" onclick="confirmMapLocation()">Confirm
+          Location</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info Modal -->
+  <div id="infoModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:#fff;border-radius:12px;width:100%;max-width:400px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:fadeUp 0.25s ease;">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #e2e8f0;">
+        <h3 style="margin:0;font-size:16px;color:#0f172a;font-weight:700;">Why only 3 reports?</h3>
+        <button onclick="closeInfoModal()" type="button" style="background:none;border:none;font-size:22px;cursor:pointer;color:#94a3b8;line-height:1;">×</button>
+      </div>
+      <div style="padding:20px;">
+        <p style="margin:0 0 14px;color:#64748b;font-size:14px;line-height:1.6;">
+          To keep the system fair and responsive, each citizen is limited to <strong style="color:#0f172a;">3 active reports</strong> at a time. Here's why:
+        </p>
+        <ul style="margin:0 0 16px;padding-left:18px;color:#64748b;font-size:14px;line-height:2;">
+          <li>Prevents spam and duplicate submissions</li>
+          <li>Ensures municipal workers can focus on existing issues</li>
+          <li>Keeps the queue manageable for faster responses</li>
+          <li>Encourages follow-up on reported issues</li>
+        </ul>
+        <p style="margin:0 0 20px;color:#0369a1;font-size:13px;line-height:1.5;background:#f0f9ff;border-radius:6px;padding:10px 12px;border-left:3px solid #0369a1;">
+          💡 Once one of your reports is <strong>resolved</strong>, a slot frees up automatically.
+        </p>
+        <button type="button" class="btn-primary" style="width:100%;" onclick="closeInfoModal()">Got it</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Camera Modal -->
   <div class="camera-modal" id="cameraModal">
     <div class="camera-modal-content">
       <div class="camera-header">
-        <h3>📷 Take a Photo</h3>
+        <h3><span class="icon-inline" style="margin-right: 4px;"><svg xmlns="http://www.w3.org/2000/svg" width="20"
+              height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+              <circle cx="12" cy="13" r="4" />
+            </svg></span> Take a Photo</h3>
         <button type="button" class="camera-close" onclick="closeCamera()">✕</button>
       </div>
       <div class="camera-viewfinder">
@@ -137,7 +340,40 @@
     </div>
   </div>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script src="script.js"></script>
+  <script>
+    // ── Info modal ───────────────────────────────────
+    function showInfoModal() {
+      const m = document.getElementById('infoModal');
+      m.style.display = 'flex';
+    }
+    function closeInfoModal() {
+      document.getElementById('infoModal').style.display = 'none';
+    }
+    // Close on backdrop click
+    document.getElementById('infoModal').addEventListener('click', function(e) {
+      if (e.target === this) closeInfoModal();
+    });
+
+    // ── Update remaining issues counter ──────────────
+    (function() {
+      const reports = JSON.parse(localStorage.getItem('civicReports') || '[]');
+      const remaining = Math.max(0, 3 - reports.length);
+      const el = document.getElementById('remainingCount');
+      const wrap = document.getElementById('issuesRemaining');
+      const errorBox = document.getElementById('errorLimitMsg');
+
+      if (el) el.textContent = remaining;
+
+      if (remaining === 0) {
+        if (wrap) { wrap.style.background='#fef2f2'; wrap.style.borderColor='#fca5a5'; wrap.style.color='#dc2626'; }
+        if (errorBox) errorBox.style.display = 'block';
+      } else if (remaining === 1) {
+        if (wrap) { wrap.style.background='#fffbeb'; wrap.style.borderColor='#fde68a'; wrap.style.color='#92400e'; }
+      }
+    })();
+  </script>
 </body>
 
 </html>

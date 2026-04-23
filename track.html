@@ -9,10 +9,33 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="dashboard.css">
   <link rel="stylesheet" href="track.css">
+  <style>
+    .icon-inline { display: inline-flex; align-items: center; vertical-align: middle; }
+    .icon-inline svg { width: 1em; height: 1em; stroke-width: 1.8; }
+  </style>
 </head>
 
 <body class="track-page">
+
+  <!-- MOBILE TOP HEADER -->
+  <div class="mobile-header">
+    <h2>Smart CivicFix</h2>
+    <a href="dashboard.html" style="color:#94a3b8;text-decoration:none;font-size:13px;font-weight:600;display:flex;align-items:center;gap:4px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Dashboard
+    </a>
+  </div>
+
+  <!-- BOTTOM TAB BAR -->
+  <nav class="bottom-tabs">
+    <a href="dashboard.html" class="tab"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg><span>Home</span></a>
+    <a href="complaint.html" class="tab"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg><span>Report</span></a>
+    <a href="track.html" class="tab active"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Track</span></a>
+    <a href="history.html" class="tab"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>History</span></a>
+    <a href="reward.html" class="tab"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/></svg><span>Rewards</span></a>
+  </nav>
 
   <div class="track-container">
     <div class="track-wrapper">
@@ -20,36 +43,153 @@
 
       <div class="track-box">
 
-        <h2>📍 Track Your Issue</h2>
-        <p class="subtitle">Check current resolution status</p>
+        <h2><span class="icon-inline" style="margin-right: 6px;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></span> Track Your Issues</h2>
+        <p class="subtitle">Check current resolution status of all your reports</p>
 
         <!-- Search -->
         <div class="form-group">
-          <input type="text" placeholder="Enter Issue ID (e.g. #2345)" class="search-input">
+          <input type="text" id="trackSearch" placeholder="Search by Reference ID (e.g. CF-M5K2X)" class="search-input">
         </div>
 
-        <!-- Status Card -->
-        <div class="status-card">
-          <div class="status-header">
-            <h3>Issue: Pothole</h3>
-            <span class="status-badge pending">Pending Review</span>
-          </div>
-          <p><strong>Location:</strong> FC Road</p>
-          <p class="status-date">Submitted: Oct 24, 2026</p>
+        <!-- Dynamic reports container -->
+        <div id="trackList">
         </div>
 
-        <!-- Progress Steps -->
-        <div class="progress">
-          <div class="step active">Reported</div>
-          <div class="step">In Progress</div>
-          <div class="step">Resolved</div>
-        </div>
+        <!-- Empty state -->
+        <p id="emptyMsg" class="empty-msg"
+          style="display:none; text-align:center; color:var(--text-muted); padding:20px 0;">
+          No matching reports found.
+        </p>
 
       </div>
     </div>
   </div>
 
   <script src="script.js"></script>
+  <script>
+    (function () {
+      const reports = JSON.parse(localStorage.getItem('civicReports') || '[]');
+      const trackList = document.getElementById('trackList');
+
+      // Render each user-submitted report
+      reports.forEach(r => {
+        const statusConfig = {
+          'reported': { badge: '<span class="icon-inline" style="margin-right:4px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span> Reported', cls: 'pending', steps: [true, false, false] },
+          'in-progress': { badge: '<span class="icon-inline" style="margin-right:4px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> In Progress', cls: 'pending', steps: [true, true, false] },
+          'resolved': { badge: '<span class="icon-inline" style="margin-right:4px"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> Resolved', cls: 'resolved', steps: [true, true, true] }
+        };
+        const s = statusConfig[r.status] || statusConfig['reported'];
+        const shortLoc = r.location.length > 50 ? r.location.substring(0, 50) + '…' : r.location;
+
+        const item = document.createElement('div');
+        item.className = 'track-item';
+        item.dataset.ref = r.refId;
+        item.innerHTML = `
+          <div class="status-card">
+            <div class="status-header">
+              <h3>${r.issueType}</h3>
+              <span class="status-badge ${s.cls}">${s.badge}</span>
+            </div>
+            <p><strong>Location:</strong> ${shortLoc}</p>
+            <p><strong>Ref:</strong> ${r.refId}</p>
+            <p class="status-date">Submitted: ${r.date}</p>
+            ${r.image ? `<button class="btn-view-photo" onclick="viewPhoto('${r.refId}')"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> View Photo</button>` : ''}
+          </div>
+          <div class="progress">
+            <div class="step ${s.steps[0] ? 'active' : ''}">Reported</div>
+            <div class="step ${s.steps[1] ? 'active' : ''}">In Progress</div>
+            <div class="step ${s.steps[2] ? 'active' : ''}">Resolved</div>
+          </div>
+          ${r.status === 'resolved' ? `
+            <div class="feedback-section">
+              <button class="btn-feedback" onclick="toggleFeedback(this)"><span class="icon-inline" style="margin-right:4px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span> Give Feedback</button>
+              <div class="feedback-form" style="display: none;">
+                <div class="stars">
+                  <span onclick="rateStar(this, 1)">★</span><span onclick="rateStar(this, 2)">★</span><span onclick="rateStar(this, 3)">★</span><span onclick="rateStar(this, 4)">★</span><span onclick="rateStar(this, 5)">★</span>
+                </div>
+                <textarea placeholder="Tell us about your experience..." rows="3"></textarea>
+                <button class="btn-primary" style="margin-top: 10px; width: 100%;" onclick="submitFeedback(this)">Submit Rating</button>
+              </div>
+            </div>
+          ` : ''}
+        `;
+
+        // Insert at the top, before the hardcoded card
+        trackList.insertBefore(item, trackList.firstChild);
+      });
+
+      // Global functions for feedback
+      window.toggleFeedback = function (btn) {
+        const form = btn.nextElementSibling;
+        form.style.display = 'block';
+        btn.style.display = 'none';
+      };
+
+      window.rateStar = function (starElement, rating) {
+        const stars = starElement.parentElement.children;
+        for (let i = 0; i < stars.length; i++) {
+          stars[i].style.color = i < rating ? '#f59e0b' : '#cbd5e1';
+          stars[i].style.transform = i < rating ? 'scale(1.15)' : 'scale(1)';
+        }
+      };
+
+      window.submitFeedback = function (btn) {
+        const section = btn.closest('.feedback-section');
+        section.innerHTML = '<p class="feedback-success"><span class="icon-inline" style="margin-right:4px"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> Thank you! Your feedback helps us improve.</p>';
+      };
+
+      // ── Search / filter ──────────────────────────────────────
+      const searchInput = document.getElementById('trackSearch');
+      const emptyMsg = document.getElementById('emptyMsg');
+
+      searchInput.addEventListener('input', () => {
+        const query = searchInput.value.trim().toUpperCase();
+        const items = document.querySelectorAll('.track-item');
+        let visible = 0;
+
+        items.forEach(item => {
+          const ref = (item.dataset.ref || '').toUpperCase();
+          if (!query || ref.includes(query)) {
+            item.style.display = '';
+            visible++;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+
+        emptyMsg.style.display = visible === 0 ? 'block' : 'none';
+      });
+    })();
+  </script>
+
+  <!-- Photo Viewer Modal -->
+  <div id="photoModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;">
+    <div style="position:relative;max-width:500px;width:100%;">
+      <button onclick="closePhotoModal()" style="position:absolute;top:-40px;right:0;background:none;border:none;color:white;font-size:28px;cursor:pointer;font-weight:700;">✕</button>
+      <img id="photoModalImg" src="" alt="Complaint Photo" style="width:100%;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+    </div>
+  </div>
+
+  <script>
+    window.viewPhoto = function(refId) {
+      const reports = JSON.parse(localStorage.getItem('civicReports') || '[]');
+      const report = reports.find(r => r.refId === refId);
+      if (report && report.image) {
+        document.getElementById('photoModalImg').src = report.image;
+        const modal = document.getElementById('photoModal');
+        modal.style.display = 'flex';
+      }
+    };
+
+    window.closePhotoModal = function() {
+      document.getElementById('photoModal').style.display = 'none';
+    };
+
+    // Close on backdrop click
+    document.getElementById('photoModal').addEventListener('click', function(e) {
+      if (e.target === this) closePhotoModal();
+    });
+  </script>
 </body>
 
 </html>

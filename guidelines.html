@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Guidelines - Smart CivicFix</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="index.css">
+  <style>
+    .icon-inline {
+      display: inline-flex;
+      align-items: center;
+      vertical-align: middle;
+    }
+
+    .icon-inline svg {
+      width: 1em;
+      height: 1em;
+      stroke-width: 1.8;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0d2340, #1a3560);
+      margin: 0;
+      font-family: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: #0f172a;
+      min-height: 100vh;
+    }
+
+    .guidelines-container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: clamp(16px, 4vw, 40px) clamp(12px, 3vw, 20px);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .guidelines-card {
+      background: white;
+      padding: clamp(24px, 5vw, 40px);
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+      animation: fadeUp 0.6s ease;
+    }
+
+    .guidelines-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .guidelines-header h2 {
+      margin: 0;
+      font-size: clamp(20px, 4vw, 26px);
+      font-weight: 800;
+      color: #0d2340;
+    }
+
+    .badge {
+      background: #e0f2fe;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #0284c7;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      background: #f8fafc;
+      margin-bottom: 10px;
+      padding: clamp(12px, 2vw, 16px) clamp(12px, 2vw, 16px);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s ease;
+      border: 1px solid #e2e8f0;
+      font-size: clamp(13px, 2vw, 15px);
+      line-height: 1.5;
+    }
+
+    li:last-child {
+      margin-bottom: 0;
+    }
+
+    li:hover {
+      transform: translateX(4px);
+      background: #e8f2ff;
+      border-color: #bfdbfe;
+    }
+
+    .icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .back-btn {
+      display: block;
+      margin-top: 28px;
+      text-decoration: none;
+      background: linear-gradient(135deg, #1a6fc4, #1558a0);
+      color: white;
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 15px;
+      text-align: center;
+      transition: all 0.25s ease;
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .back-btn:active {
+      transform: translateY(0);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── Mobile (≤ 768px) ── */
+    @media (max-width: 768px) {
+      .guidelines-container {
+        justify-content: flex-start;
+        padding-top: 24px;
+      }
+
+      .guidelines-card {
+        border-radius: 14px;
+      }
+
+      .guidelines-header {
+        margin-bottom: 18px;
+      }
+
+      li:hover {
+        transform: none; /* no hover effect on touch */
+      }
+    }
+
+    /* ── Small mobile (≤ 480px) ── */
+    @media (max-width: 480px) {
+      .guidelines-container {
+        padding: 16px 10px;
+      }
+
+      .guidelines-card {
+        border-radius: 12px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      .guidelines-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      li {
+        gap: 10px;
+      }
+
+      .back-btn {
+        padding: 14px 20px;
+        font-size: 14px;
+        border-radius: 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="guidelines-container">
+    <div class="guidelines-card">
+
+      <div class="guidelines-header">
+        <span style="font-size:28px;" class="icon-inline"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+            viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+          </svg></span>
+        <h2>Reporting Guidelines</h2>
+        <span class="badge">Official</span>
+      </div>
+
+      <ul>
+        <li><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+              fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg></span> Report only real civic issues (potholes, garbage, streetlights)</li>
+        <li><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg></span> Provide accurate location details</li>
+        <li><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+              <circle cx="12" cy="13" r="4" />
+            </svg></span> Upload clear images if possible</li>
+        <li><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="1 4 1 10 7 10" />
+              <polyline points="23 20 23 14 17 14" />
+              <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10M23 14l-4.64 4.36A9 9 0 0 1 3.51 15" />
+            </svg></span> Avoid duplicate reports</li>
+        <li><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+              fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+              <line x1="12" y1="9" x2="12" y2="13" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg></span> Do not submit fake or misleading complaints</li>
+        <li><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg></span> Respect community standards</li>
+      </ul>
+
+      <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
