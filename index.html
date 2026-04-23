@@ -49,7 +49,7 @@
 
           <div class="hero-buttons">
             <button class="btn-primary btn-large" onclick="goLogin()">Start a report</button>
-            <button class="btn-secondary btn-large" onclick="window.location.href='guidelines.html'">View
+            <button class="btn-secondary btn-large" onclick="window.location.href='guidelines-public.html'">View
               guidelines</button>
           </div>
 
@@ -96,76 +96,49 @@
             <h2>Recent Community Improvements</h2>
             <p>Live uploads from citizens making a difference</p>
           </div>
-        </div>
-        <div class="image-row" id="galRow">
-          <div class="gallery-card">
-            <img src="assets/c1.png" alt="Fixed road">
-            <div class="gallery-caption">Pothole Fixed — Kothrud</div>
+          <div class="gallery-grid collapsed" id="galleryGrid">
+            <div class="gallery-card">
+              <img src="assets/c1.png" alt="Fixed road">
+              <div class="gallery-caption">Pothole Fixed — Kothrud</div>
+            </div>
+            <div class="gallery-card">
+              <img src="assets/c2.png" alt="Clean park">
+              <div class="gallery-caption">Waste Cleaned — FC Road</div>
+            </div>
+            <div class="gallery-card">
+              <img src="assets/c1.png" alt="Streetlight">
+              <div class="gallery-caption">Streetlight Repaired — Shivajinagar</div>
+            </div>
+            <div class="gallery-card">
+              <img src="assets/c2.png" alt="Drainage">
+              <div class="gallery-caption">Drainage Cleared — Baner</div>
+            </div>
+            <div class="gallery-card">
+              <img src="assets/c1.png" alt="Pipeline">
+              <div class="gallery-caption">Pipeline Fixed — Aundh</div>
+            </div>
+            <div class="gallery-card">
+              <img src="assets/c2.png" alt="Park">
+              <div class="gallery-caption">Park Restored — Viman Nagar</div>
+            </div>
+            <div class="gallery-card">
+              <img src="assets/c1.png" alt="Road">
+              <div class="gallery-caption">Road Patched — Hadapsar</div>
+            </div>
+            <div class="gallery-card">
+              <img src="assets/c2.png" alt="Footpath">
+              <div class="gallery-caption">Footpath Fixed — Koregaon Park</div>
+            </div>
           </div>
-          <div class="gallery-card">
-            <img src="assets/c2.png" alt="Clean park">
-            <div class="gallery-caption">Waste Cleaned — FC Road</div>
-          </div>
-          <div class="gallery-card">
-            <img src="assets/c1.png" alt="Streetlight">
-            <div class="gallery-caption">Streetlight Repaired — Shivajinagar</div>
-          </div>
-          <div class="gallery-card">
-            <img src="assets/c2.png" alt="Drainage">
-            <div class="gallery-caption">Drainage Cleared — Baner</div>
-          </div>
-          <div class="gallery-card">
-            <img src="assets/c1.png" alt="Pipeline">
-            <div class="gallery-caption">Pipeline Fixed — Aundh</div>
-          </div>
-          <div class="gallery-card">
-            <img src="assets/c2.png" alt="Park">
-            <div class="gallery-caption">Park Restored — Viman Nagar</div>
-          </div>
-          <div class="gallery-card">
-            <img src="assets/c1.png" alt="Road">
-            <div class="gallery-caption">Road Patched — Hadapsar</div>
-          </div>
-          <div class="gallery-card">
-            <img src="assets/c2.png" alt="Footpath">
-            <div class="gallery-caption">Footpath Fixed — Koregaon Park</div>
-          </div>
-          <!-- Duplicate set for seamless infinite scroll on mobile -->
-          <div class="gallery-card gallery-clone">
-            <img src="assets/c1.png" alt="Fixed road">
-            <div class="gallery-caption">Pothole Fixed — Kothrud</div>
-          </div>
-          <div class="gallery-card gallery-clone">
-            <img src="assets/c2.png" alt="Clean park">
-            <div class="gallery-caption">Waste Cleaned — FC Road</div>
-          </div>
-          <div class="gallery-card gallery-clone">
-            <img src="assets/c1.png" alt="Streetlight">
-            <div class="gallery-caption">Streetlight Repaired — Shivajinagar</div>
-          </div>
-          <div class="gallery-card gallery-clone">
-            <img src="assets/c2.png" alt="Drainage">
-            <div class="gallery-caption">Drainage Cleared — Baner</div>
-          </div>
-          <div class="gallery-card gallery-clone">
-            <img src="assets/c1.png" alt="Pipeline">
-            <div class="gallery-caption">Pipeline Fixed — Aundh</div>
-          </div>
-          <div class="gallery-card gallery-clone">
-            <img src="assets/c2.png" alt="Park">
-            <div class="gallery-caption">Park Restored — Viman Nagar</div>
-          </div>
-          <div class="gallery-card gallery-clone">
-            <img src="assets/c1.png" alt="Road">
-            <div class="gallery-caption">Road Patched — Hadapsar</div>
-          </div>
-          <div class="gallery-card gallery-clone">
-            <img src="assets/c2.png" alt="Footpath">
-            <div class="gallery-caption">Footpath Fixed — Koregaon Park</div>
+          <div style="text-align:center; margin-top:24px;">
+            <button class="btn-view-all" id="viewAllBtn" onclick="toggleGallery()">
+              View All
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" id="viewAllChevron" style="transition:transform 0.3s"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
           </div>
         </div>
       </div>
-
+    </section>
     </section>
 
     <section class="impact-map section-padding bg-navy text-white">
@@ -195,9 +168,9 @@
           <p>Built for responsive municipalities.</p>
         </div>
         <div class="footer-links">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Accessibility Statement</a>
-          <a href="#">Terms of Service</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="accessibility.html">Accessibility Statement</a>
+          <a href="terms.html">Terms of Service</a>
         </div>
       </div>
       <div class="footer-bottom">

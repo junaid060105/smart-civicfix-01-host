@@ -44,7 +44,7 @@
       border-radius: 16px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.25);
       overflow: hidden;
-      animation: fadeUp 0.5s ease;
+      /* removed animation from here to use staggered instead */
     }
 
     .settings-header {
@@ -309,12 +309,102 @@
       font-size: 14px;
       font-weight: 600;
       z-index: 1000;
-      animation: fadeUp 0.3s ease;
+      animation: toastFadeUp 0.3s ease;
     }
 
-    @keyframes fadeUp {
+    @keyframes toastFadeUp {
       from { opacity: 0; transform: translate(-50%, 10px); }
       to { opacity: 1; transform: translate(-50%, 0); }
+    }
+
+    @keyframes cardFadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .stagger-1 { animation: cardFadeUp 0.5s ease 0.1s both; }
+    .stagger-2 { animation: cardFadeUp 0.5s ease 0.2s both; }
+    .stagger-3 { animation: cardFadeUp 0.5s ease 0.3s both; }
+    .stagger-4 { animation: cardFadeUp 0.5s ease 0.4s both; }
+    .stagger-5 { animation: cardFadeUp 0.5s ease 0.5s both; }
+    .stagger-6 { animation: cardFadeUp 0.5s ease 0.6s both; }
+
+    /* ── Delete Confirmation Modal ── */
+    .delete-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .delete-modal {
+      background: white;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      animation: cardFadeUp 0.3s ease;
+    }
+    .delete-modal h3 {
+      margin: 0 0 12px;
+      color: #dc2626;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .delete-modal p {
+      margin: 0 0 20px;
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .delete-input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--gray-border);
+      border-radius: 8px;
+      font-size: 15px;
+      margin-bottom: 20px;
+      font-family: inherit;
+    }
+    .delete-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .btn-cancel {
+      flex: 1;
+      padding: 12px;
+      background: var(--gray-light);
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      color: var(--navy);
+      cursor: pointer;
+    }
+    .btn-confirm-delete {
+      flex: 1;
+      padding: 12px;
+      background: #dc2626;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      color: white;
+      cursor: not-allowed;
+      opacity: 0.5;
+      transition: all 0.2s;
+    }
+    .btn-confirm-delete.active {
+      cursor: pointer;
+      opacity: 1;
+    }
+    .btn-confirm-delete.active:hover {
+      background: #b91c1c;
     }
 
     /* ── Mobile ── */
@@ -368,7 +458,7 @@
 
   <div class="settings-container">
 
-    <a href="dashboard.html" class="back-link">
+    <a href="dashboard.html" class="back-link stagger-1">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       Back to Dashboard
     </a>
@@ -376,7 +466,7 @@
     <div class="settings-card">
 
       <!-- Header -->
-      <div class="settings-header">
+      <div class="settings-header stagger-2">
         <h2>
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
           Account Settings
@@ -385,14 +475,14 @@
       </div>
 
       <!-- Profile Section -->
-      <div class="settings-section">
+      <div class="settings-section stagger-3">
         <p class="section-title">Profile</p>
         <div class="avatar-row">
           <div class="avatar-circle">
             <img src="assets/user.png" alt="User avatar">
           </div>
           <div class="avatar-info">
-            <h3>Citizen User</h3>
+            <h3 id="avatarName">Citizen User</h3>
             <p>Member since Apr 2026</p>
           </div>
         </div>
@@ -411,7 +501,7 @@
       </div>
 
       <!-- Notifications -->
-      <div class="settings-section">
+      <div class="settings-section stagger-4">
         <p class="section-title">Notifications</p>
         <div class="toggle-row">
           <div class="toggle-label">
@@ -419,7 +509,7 @@
             <span>Get notified when your issue status changes</span>
           </div>
           <label class="toggle-switch">
-            <input type="checkbox" checked>
+            <input type="checkbox" id="toggleStatus" checked>
             <span class="toggle-slider"></span>
           </label>
         </div>
@@ -429,7 +519,7 @@
             <span>Notifications for new rewards and points earned</span>
           </div>
           <label class="toggle-switch">
-            <input type="checkbox" checked>
+            <input type="checkbox" id="toggleRewards" checked>
             <span class="toggle-slider"></span>
           </label>
         </div>
@@ -439,21 +529,21 @@
             <span>Nearby issue reports and resolutions</span>
           </div>
           <label class="toggle-switch">
-            <input type="checkbox">
+            <input type="checkbox" id="toggleCommunity">
             <span class="toggle-slider"></span>
           </label>
         </div>
       </div>
 
       <!-- Save -->
-      <div class="settings-section">
+      <div class="settings-section stagger-5">
         <button class="btn-save" onclick="saveSettings()">Save Changes</button>
       </div>
 
       <!-- Danger Zone -->
-      <div class="settings-section danger-zone">
+      <div class="settings-section danger-zone stagger-6">
         <p class="section-title">Danger Zone</p>
-        <button class="btn-danger" onclick="alert('This feature is not available in the demo.')">Delete My Account</button>
+        <button class="btn-danger" onclick="showDeleteModal()">Delete My Account</button>
       </div>
 
     </div>
@@ -462,32 +552,100 @@
   <!-- Toast -->
   <div class="save-toast" id="saveToast">✓ Settings saved successfully</div>
 
+
+  <!-- Delete Modal -->
+  <div class="delete-modal-overlay" id="deleteModal" onclick="if(event.target===this) hideDeleteModal()">
+    <div class="delete-modal">
+      <h3>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Delete Account
+      </h3>
+      <p>This action cannot be undone. All your reported issues, accumulated points, and personal data will be permanently removed.</p>
+      <p style="color:var(--navy); font-weight:600; margin-bottom:8px;">Please type <strong>DELETE</strong> to confirm.</p>
+      <input type="text" class="delete-input" id="deleteConfirmInput" placeholder="Type DELETE here..." oninput="checkDeleteInput()">
+      <div class="delete-actions">
+        <button class="btn-cancel" onclick="hideDeleteModal()">Cancel</button>
+        <button class="btn-confirm-delete" id="confirmDeleteBtn" onclick="executeDelete()">Delete Account</button>
+      </div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
   <script>
+    // ── Load saved settings on page load ──
+    (function () {
+      const saved = JSON.parse(localStorage.getItem('civicSettings') || '{}');
+
+      // Profile fields
+      if (saved.name) {
+        document.getElementById('settingsName').value = saved.name;
+        document.getElementById('avatarName').textContent = saved.name;
+      }
+      if (saved.email) document.getElementById('settingsEmail').value = saved.email;
+      if (saved.phone) document.getElementById('settingsPhone').value = saved.phone;
+
+      // Notifications
+      if (saved.notifStatus !== undefined) document.getElementById('toggleStatus').checked = saved.notifStatus;
+      if (saved.notifRewards !== undefined) document.getElementById('toggleRewards').checked = saved.notifRewards;
+      if (saved.notifCommunity !== undefined) document.getElementById('toggleCommunity').checked = saved.notifCommunity;
+    })();
+
     function saveSettings() {
+      const nameVal = document.getElementById('settingsName').value;
+      const settings = {
+        name: nameVal,
+        email: document.getElementById('settingsEmail').value,
+        phone: document.getElementById('settingsPhone').value,
+        notifStatus: document.getElementById('toggleStatus').checked,
+        notifRewards: document.getElementById('toggleRewards').checked,
+        notifCommunity: document.getElementById('toggleCommunity').checked
+      };
+
+      localStorage.setItem('civicSettings', JSON.stringify(settings));
+
+      // Live update the avatar name heading
+      document.getElementById('avatarName').textContent = nameVal;
+
+      // Show toast
       const toast = document.getElementById('saveToast');
       toast.style.display = 'block';
       setTimeout(() => { toast.style.display = 'none'; }, 2500);
     }
 
-    function clearAllReports() {
-      if (confirm('Are you sure you want to clear all reports? This cannot be undone.')) {
-        localStorage.removeItem('civicReports');
-        const toast = document.getElementById('saveToast');
-        toast.textContent = '🗑️ All reports cleared';
-        toast.style.display = 'block';
-        setTimeout(() => { toast.style.display = 'none'; toast.textContent = '✓ Settings saved successfully'; }, 2500);
+    // ── Delete Account Logic ──
+    function showDeleteModal() {
+      document.getElementById('deleteModal').style.display = 'flex';
+      document.getElementById('deleteConfirmInput').value = '';
+      checkDeleteInput();
+      document.body.style.overflow = 'hidden';
+    }
+
+    function hideDeleteModal() {
+      document.getElementById('deleteModal').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    function checkDeleteInput() {
+      const input = document.getElementById('deleteConfirmInput').value;
+      const btn = document.getElementById('confirmDeleteBtn');
+      if (input === 'DELETE') {
+        btn.classList.add('active');
+        btn.disabled = false;
+      } else {
+        btn.classList.remove('active');
+        btn.disabled = true;
       }
     }
 
-    function resetPoints() {
-      if (confirm('Reset your civic points back to 0?')) {
-        localStorage.setItem('civicPoints', '0');
-        const toast = document.getElementById('saveToast');
-        toast.textContent = '✓ Points reset to 0';
-        toast.style.display = 'block';
-        setTimeout(() => { toast.style.display = 'none'; toast.textContent = '✓ Settings saved successfully'; }, 2500);
-      }
+    function executeDelete() {
+      // Clear all civic local storage data
+      localStorage.removeItem('civicSettings');
+      localStorage.removeItem('civicReports');
+      localStorage.removeItem('civicPoints');
+      localStorage.removeItem('civicUser');
+
+      // Redirect to home
+      window.location.href = 'index.html';
     }
   </script>
 </body>

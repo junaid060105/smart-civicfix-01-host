@@ -26,20 +26,55 @@ function socialLogin(provider, event) {
 
   // Simulate OAuth redirect delay
   setTimeout(() => {
+    const name = provider === 'google' ? 'Google User' : 'Apple User';
+    const email = provider === 'google' ? 'user@gmail.com' : 'user@icloud.com';
+    
     localStorage.setItem('civicUser', JSON.stringify({
-      name: provider === 'google' ? 'Google User' : 'Apple User',
-      email: provider === 'google' ? 'user@gmail.com' : 'user@icloud.com',
+      name: name,
+      email: email,
       provider: provider,
       loginTime: Date.now()
     }));
+    
+    // Also save to settings
+    const settings = JSON.parse(localStorage.getItem('civicSettings') || '{}');
+    settings.name = name;
+    settings.email = email;
+    localStorage.setItem('civicSettings', JSON.stringify(settings));
+
     window.location.href = 'dashboard.html';
   }, 1500);
+}
+
+function loginUser() {
+  const emailInput = document.getElementById('loginEmail');
+  if (emailInput) {
+    const settings = JSON.parse(localStorage.getItem('civicSettings') || '{}');
+    settings.email = emailInput.value;
+    // Default name to email prefix if not set
+    if (!settings.name) {
+      settings.name = emailInput.value.split('@')[0];
+    }
+    localStorage.setItem('civicSettings', JSON.stringify(settings));
+  }
+  window.location.href = 'dashboard.html';
 }
 
 function signup(event) {
   event.preventDefault();
 
   const form = event.target;
+
+  // Save user details to civicSettings
+  const nameInput = document.getElementById('signupName');
+  const emailInput = document.getElementById('signupEmail');
+  
+  if (nameInput && emailInput) {
+    const settings = JSON.parse(localStorage.getItem('civicSettings') || '{}');
+    settings.name = nameInput.value;
+    settings.email = emailInput.value;
+    localStorage.setItem('civicSettings', JSON.stringify(settings));
+  }
 
   // Hide all form children
   Array.from(form.children).forEach(el => el.style.display = 'none');
@@ -326,15 +361,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ── 0b. Gallery clone visibility ─────────────────
-  // Hide duplicate cards on desktop, show on mobile for infinite scroll
-  function updateGalleryClones() {
-    const clones = document.querySelectorAll('.gallery-clone');
-    const isMobile = window.innerWidth <= 768;
-    clones.forEach(c => c.style.display = isMobile ? '' : 'none');
-  }
-  updateGalleryClones();
-  window.addEventListener('resize', updateGalleryClones);
+  // ── 0b. Gallery "View All" Toggle ─────────────────
+  window.toggleGallery = function () {
+    const grid = document.getElementById('galleryGrid');
+    const btn = document.getElementById('viewAllBtn');
+    const chevron = document.getElementById('viewAllChevron');
+
+    if (grid.classList.contains('collapsed')) {
+      grid.classList.remove('collapsed');
+      btn.childNodes[0].nodeValue = 'View Less ';
+      chevron.style.transform = 'rotate(180deg)';
+    } else {
+      grid.classList.add('collapsed');
+      btn.childNodes[0].nodeValue = 'View All ';
+      chevron.style.transform = 'rotate(0deg)';
+      // scroll back up slightly so the user sees the start of gallery
+      grid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
 
   // ── 1. Animated Counters ─────────────────────────
   // Runs once when the .hero-counters block enters the viewport
@@ -368,68 +412,7 @@ document.addEventListener("DOMContentLoaded", () => {
     counters.forEach(c => observer.observe(c));
   }
 
-  // ── 2. Scroll-linked Image Row (DESKTOP ONLY) ────────────────────────
-  const galRow = document.getElementById("galRow");
-  const galSection = document.querySelector(".gallery-scroll-container");
-  let maxShift = 0;
-  let currentShift = 0;
-  let targetShift = 0;
-  let rafId = null;
 
-  function isMobileView() {
-    return window.innerWidth <= 768;
-  }
-
-  function calcMax() {
-    if (galRow && galSection && !isMobileView()) {
-      maxShift = Math.max(0, galRow.scrollWidth - window.innerWidth);
-    }
-  }
-
-  calcMax();
-  window.addEventListener("resize", () => {
-    calcMax();
-    // Reset transform on mobile
-    if (isMobileView() && galRow) {
-      galRow.style.transform = '';
-      currentShift = 0;
-      targetShift = 0;
-    }
-  });
-
-  window.addEventListener("scroll", () => {
-    if (!galRow || !galSection || isMobileView()) return;
-
-    const rect = galSection.getBoundingClientRect();
-    const sectionHeight = galSection.offsetHeight;
-    const viewH = window.innerHeight;
-
-    const scrolled = -rect.top;
-    const scrollable = sectionHeight - viewH;
-
-    const progress = Math.min(Math.max(scrolled / scrollable, 0), 1);
-    targetShift = Math.round(progress * maxShift);
-
-    if (!rafId) rafId = requestAnimationFrame(animate);
-  });
-
-  function animate() {
-    if (isMobileView()) {
-      rafId = null;
-      return;
-    }
-    // lerp — 0.08 = smooth & satisfying, increase for snappier
-    currentShift += (targetShift - currentShift) * 0.08;
-
-    if (Math.abs(targetShift - currentShift) < 0.5) {
-      currentShift = targetShift;
-      rafId = null;
-    } else {
-      rafId = requestAnimationFrame(animate);
-    }
-
-    galRow.style.transform = `translateX(-${currentShift}px)`;
-  }
   // ── 3. Leaflet India Map ──────────────────────────
   const mapEl = document.getElementById("indiaMap");
 
